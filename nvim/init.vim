@@ -1,12 +1,8 @@
-" vimrc: a monolithic vim setup. {{{1
-" © 2009-2013 Tom Vincent <http://tlvince.com/contact>
-" vim: set fdm=marker:
-"
-" Bash setting to import init.vim
-"export VIMINIT='let $MYVIMRC="~/mydotfiles/nvim/init.vim" | source $MYVIMRC'
 " Or put it to default init.vim
-"source ~/mydotfiles/nvim/init.vim
-
+"if !empty(glob("~/mydotfiles/nvim/init.vim"))
+  "source ~/mydotfiles/nvim/init.vim
+  "echo 'Welcom to Neovim'
+"endif
 
 " General preferences {{{1
 "
@@ -45,7 +41,7 @@ set clipboard=unnamed
 set nomodeline
 set modelines=0
 set ttimeoutlen=0
-set guicursor=          " Fallback to terminal's choice
+"set guicursor=          " Fallback to terminal's choice
 set shortmess+=c        " don't give |ins-completion-menu| messages
 
 " Ignore the following globs in file completions
@@ -90,41 +86,34 @@ nmap <leader>vs <C-w>v<C-w>l:terminal<CR>
 
 " Leader keys {{{2
 
-" Map leader (the dedicated user-mapping prefix key) to comma
+" Map Leader (the dedicated user-mapping prefix key) to comma
 let mapleader="\<Space>"
 let maplocalleader = "\<Space>"
 
-" Leader + v to open vimrc in a new tab
-nmap <leader>dvim :tabedit $MYVIMRC<CR>
+" Open vimrc in a new tab
+nmap <leader>vid :tabedit $MYVIMRC<CR>
 nmap <leader>vim :tabedit ~/mydotfiles/nvim/init.vim<CR>
+nmap <leader>vis :source $MYVIMRC<CR>
 
 " OpeN a file (relative to the current file)
 " See: http://vimcasts.org/episodes/the-edit-command/
 " Synonyms: {e: edit, where: {w: window, s: split, v: vertical split, t: tab}}
-cnoremap %% <C-R>=expand('%:h').'/'<cr>
+"cnoremap %% <C-R>=expand('%:h').'/'<cr>
 map <leader>ew :e %%
 map <leader>es :sp %%
 map <leader>ev :vsp %%
 map <leader>et :tabe %%
 
 " Disable search highlighting
-nnoremap <C-l> :nohlsearch<CR>
+nnoremap <C-\> :nohlsearch<CR>
 
 " Create a directory relative to the current file
+map <leader>md :!mkdir -p %%
 map <leader>d :!mkdir -p %%
 
-" Write and build the current file
-map <leader>m :write<CR> :make %<CR>
-
-" Run the binary of the current file
-map <leader>r :!./%:r<CR>
-
-" UTC date
-nmap <leader>t a<C-R>=strftime("%Y-%m-%d")<CR>
-imap <leader>t <C-R>=strftime("%Y-%m-%d")<CR>
-
-" pwgen
-nmap <leader>p :read !pwgen -sy1 32<CR>
+" Print date (UTC)
+nmap <leader>pd a<C-R>=strftime("%Y-%m-%d")<CR>
+"imap <leader>pd <C-R>=strftime("%Y-%m-%d")<CR>
 
 " Toggle highlighting of current line and column
 nnoremap <leader>c :setlocal cursorline! cursorcolumn!<CR>
@@ -132,7 +121,11 @@ nnoremap <leader>c :setlocal cursorline! cursorcolumn!<CR>
 " Toggle spelling and show it's status
 nmap <silent><leader>s :setlocal spell! spell?<CR>
 
-nmap <leader>q gqip
+" Toggle number
+nmap  <leader>n :set relativenumber! number!<CR>
+
+" Open a file
+map <C-p> :find *
 
 " Function keys {{{2
 
@@ -163,3 +156,13 @@ vnoremap <F1> <ESC>
 " Disable Ex mode
 nnoremap Q <nop>
 
+" Unknown settings
+"
+" pwgen
+" nmap <leader>p :read !pwgen -sy1 32<CR>
+"
+" Run the binary of the current file
+" map <leader>r :!./%:r<CR>
+"
+" Write and build the current file
+" map <leader>m :write<CR> :make %<CR>
