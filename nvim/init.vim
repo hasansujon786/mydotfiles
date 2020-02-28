@@ -2,8 +2,10 @@
 " © 2009-2013 Tom Vincent <http://tlvince.com/contact>
 " vim: set fdm=marker:
 "
-" Bash setting nvim path
+" Bash setting to import init.vim
 "export VIMINIT='let $MYVIMRC="~/mydotfiles/nvim/init.vim" | source $MYVIMRC'
+" Or put it to default init.vim
+"source ~/mydotfiles/nvim/init.vim
 
 
 " General preferences {{{1
@@ -93,7 +95,8 @@ let mapleader="\<Space>"
 let maplocalleader = "\<Space>"
 
 " Leader + v to open vimrc in a new tab
-nmap <leader>vim :tabedit $MYVIMRC<CR>
+nmap <leader>dvim :tabedit $MYVIMRC<CR>
+nmap <leader>vim :tabedit ~/mydotfiles/nvim/init.vim<CR>
 
 " OpeN a file (relative to the current file)
 " See: http://vimcasts.org/episodes/the-edit-command/

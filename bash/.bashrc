@@ -28,8 +28,6 @@ alias nd='npm run dev'
 
 # Vim
 alias vim=nvim
-# Bash setting nvim path
-export VIMINIT='let $MYVIMRC="~/mydotfiles/nvim/init.vim" | source $MYVIMRC'
 
 # Tmux
 alias tm=tmux
