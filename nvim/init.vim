@@ -105,7 +105,7 @@ map <leader>ev :vsp %%
 map <leader>et :tabe %%
 
 " Disable search highlighting
-nnoremap <C-l>> :nohlsearch<CR>
+nnoremap <C-l> :nohlsearch<CR>
 
 " Create a directory relative to the current file
 map <leader>d :!mkdir -p %%
