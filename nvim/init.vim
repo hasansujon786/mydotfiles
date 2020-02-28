@@ -1,12 +1,24 @@
-" Or put it to default init.vim
-"if !empty(glob("~/mydotfiles/nvim/init.vim"))
-  "source ~/mydotfiles/nvim/init.vim
-  "echo 'Welcom to Neovim'
-"endif
+" vimrc: a monolithic vim setup. {{{1
+" © 2009-2013 Tom Vincent <http://tlvince.com/contact>
+" vim: set fdm=marker:
+
+" Environment {{{1
+" A consistent runtime environment.
+
+" Forget about vi and set it first as it modifies future behaviour
+set nocompatible
+
+" Manually load vim-sensible so we can override its settings later
+runtime bundle/vim-sensible/plugin/sensible.vim
+
+set spellfile=$XDG_CONFIG_HOME/nvim/spell/en.utf-8.add
+set backupdir=$XDG_CONFIG_HOME/nvim/tmp,.
+set directory=$XDG_CONFIG_HOME/nvim/tmp,.
 
 " General preferences {{{1
 "
 " Learn about these using vim help.
+
 
 " System
 set path+=**
@@ -41,13 +53,18 @@ set clipboard=unnamed
 set nomodeline
 set modelines=0
 set ttimeoutlen=0
-"set guicursor=          " Fallback to terminal's choice
 set shortmess+=c        " don't give |ins-completion-menu| messages
+"set guicursor=          " Fallback to terminal's choice
 
 " Ignore the following globs in file completions
 set wildignore+=*.o,*.obj,*.pyc,*.so,*.swp,*.zip,*.jpg,*.gif,*.png,*.pdf
 set wildignore+=.git,.hg,.svn,DS_STORE,bower_components,node_modules
 
+" Visuals {{{1
+
+set termguicolors
+set background=dark
+let g:one_allow_italics = 1
 
 " Mappings {{{1
 "
@@ -62,6 +79,10 @@ endif
 inoremap jk <ESC>
 inoremap jj <ESC>
 
+" Always move between wrapped lines
+nnoremap j gj
+nnoremap k gk
+
 " Move text on visual mode
 vmap > >gv
 vmap < <gv
@@ -70,9 +91,8 @@ vmap < <gv
 nmap <Tab> :bnext<CR>
 nmap <S-Tab> :bprevious<CR>
 
-" Always move between wrapped lines
-nnoremap j gj
-nnoremap k gk
+" Open a file
+map <C-p> :find *
 
 " Move between splits with CTRL+[hjkl]
 nnoremap <C-h> <C-w>h
@@ -80,13 +100,13 @@ nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
-" Open terminal
-nmap <leader>s <C-w>s<C-w>j:terminal<CR>
-nmap <leader>vs <C-w>v<C-w>l:terminal<CR>
+" Disable search highlighting
+nnoremap <C-\> :nohlsearch<CR>
+nmap <silent> <leader><leader> :noh<CR>
 
 " Leader keys {{{2
 
-" Map Leader (the dedicated user-mapping prefix key) to comma
+" Map leader (the dedicated user-mapping prefix key) to space
 let mapleader="\<Space>"
 let maplocalleader = "\<Space>"
 
@@ -95,25 +115,41 @@ nmap <leader>vid :tabedit $MYVIMRC<CR>
 nmap <leader>vim :tabedit ~/mydotfiles/nvim/init.vim<CR>
 nmap <leader>vis :source $MYVIMRC<CR>
 
-" OpeN a file (relative to the current file)
+" Neovim :Terminal
+tmap <Esc> <C-\><C-n>
+tmap <C-w> <Esc><C-w>
+"tmap <C-d> <Esc>:q<CR>
+autocmd BufWinEnter,WinEnter term://* startinsert
+autocmd BufLeave term://* stopinsert
+" Open terminal
+nmap <leader>s <C-w>s<C-w>j:terminal<CR>
+nmap <leader>vs <C-w>v<C-w>l:terminal<CR>
+
+" Open a file (relative to the current file)
 " See: http://vimcasts.org/episodes/the-edit-command/
 " Synonyms: {e: edit, where: {w: window, s: split, v: vertical split, t: tab}}
-"cnoremap %% <C-R>=expand('%:h').'/'<cr>
+cnoremap %% <C-R>=expand('%:h').'/'<cr>
 map <leader>ew :e %%
 map <leader>es :sp %%
 map <leader>ev :vsp %%
 map <leader>et :tabe %%
 
-" Disable search highlighting
-nnoremap <C-\> :nohlsearch<CR>
-
 " Create a directory relative to the current file
-map <leader>md :!mkdir -p %%
 map <leader>d :!mkdir -p %%
 
-" Print date (UTC)
+" Write and build the current file
+map <leader>m :write<CR> :make %<CR>
+
+" Run the binary of the current file
+map <leader>r :!./%:r<CR>
+
+" UTC date
 nmap <leader>pd a<C-R>=strftime("%Y-%m-%d")<CR>
-"imap <leader>pd <C-R>=strftime("%Y-%m-%d")<CR>
+"imap <leader>t <C-R>=strftime("%Y-%m-%d")<CR>
+
+
+" pwgen
+nmap <leader>p :read !pwgen -sy1 32<CR>
 
 " Toggle highlighting of current line and column
 nnoremap <leader>c :setlocal cursorline! cursorcolumn!<CR>
@@ -121,11 +157,10 @@ nnoremap <leader>c :setlocal cursorline! cursorcolumn!<CR>
 " Toggle spelling and show it's status
 nmap <silent><leader>s :setlocal spell! spell?<CR>
 
+nmap <leader>q gqip
+
 " Toggle number
 nmap  <leader>n :set relativenumber! number!<CR>
-
-" Open a file
-map <C-p> :find *
 
 " Function keys {{{2
 
@@ -156,13 +191,8 @@ vnoremap <F1> <ESC>
 " Disable Ex mode
 nnoremap Q <nop>
 
-" Unknown settings
-"
-" pwgen
-" nmap <leader>p :read !pwgen -sy1 32<CR>
-"
-" Run the binary of the current file
-" map <leader>r :!./%:r<CR>
-"
-" Write and build the current file
-" map <leader>m :write<CR> :make %<CR>
+
+"if !empty(glob("~/mydotfiles/nvim/init.vim"))
+  "source ~/mydotfiles/nvim/init.vim
+  "echo 'Welcom to Neovim'
+"endif
