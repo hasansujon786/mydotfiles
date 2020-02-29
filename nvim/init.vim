@@ -14,11 +14,12 @@ runtime bundle/vim-sensible/plugin/sensible.vim
 set spellfile=$XDG_CONFIG_HOME/nvim/spell/en.utf-8.add
 set backupdir=$XDG_CONFIG_HOME/nvim/tmp,.
 set directory=$XDG_CONFIG_HOME/nvim/tmp,.
+" }}}
 
 " General preferences {{{1
 "
 " Learn about these using vim help.
-
+set foldenable
 
 " System
 set path+=**
@@ -54,17 +55,20 @@ set nomodeline
 set modelines=0
 set ttimeoutlen=0
 set shortmess+=c        " don't give |ins-completion-menu| messages
-"set guicursor=          " Fallback to terminal's choice
+set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50
+  \,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor
+  \,sm:block-blinkwait175-blinkoff150-blinkon175
 
 " Ignore the following globs in file completions
 set wildignore+=*.o,*.obj,*.pyc,*.so,*.swp,*.zip,*.jpg,*.gif,*.png,*.pdf
 set wildignore+=.git,.hg,.svn,DS_STORE,bower_components,node_modules
+" }}}
 
 " Visuals {{{1
-
 set termguicolors
 set background=dark
 let g:one_allow_italics = 1
+" }}}
 
 " Mappings {{{1
 "
@@ -91,6 +95,8 @@ vmap < <gv
 nmap <Tab> :bnext<CR>
 nmap <S-Tab> :bprevious<CR>
 
+" Open a empty tab
+nmap go :tabnew<CR>
 " Open a file
 map <C-p> :find *
 
@@ -99,30 +105,32 @@ nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
+" }}}
 
-" Disable search highlighting
-nnoremap <C-\> :nohlsearch<CR>
-nmap <silent> <leader><leader> :noh<CR>
-
-" Leader keys {{{2
+" Leader keys {{{1
 
 " Map leader (the dedicated user-mapping prefix key) to space
 let mapleader="\<Space>"
 let maplocalleader = "\<Space>"
+
+map <leader>w <C-w>
 
 " Open vimrc in a new tab
 nmap <leader>vid :tabedit $MYVIMRC<CR>
 nmap <leader>vim :tabedit ~/mydotfiles/nvim/init.vim<CR>
 nmap <leader>vis :source $MYVIMRC<CR>
 
+" Disable search highlighting
+nmap <silent> <leader><leader> :noh<CR>
+
 " Neovim :Terminal
+autocmd BufWinEnter,WinEnter term://* startinsert
+"autocmd BufLeave term://* stopinsert
 tmap <Esc> <C-\><C-n>
 tmap <C-w> <Esc><C-w>
 "tmap <C-d> <Esc>:q<CR>
-autocmd BufWinEnter,WinEnter term://* startinsert
-autocmd BufLeave term://* stopinsert
 " Open terminal
-nmap <leader>s <C-w>s<C-w>j:terminal<CR>
+nmap <leader>ts <C-w>s<C-w>j:terminal<CR>
 nmap <leader>vs <C-w>v<C-w>l:terminal<CR>
 
 " Open a file (relative to the current file)
@@ -149,7 +157,7 @@ nmap <leader>pd a<C-R>=strftime("%Y-%m-%d")<CR>
 
 
 " pwgen
-nmap <leader>p :read !pwgen -sy1 32<CR>
+nmap <leader>pg :read !pwgen -sy1 32<CR>
 
 " Toggle highlighting of current line and column
 nnoremap <leader>c :setlocal cursorline! cursorcolumn!<CR>
@@ -162,10 +170,13 @@ nmap <leader>q gqip
 " Toggle number
 nmap  <leader>n :set relativenumber! number!<CR>
 
-" Function keys {{{2
+" }}}
+
+" Function keys {{{!
 
 " Toggle paste mode (particularly useful to temporarily disable autoindent)
 set pastetoggle=<F3>
+" }}}
 
 " Disabled keys {{{2
 
@@ -190,7 +201,7 @@ vnoremap <F1> <ESC>
 
 " Disable Ex mode
 nnoremap Q <nop>
-
+" }}}
 
 "if !empty(glob("~/mydotfiles/nvim/init.vim"))
   "source ~/mydotfiles/nvim/init.vim
