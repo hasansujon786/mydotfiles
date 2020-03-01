@@ -1,80 +1,130 @@
+" Environment ----------------------------------- {{{
+" A consistent runtime environment.
 
-" General settings {{{
- scriptencoding utf-16      " allow emojis in vimrc
- set nocompatible           " vim, not vi
- syntax on                  " syntax highlighting
- filetype plugin indent on  " try to recognize filetypes and load rel' plugins
+  " Manually load vim-sensible so we can override its settings later
+  " runtime bundle/vim-sensible/plugin/sensible.vim
+
+    set spellfile=$XDG_CONFIG_HOME/nvim/spell/en.utf-8.add
+    set backupdir=$XDG_CONFIG_HOME/nvim/tmp,.
+    set directory=$XDG_CONFIG_HOME/nvim/tmp,.
+
+  " set where swap file and undo/backup files are saved
+    set backupdir=~/.vim/tmp,.
+    set directory=~/.vim/tmp,.
+
+  " persistent undo between file reloads
+    if has('persistent_undo')
+    set undofile
+    set undodir=~/.vim/tmp,.
+    endif
+
+  " Set spellfile to location that is guaranteed to exist, canbe symlinked to
+  " Dropbox or kept in Git
+    set spellfile=$HOME/.vim-spell-en.utf-8.add
+
 " }}}
-"
- "  Behavior Modification ----------------------  {{{
-   set showcmd           " display incomplete commands
-   set showcmd           " show any commands
-   set autowrite         " Automatically :write before running commands
-   set magic             " Use 'magic' patterns (extended regular expressions).
-   set noshowmode        " don't show mode as airline already does
-   set foldmethod=manual " set folds by syntax of current language
-   set foldcolumn=2      " display gutter markings for folds
-   set mouse=a           " enable mouse (selection, resizing windows)
-   set iskeyword+=-      " treat dash separated words as a word text object
-   set termguicolors     " enable true colors
-   set hidden            " enable hidden unsaved buffers
 
-   if !has('nvim')             " does not work on neovim
-     set emoji                 " treat emojis 😄  as full width characters
-     set cryptmethod=blowfish2 " set encryption to use blowfish2 (vim -x file.txt)
-   end
 
-   " visual bell for errors
-     set visualbell
+" General settings ------------------------------ {{{
+    scriptencoding utf-16      " allow emojis in vimrc
+    set nocompatible           " forget about vi and set it first as it modifies future behaviour
+    syntax on                  " syntax highlighting
+    filetype plugin indent on  " try to recognize filetypes and load rel' plugins
 
-   " text appearance
-     set textwidth=80
-     set nowrap                          " nowrap by default
-     set list                            " show invisible characters
-     set listchars=tab:»·,trail:·,nbsp:· " Display extra whitespace
+    set path+=**               " usefull while using find in nested folders
+    set wildmenu
+" }}}
 
-   " Numbers
-     set number
-     set numberwidth=1
 
-   " set where swap file and undo/backup files are saved
-     set backupdir=~/.vim/tmp,.
-     set directory=~/.vim/tmp,.
+"  Behavior Modification ------------------------ {{{
+    set showcmd           " show any commands
+    set autowrite         " Automatically :write before running commands
+    set magic             " Use 'magic' patterns (extended regular expressions).
+    set noshowmode        " don't show mode as airline already does
+    set mouse=a           " enable mouse (selection, resizing windows)
+    set iskeyword+=-      " treat dash separated words as a word text object
+    set termguicolors     " enable true colors
+    set hidden            " enable hidden unsaved buffers
 
-   " persistent undo between file reloads
-     if has('persistent_undo')
-       set undofile
-       set undodir=~/.vim/tmp,.
-     endif
+    set spelllang=en_gb   " Speak proper English
+    set complete+=kspell  " Autocomplete with dictionary words when spell check is on
+    set fillchars=""      " Remove characters in window split
+    set encoding=utf-8    " Default encoding
+    set showmode          " Persistent notice of current mode
+    set clipboard=unnamed
+    set nomodeline
+    set modelines=0
+    set ttimeoutlen=0
+    set shortmess+=c      " don't give |ins-completion-menu| messages
+    set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50
+    \,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor
+    \,sm:block-blinkwait175-blinkoff150-blinkon175
 
-   " Open new split panes to right and bottom, which feels more natural
-     set splitbelow
-     set splitright
+  " Ignore the following globs in file completions
+    set wildignore+=*.o,*.obj,*.pyc,*.so,*.swp,*.zip,*.jpg,*.gif,*.png,*.pdf
+    set wildignore+=.git,.hg,.svn,DS_STORE,bower_components,node_modules
 
-   " Set spellfile to location that is guaranteed to exist, canbe symlinked to
-   " Dropbox or kept in Git
-     set spellfile=$HOME/.vim-spell-en.utf-8.add
+  " Tabbing
+    set tabstop=2           " The number of spaces a tab is
+    set shiftwidth=2        " Number of spaces to use in auto(indent)
+    set softtabstop=2       " Just to be clear
+    set expandtab           " Insert tabs as spaces
 
-   " Autocomplete with dictionary words when spell check is on
-     set complete+=kspell
+  " Searching
+    set wrapscan            " Wrap searches
+    set ignorecase          " Ignore search term case...
+    set smartcase           " ... unless term contains an uppercase character
+    set hlsearch            " ... as you type
 
-   " Always use vertical diffs
-     set diffopt+=vertical
+  " Wrapping
+    set textwidth=80        " Hard-wrap text at nth column
+    set nowrap              " Don't wrap long lines (good for vsplits)
 
-   " enable folding in bash files
-     let g:sh_fold_enabled=1
- " }}}
- "
-" UI Customizations --------------------------------{{{
-"
+    if !has('nvim')             " does not work on neovim
+      set emoji                 " treat emojis 😄  as full width characters
+      set cryptmethod=blowfish2 " set encryption to use blowfish2 (vim -x file.txt)
+    endif
+
+  " visual bell for errors
+    set visualbell
+
+  " text appearance
+    set textwidth=80
+    set nowrap                          " nowrap by default
+    set list                            " show invisible characters
+    set listchars=tab:»·,trail:·,nbsp:· " Display extra whitespace
+
+  " Numbers
+    set number
+    set numberwidth=1
+    set relativenumber 
+
+  " Visuals
+    set termguicolors
+    set background=dark
+    let g:one_allow_italics = 1
+
+  " Open new split panes to right and bottom, which feels more natural
+    set splitbelow
+    set splitright
+
+  " Always use vertical diffs
+    set diffopt+=vertical
+
+  " enable folding in bash files
+    let g:sh_fold_enabled=1
+" }}}
+ 
+
+" UI Customizations ----------------------------- {{{
   " Make it obvious where 80 characters is
   " cheatsheet https://jonasjacek.github.io/colors/
-  highlight ColorColumn ctermbg=236 guibg=#303030
-  let &colorcolumn=join(range(80,999),',')
-"  }}}
+  "highlight ColorColumn ctermbg=236 guibg=#303030
+  "let &colorcolumn=join(range(80,999),',')
+" }}}
 
 
-" Auto commands ------------------------------------------------- {{{
+" Auto commands --------------------------------- {{{
   augroup vimrcEx
     autocmd!
 
@@ -115,8 +165,84 @@
 " }}}
 
 
-"  Key Mappings -------------------------------------------------- {{{
+" Key Mappings --------------------------------- {{{
+"
+  " Silently open a shell in the directory of the current file
+    if has("win32") || has("win64")
+      map ,s :silent !start cmd /k cd %:p:h <CR>
+    endif
 
+  " Return to normal mode
+    inoremap jk <ESC>
+    inoremap jj <ESC>
+
+  " Always move between wrapped lines
+    nnoremap j gj
+    nnoremap k gk
+
+  " Move text on visual mode
+    vmap > >gv
+    vmap < <gv
+
+  " Cycle tab with recent buffer list
+    nmap <Tab> :bnext<CR>
+    nmap <S-Tab> :bprevious<CR>
+
+  " Open a new tab
+    nmap go :tabnew<CR>
+  " Open file on current window
+    map <C-p> :find *
+
+  " Move between splits with CTRL+[hjkl]
+    nnoremap <C-h> <C-w>h
+    nnoremap <C-j> <C-w>j
+    nnoremap <C-k> <C-w>k
+    nnoremap <C-l> <C-w>l
+
+  " Map leader (the dedicated user-mapping prefix key) to space
+    let mapleader="\<Space>"
+    let maplocalleader = "\<Space>"
+
+  " Prefix window management with space w
+    map <leader>w <C-w>
+
+  " Open vimrc in a new tab
+    nmap <leader>vid :tabedit $MYVIMRC<CR>
+    nmap <leader>vim :tabedit ~/mydotfiles/nvim/init.vim<CR>
+    nmap <leader>vis :source $MYVIMRC<CR>
+
+  " Disable search highlighting
+    nmap <silent> <leader><leader> :noh<CR>
+
+  " Neovim :Terminal
+    autocmd BufWinEnter,WinEnter term://* startinsert
+    autocmd BufLeave term://* stopinsert
+    tmap <Esc> <C-\><C-n>
+    tmap <C-w> <Esc><C-w>
+    "tmap <C-d> <Esc>:q<CR>
+    "
+  " Open terminal
+    nmap <leader>ts <C-w>s<C-w>j:terminal<CR>
+    nmap <leader>vs <C-w>v<C-w>l:terminal<CR>
+
+  " Create a directory relative to the current file
+    map <leader>d :!mkdir -p %%
+
+  " UTC date
+    nmap <leader>pd a<C-R>=strftime("%Y-%m-%d")<CR>
+    "imap <leader>t <C-R>=strftime("%Y-%m-%d")<CR>
+
+  " Toggle highlighting of current line and column
+    nnoremap <leader>c :setlocal cursorline! cursorcolumn!<CR>
+
+  " Toggle spelling and show it's status
+    nmap <silent><leader>s :setlocal spell! spell?<CR>
+
+  " Toggle number
+    nmap  <leader>n :set relativenumber! number!<CR>
+
+  " TODO: not yet learned this mappings
+  
   " fold file based on syntax
     nnoremap <silent> <leader>zs :setlocal foldmethod=syntax<CR>
 
@@ -273,10 +399,66 @@ endif
     tnoremap <silent> <leader>o <C-\><C-n>:Ttoggle<cr>
     tnoremap <silent> <leader><space> <C-\><C-n>:Ttoggle<cr>
 
-" Temporary {{{
+  " Map Function keys
+  " Toggle paste mode (particularly useful to temporarily disable autoindent)
+    set pastetoggle=<F3>
+" }}}
 
-" testing for bullets.vim
-nnoremap <leader>m :vs test.md<cr>
-nnoremap <leader>q :q!<cr>
 
-"}}} 
+" Disabled keys --------------------------------- {{{
+
+  " Disable arrow keys (force good habits)
+    nnoremap <up> <nop>
+    nnoremap <down> <nop>
+    nnoremap <left> <nop>
+    nnoremap <right> <nop>
+    inoremap <up> <nop>
+    inoremap <down> <nop>
+    inoremap <left> <nop>
+    inoremap <right> <nop>
+    vnoremap <up> <nop>
+    vnoremap <down> <nop>
+    vnoremap <left> <nop>
+    vnoremap <right> <nop>
+
+  " Disable help key
+    inoremap <F1> <ESC>
+    nnoremap <F1> <ESC>
+    vnoremap <F1> <ESC>
+
+  " Disable Ex mode
+    nnoremap Q <nop>
+" }}}
+
+
+" Temporary ------------------------------------- {{{
+   "set foldmethod=manual " set folds by syntax of current language
+   "set foldcolumn=2      " display gutter markings for folds
+
+  " testing for bullets.vim
+  nnoremap <leader>m :vs test.md<cr>
+  nnoremap <leader>q :q!<cr>
+  "
+  " Open a file (relative to the current file)
+  " See: http://vimcasts.org/episodes/the-edit-command/
+  " Synonyms: {e: edit, where: {w: window, s: split, v: vertical split, t: tab}}
+  cnoremap %% <C-R>=expand('%:h').'/'<cr>
+  map <leader>ew :e %%
+  map <leader>es :sp %%
+  map <leader>ev :vsp %%
+  map <leader>et :tabe %%
+
+  " Write and build the current file
+  map <leader>m :write<CR> :make %<CR>
+  " Run the binary of the current file
+  map <leader>r :!./%:r<CR>
+  " pwgen
+  nmap <leader>pg :read !pwgen -sy1 32<CR>
+  nmap <leader>q gqip
+" }}} 
+"
+"if !empty(glob("~/mydotfiles/nvim/init.vim"))
+  "source ~/mydotfiles/nvim/init.vim
+  "echo 'Welcom to Neovim'
+"endif
+echo "Welcome to Neovim"
