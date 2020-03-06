@@ -14,10 +14,10 @@
 
 
 " General settings {{{
- scriptencoding utf-16      " allow emojis in vimrc
- set nocompatible           " vim, not vi
- syntax on                  " syntax highlighting
- filetype plugin indent on  " try to recognize filetypes and load rel' plugins
+  scriptencoding utf-16      " allow emojis in vimrc
+  set nocompatible           " vim, not vi
+  syntax on                  " syntax highlighting
+  filetype plugin indent on  " try to recognize filetypes and load rel' plugins
 " }}}
 
  "  Behavior Modification ----------------------  {{{
@@ -29,38 +29,38 @@
      nmap <space> \
      xmap <space> \
 
-   set backspace=2       " Backspace deletes like most programs in insert mode
-   set history=200       " how many : commands to save in history
-   set ruler             " show the cursor position all the time
-   set showcmd           " display incomplete commands
-   set incsearch         " do incremental searching
-   set laststatus=2      " Always display the status line
-   set autowrite         " Automatically :write before running commands
-   set ignorecase        " ignore case in searches
-   set smartcase         " use case sensitive if capital letter present or \C
-   set magic             " Use 'magic' patterns (extended regular expressions).
-   set guioptions=       " remove scrollbars on macvim
-   set noshowmode        " don't show mode as airline already does
-   set showcmd           " show any commands
-   set foldmethod=manual " set folds by syntax of current language
-   set foldcolumn=2      " display gutter markings for folds
-   set mouse=a           " enable mouse (selection, resizing windows)
-   set iskeyword+=-      " treat dash separated words as a word text object
+     set backspace=2       " Backspace deletes like most programs in insert mode
+     set history=200       " how many : commands to save in history
+     set ruler             " show the cursor position all the time
+     set showcmd           " display incomplete commands
+     set incsearch         " do incremental searching
+     set laststatus=2      " Always display the status line
+     set autowrite         " Automatically :write before running commands
+     set ignorecase        " ignore case in searches
+     set smartcase         " use case sensitive if capital letter present or \C
+     set magic             " Use 'magic' patterns (extended regular expressions).
+     set guioptions=       " remove scrollbars on macvim
+     set noshowmode        " don't show mode as airline already does
+     set showcmd           " show any commands
+     set foldmethod=manual " set folds by syntax of current language
+     set foldcolumn=2      " display gutter markings for folds
+     set mouse=a           " enable mouse (selection, resizing windows)
+     set iskeyword+=-      " treat dash separated words as a word text object
 
-   set tabstop=2         " Softtabs or die! use 2 spaces for tabs.
-   set shiftwidth=2      " Number of spaces to use for each step of (auto)indent.
-   set expandtab         " insert tab with right amount of spacing
-   set shiftround        " Round indent to multiple of 'shiftwidth'
-   set termguicolors     " enable true colors
-   set hidden            " enable hidden unsaved buffers
+     set tabstop=2         " Softtabs or die! use 2 spaces for tabs.
+     set shiftwidth=2      " Number of spaces to use for each step of (auto)indent.
+     set expandtab         " insert tab with right amount of spacing
+     set shiftround        " Round indent to multiple of 'shiftwidth'
+     set termguicolors     " enable true colors
+     set hidden            " enable hidden unsaved buffers
 
-   if !has('nvim')             " does not work on neovim
-     set emoji                 " treat emojis 😄  as full width characters
-     set cryptmethod=blowfish2 " set encryption to use blowfish2 (vim -x file.txt)
-   end
+     if !has('nvim')             " does not work on neovim
+       set emoji                 " treat emojis 😄  as full width characters
+       set cryptmethod=blowfish2 " set encryption to use blowfish2 (vim -x file.txt)
+     end
 
-   set ttyfast           " should make scrolling faster
-   set lazyredraw        " should make scrolling faster
+     set ttyfast           " should make scrolling faster
+     set lazyredraw        " should make scrolling faster
 
    " visual bell for errors
      set visualbell

@@ -1,3 +1,4 @@
+# Copy this to main .bashrc file
 #if [ -f ~/mydotfiles/bash/.bashrc ]; then
 #    . ~/mydotfiles/bash/.bashrc
 #fi
@@ -30,7 +31,8 @@ alias nd='npm run dev'
 alias vim=nvim
 
 # Tmux
-alias tm=tmux
+alias tm="env TERM=xterm-256color tmux"
+alias tmux="env TERM=xterm-256color tmux"
 
 # handy short cuts #
 alias bashrc="vim ~/mydotfiles/bash/.bashrc"
