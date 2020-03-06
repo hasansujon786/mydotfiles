@@ -105,6 +105,7 @@ set shortmess+=c      " don't give |ins-completion-menu| messages
 set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50
       \,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor
       \,sm:block-blinkwait175-blinkoff150-blinkon175
+set cursorline
 
 " Ignore the following globs in file completions
 set wildignore+=*.o,*.obj,*.pyc,*.so,*.swp,*.zip,*.jpg,*.gif,*.png,*.pdf
@@ -173,10 +174,15 @@ let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+'
 " Key Mappings ---------------------------------- {{{
 
 " map qq to Esc key
+nnoremap q <nop>
+vnoremap q <nop>
 nnoremap qq <Esc>
 vnoremap qq <Esc>
-inoremap qq <Esc>
 cnoremap qq <ESC>
+inoremap qq <ESC>
+inoremap jk <ESC>
+
+nmap <C-F5> :!gcc % -o .lastbuild && ./.lastbuild<cr>
 
 " Map leader (the dedicated user-mapping prefix key) to space
 let mapleader="\<Space>"
@@ -208,7 +214,7 @@ nmap <leader>pd a<C-R>=strftime("%Y-%m-%d")<CR>
 " Open a file relative to the current file
 " See: http://vimcasts.org/episodes/the-edit-command/
 cnoremap %% <C-R>=expand('%:h').'/'<cr>
-cnoremap && <C-R>=expand("%:p:h") . "/"<CR>
+cnoremap ++ <C-R>=expand("%:p:h") . "/"<CR>
 " Synonyms: {e: edit, where: {w: window, s: split, v: vertical split, t: tab}}
 map <leader>ew :e %%
 map <leader>es :sp %%
@@ -317,7 +323,7 @@ inoremap <C-g>t <esc>:s/\v<(.)(\w*)/\u\1\L\2/g<cr>:noh<cr>A
 " Toggle supports ------------------------------- {{{
 
 " Toggle highlighting of current line and column
-nnoremap <leader>c :setlocal cursorline! cursorcolumn!<CR>
+nnoremap <leader>c :setlocal cursorcolumn!<CR>
 
 " Toggle spelling and show it's status
 nmap <silent><leader>s :setlocal spell! spell?<CR>
@@ -359,9 +365,6 @@ nnoremap <silent> <F10> :call ToggleBackground()<CR>
 
 
 " Disabled keys --------------------------------- {{{
-"disable recording q difault key 
-"nnoremap q <nop>
-"vnoremap q <nop>
 
 
 " disable arrow keys in normal mode
@@ -377,8 +380,6 @@ vnoremap <F1> <ESC>
 
 " Disable Ex mode
 nnoremap Q <nop>
-nnoremap q <nop>
-vnoremap q <nop>
 " }}}
 
 
