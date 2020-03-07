@@ -174,7 +174,7 @@ let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+'
 " Key Mappings ---------------------------------- {{{
 
 " map qq to Esc key
-nnoremap q <nop>
+"nnoremap q <nop>
 vnoremap q <nop>
 nnoremap qq <Esc>
 vnoremap qq <Esc>
