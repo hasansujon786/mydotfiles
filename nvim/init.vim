@@ -1,4 +1,5 @@
 " vimrc: a monolithic vim setup. {{{1
+"
 " © 2009-2013 Tom Vincent <http://tlvince.com/contact>
 " vim: set fdm=marker:
 

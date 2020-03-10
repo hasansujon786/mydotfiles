@@ -176,6 +176,7 @@ vnoremap <F1> <ESC>
 " Disable Ex mode
 nnoremap Q <nop>
 
+"
 " Autocommands {{{1
 if has('autocmd')
   " Automatically open the quickfix window on :make
@@ -188,3 +189,5 @@ endif
 
 autocmd BufWritePost ~/docs/wiki/* call AutoCommit()
 autocmd BufRead,BufEnter *.js setlocal matchpairs={:},[:]
+
+
