@@ -87,26 +87,19 @@
 
   " Launch fzf with CTRL+P.
     nnoremap <silent> <C-p> :History<CR>
-    nnoremap <silent> <leader>p :FZF -m<CR>
+    nnoremap <silent> <C-k><C-p> :FZF -m<CR>
+    nnoremap <silent> <C-k><C-m> :Windows<CR>
 
-  " Map a few common things to do with FZF.
-    nnoremap <silent> <Leader>fb :Buffers<CR>
-    nnoremap <silent> <Leader>fl :Lines<CR>
-    nnoremap <silent> <Leader>fw :Windows<CR>
+    " let g:fzf_action = {
+    "   \ 'ctrl-t': 'tab split',
+    "   \ 'ctrl-x': 'split',
+    "   \ 'ctrl-v': 'vsplit',
+    "   \ 'ctrl-y': {lines -> setreg('*', join(lines, "\n"))}}
 
-    let $FZF_DEFAULT_OPTS = '--bind ctrl-a:select-all'
+    " \   + filter(copy(filter(v:oldfiles, "-1 != stridx(v:val, $PWD)")), "filereadable(fnamemodify(v:val, ':p'))"),
+    " let $FZF_DEFAULT_OPTS = '--bind ctrl-a:select-all'
+    " let g:fzf_layout = { 'window': { 'width': 1, 'height': 1 } }
 
-    let g:fzf_action = {
-      \ 'ctrl-t': 'tab split',
-      \ 'ctrl-x': 'split',
-      \ 'ctrl-v': 'vsplit',
-      \ 'ctrl-y': {lines -> setreg('*', join(lines, "\n"))}}
-
-  " Allow passing optional flags into the Rg command.
-  "   Example: :Rg myterm -g '*.md'
-    command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case " . <q-args>, 1, <bang>0)
-
-    let g:fzf_history_dir = '~/.local/share/fzf-history'
 
   " indentLine -----------------------------------
 
@@ -261,9 +254,9 @@
     nmap <leader>vis :source $MYVIMRC<CR>
 
   " Save file Quickly
-    nmap <C-s> :write<CR>
-    vmap <C-s> :write<CR>
-    imap <C-s> <ESC>:write<CR>
+    nmap <C-s> :GitGutter<CR>:write<CR>
+    vmap <C-s> :GitGutter<CR>:write<CR>
+    imap <C-s> <ESC>:GitGutter<CR>:write<CR>i
 
   " UTC date
     nmap <leader>date a<C-R>=strftime("%d-%m-%Y")<CR>
@@ -323,13 +316,6 @@
     "nmap <S-Tab> :bprevious<CR>
 
 
-" Tab control ------------------------------------
-
-  " Open a new tab
-    nmap gh :tabfirst<CR>
-    nmap gl :tablast<CR>
-
-
 " Modify & Rearrange texts -----------------------
 
   " Keep selection when indenting/outdenting.
@@ -340,8 +326,8 @@
     vnoremap <S-Tab> <gv
 
   " Move lines up and down in normal & visual mode
-    nmap <silent> <A-j> :move +1<CR>==
-    nmap <silent> <A-k> :move -2<CR>==
+    " nmap <silent> <A-k> :move -2<CR>==
+    " nmap <silent> <A-j> :move +1<CR>==
     xnoremap <silent> <A-j> :move '>+1<CR>gv=gv
     xnoremap <silent> <A-k> :move '<-2<CR>gv=gv
 
@@ -385,11 +371,11 @@
     nmap ,bb :!gcc % -o .lastbuild && ./.lastbuild<cr>
 
   " Index ctags from any project, including those outside Rails
-    map <Leader>uct :!ctags -R .<CR>
+    nnoremap ,ct :!ctags -R .<CR>
 
   " Prettier:
   " shows the output from prettier - useful for syntax errors
-    nnoremap <leader>fr :!prettier %<CR>
+    nnoremap ,pt :!prettier %<CR>
 
 
 " Special key 'g' commands ------------------------
@@ -397,24 +383,39 @@
   " sort selected lines
     vmap gs :sort<CR>
 
+  " Open a new tab
+    nmap gh :tabprevious<CR>
+    nmap gl :tabnext<CR>
+    nmap gk :tabfirst<CR>
+    nmap gj :tablast<CR>
+
+  " Toggle Goyo
+    nmap <silent> <C-k>z :Goyo<CR>
+
 
 " Insert Mode key mapping -----------------------
 
+  " move cursor on insert mode 
+    inoremap <A-k> <up>
+    inoremap <A-j> <Down>
+    inoremap <A-l> <Right>
+    inoremap <A-h> <Left>
+  
   " Auto complete file path
     inoremap <c-f> <c-x><c-f>
 
   " last typed word to lower case
-    inoremap <C-w>u <esc>guawA
+    " inoremap <C-w>u <esc>guawA
   " last typed word to UPPER CASE
-    inoremap <C-w>U <esc>gUawA
+    " inoremap <C-w>U <esc>gUawA
   " Entire Line To Lower Case
-    inoremap <C-g>u <esc>guuA
+    " inoremap <C-g>u <esc>guuA
   " Entire Line To Upper Case
-    inoremap <C-g>U <esc>gUUA
+    " inoremap <C-g>U <esc>gUUA
   " Last Word To Title Caseu
-    inoremap <C-w>t <esc>bvgU<esc>A
+    " inoremap <C-w>t <esc>bvgU<esc>A
   " Current Line To Title Case
-    inoremap <C-g>t <esc>:s/\v<(.)(\w*)/\u\1\L\2/g<cr>:noh<cr>A
+    " inoremap <C-g>t <esc>:s/\v<(.)(\w*)/\u\1\L\2/g<cr>:noh<cr>A
 
 " }}}
 
@@ -425,10 +426,7 @@
     nnoremap <leader>cc :setlocal cursorcolumn!<CR>
 
   " Allow j and k to work on visual lines (when wrapping)
-    noremap <Leader>wr :call ToggleWrap()<CR>
-
-  " Toggle Goyo
-    nmap <silent> <leader>go :Goyo<CR>
+    noremap <Leader>wp :call ToggleWrap()<CR>
 
   " Trim Whitespaces
     nmap <leader>tm :call TrimWhitespace()<CR>
