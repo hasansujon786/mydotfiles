@@ -76,6 +76,7 @@
     Plug 'airblade/vim-gitgutter'
     Plug 'junegunn/fzf', { 'do': './install --bin' }
     Plug 'junegunn/fzf.vim'
+    Plug 'terryma/vim-multiple-cursors'
     " Plug 'alvan/vim-closetag'
     " Plug 'sheerun/vim-polyglot'     " Full lang support
     " Plug 'kien/ctrlp.vim'
@@ -90,6 +91,7 @@
     nnoremap <silent> <C-k><C-p> :FZF -m<CR>
     nnoremap <silent> <C-k><C-m> :Windows<CR>
 
+    let g:fzf_layout = { 'window': '8new' }
     " let g:fzf_action = {
     "   \ 'ctrl-t': 'tab split',
     "   \ 'ctrl-x': 'split',
@@ -98,7 +100,6 @@
 
     " \   + filter(copy(filter(v:oldfiles, "-1 != stridx(v:val, $PWD)")), "filereadable(fnamemodify(v:val, ':p'))"),
     " let $FZF_DEFAULT_OPTS = '--bind ctrl-a:select-all'
-    " let g:fzf_layout = { 'window': { 'width': 1, 'height': 1 } }
 
 
   " indentLine -----------------------------------
@@ -107,6 +108,9 @@
     " let g:indentLine_color_gui = '#363949'
     let g:indentLine_char = '▏'
     let g:indentLine_color_gui = '#444444'
+
+  " auto-pairs -----------------------------------
+    let g:AutoPairsShortcutToggle = ',p'
 
 " }}}
 
@@ -236,11 +240,11 @@
   " Disable q key from mapping
     nnoremap q <nop>
   " map qq & jk to Esc key
-    nnoremap qq <esc>
-    vnoremap q <esc>
-    cnoremap qq <esc>
+    nnoremap qq <ESC>
+    vnoremap q <ESC>
+    cnoremap qq <C-c>
   " Insert mode
-    inoremap qq <esc>
+    inoremap qq <ESC>
     inoremap jk <ESC>
 
   " Silently open a shell in the directory of the current file
@@ -256,7 +260,7 @@
   " Save file Quickly
     nmap <C-s> :GitGutter<CR>:write<CR>
     vmap <C-s> :GitGutter<CR>:write<CR>
-    imap <C-s> <ESC>:GitGutter<CR>:write<CR>i
+    imap <C-s> <ESC>:GitGutter<CR>:write<CR>a
 
   " UTC date
     nmap <leader>date a<C-R>=strftime("%d-%m-%Y")<CR>
@@ -264,6 +268,8 @@
 
 
 " Organize files & folders -----------------------
+
+  " TODO: learn this shortcuts
 
   " Open a file relative to the current file
   " See: http://vimcasts.org/episodes/the-edit-command/
@@ -283,7 +289,7 @@
   " rename current file
     nnoremap <Leader>rn :Move <C-R>=expand("%")<CR>
   " change dir to current file's dir
-    nnoremap <leader>dc :cd %:p:h<CR>:pwd<CR>
+    nnoremap <leader>cd :cd %:p:h<CR>:pwd<CR>
 
 
 " Window control --------------------------------
@@ -297,10 +303,10 @@
     nnoremap <leader>k <C-w>k
     nnoremap <leader>l <C-w>l
   " Navigate around splits with a single key combo.
-    " nnoremap <C-l> <C-w><C-l>
-    " nnoremap <C-h> <C-w><C-h>
-    " nnoremap <C-k> <C-w><C-k>
-    " nnoremap <C-j> <C-w><C-j>
+    nnoremap <A-l> <C-w><C-l>
+    nnoremap <A-h> <C-w><C-h>
+    nnoremap <A-k> <C-w><C-k>
+    nnoremap <A-j> <C-w><C-j>
 
   " zoom a vim pane, <C-w> = to re-balance
     nnoremap <silent> ,, :wincmd _<cr>:wincmd \|<cr>
@@ -310,10 +316,6 @@
     nnoremap <S-Tab> <C-w>w
   " Switch between the last two files
     nnoremap <tab><tab> <c-^>
-
-  " Cycle tab with recent buffer list
-    "nmap <Tab> :bnext<CR>
-    "nmap <S-Tab> :bprevious<CR>
 
 
 " Modify & Rearrange texts -----------------------
@@ -333,6 +335,8 @@
 
 
 " Search functionalities -------------------------
+
+  "TODO: Learn this shortcuts
 
   " Search for selected text
     vnoremap * "xy/<C-R>x<CR>
@@ -365,19 +369,6 @@
     xnoremap <silent> s* "sy:let @/=@s<CR>cgn
 
 
-" Language spacific -----------------------------
-
-  " Compile & Run C code
-    nmap ,bb :!gcc % -o .lastbuild && ./.lastbuild<cr>
-
-  " Index ctags from any project, including those outside Rails
-    nnoremap ,ct :!ctags -R .<CR>
-
-  " Prettier:
-  " shows the output from prettier - useful for syntax errors
-    nnoremap ,pt :!prettier %<CR>
-
-
 " Special key 'g' commands ------------------------
 
   " sort selected lines
@@ -389,18 +380,15 @@
     nmap gk :tabfirst<CR>
     nmap gj :tablast<CR>
 
-  " Toggle Goyo
-    nmap <silent> <C-k>z :Goyo<CR>
-
 
 " Insert Mode key mapping -----------------------
 
-  " move cursor on insert mode 
+  " move cursor on insert mode
     inoremap <A-k> <up>
     inoremap <A-j> <Down>
     inoremap <A-l> <Right>
     inoremap <A-h> <Left>
-  
+
   " Auto complete file path
     inoremap <c-f> <c-x><c-f>
 
@@ -420,19 +408,29 @@
 " }}}
 
 
-" Toggle supports ------------------------------- {{{
+" Comma commands ------------------------------- {{{
 
-  " Toggle highlighting of current line and column
-    nnoremap <leader>cc :setlocal cursorcolumn!<CR>
+  " Compile & Run C code
+    nnoremap ,bb :!gcc % -o .lastbuild && ./.lastbuild<cr>
+
+  " Index ctags from any project, including those outside Rails
+    nnoremap ,tag :!ctags -R .<CR>
+
+  " Prettier:
+  " shows the output from prettier - useful for syntax errors
+    nnoremap ,bt :!prettier %<CR>
 
   " Allow j and k to work on visual lines (when wrapping)
-    noremap <Leader>wp :call ToggleWrap()<CR>
+    noremap ,wp :call ToggleWrap()<CR>
 
   " Trim Whitespaces
-    nmap <leader>tm :call TrimWhitespace()<CR>
+    nnoremap ,tt :call TrimWhitespace()<CR>
 
   " Toggle number
-    nmap <silent> <leader>nu :set relativenumber! number!<CR>
+    nnoremap <silent> ,nm :set relativenumber! number!<CR>
+
+  " Toggle highlighting of current line and column
+    nnoremap <silent> ,c :setlocal cursorcolumn!<CR>
 
   " Toggle relative line numbers and regular line numbers.
     nmap <silent> <F6> :set invrelativenumber<CR>
@@ -443,6 +441,8 @@
   " toggle background light / dark
     nnoremap <silent> <F10> :call ToggleBackground()<CR>
 
+  " Toggle Goyo
+    nmap <silent> ,z :Goyo<CR>
 
   " Functions ------------------------------------
 
@@ -569,12 +569,14 @@
 
 " Nvim terminal --------------------------------- {{{
 
+  " TODO:
+
   " Default settings
     au BufEnter * if &buftype == 'terminal' | :startinsert | endif
     autocmd BufEnter term://* startinsert
     autocmd TermOpen * set bufhidden=hide
 
-" Terminal mappings -------------------------------
+  " Terminal mappings -------------------------------
 
     nmap <leader>s <C-w>s<C-w>j:terminal<CR>
     nmap <leader>vs <C-w>v<C-w>l:terminal<CR>
