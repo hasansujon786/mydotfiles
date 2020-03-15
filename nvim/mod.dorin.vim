@@ -220,10 +220,11 @@
 
 " Key Mappings ---------------------------------- {{{
 
-  " Always move between wrapped lines
+  " j/k will move virtual lines (lines that wrap)
   " Seamlessly treat visual lines as actual lines when moving around.
-    noremap j gj
-    noremap k gk
+  " Always move between wrapped lines
+    noremap <silent> <expr> j (v:count == 0 ? 'gj' : 'j')
+    noremap <silent> <expr> k (v:count == 0 ? 'gk' : 'k')
     inoremap <Down> <C-o>gj
     inoremap <Up> <C-o>gk
 
