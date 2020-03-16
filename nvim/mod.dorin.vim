@@ -21,6 +21,7 @@
     if has('persistent_undo')
       set undofile
       set undodir=~/.config/nvim/tmp,.
+      " set undolevels=5000   " Save a lot of back-history...
     endif
 
   " Set spellfile to location that is guaranteed to exist
@@ -63,8 +64,11 @@
     Plug 'whatyouhide/vim-gotham'
     Plug 'rakr/vim-one'
     Plug 'junegunn/goyo.vim'
-    " Plug 'ryanoasis/vim-devicons'
+    "Plug 'ryanoasis/vim-devicons'
     "Plug 'rafi/awesome-vim-colorschemes'
+    "Plug 'dragvisuals.vim'
+    "Plug 'vis.vim'
+    "Plug 'vmath.vim'
 
   " Functionality --------------------------------
     Plug 'michaeljsmith/vim-indent-object'
@@ -119,6 +123,7 @@
 
   set showcmd           " show any commands
   set autowrite         " Automatically :write before running commands
+" set autoread          " Always reload buffer when external changes detected
   set magic             " Use 'magic' patterns (extended regular expressions).
   set mouse=a           " enable mouse (selection, resizing windows)
   set iskeyword+=-      " treat dash separated words as a word text object
@@ -169,8 +174,8 @@
   " text appearance
     set textwidth=80                    " Hard-wrap text at nth column
     set nowrap                          " nowrap by default
-    set list                            " show invisible characters
     set listchars=tab:»·,trail:·,nbsp:· " Display extra whitespace
+    set list                            " show invisible characters
     set matchpairs+=<:>,«:»,｢:｣         " Match angle brackets...
 
   " Numbers
@@ -206,6 +211,10 @@
   " cheatsheet https://jonasjacek.github.io/colors/
   "highlight ColorColumn ctermbg=236 guibg=#303030
   "let &colorcolumn=join(range(80,999),',')
+  
+  " Hightlight the characters on column 81
+    highlight ColorColumn guibg=magenta
+    call matchadd('ColorColumn', '\%81v', '100')
 
 " File Browsing --------------------------------
   let g:netrw_banner=0        " disable annoying banner
@@ -237,6 +246,9 @@
 
   " Keep cursor at the bottom of the visual selection after you yank it.
     vmap y ygv<Esc>
+
+  " Make vaa select the entire file...
+    xmap aa VGo1G
 
   " Disable q key from mapping
     nnoremap q <nop>
