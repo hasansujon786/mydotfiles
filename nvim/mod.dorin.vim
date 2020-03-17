@@ -81,9 +81,13 @@
     Plug 'junegunn/fzf', { 'do': './install --bin' }
     Plug 'junegunn/fzf.vim'
     Plug 'terryma/vim-multiple-cursors'
+    " Helpers for moving and manipulating files / directories.
+    Plug 'tpope/vim-eunuch'
     " Plug 'alvan/vim-closetag'
     " Plug 'sheerun/vim-polyglot'     " Full lang support
     " Plug 'kien/ctrlp.vim'
+
+
 
   call plug#end()
 
@@ -116,6 +120,13 @@
   " auto-pairs -----------------------------------
     let g:AutoPairsShortcutToggle = ',p'
 
+  " scrooloose/nerdtree --------------------------
+    " let g:NERDTreeShowHidden=1
+    " let g:NERDTreeAutoDeleteBuffer=1
+
+    " " Open nerd tree at the current file or close nerd tree if pressed again.
+    " nnoremap <silent> <expr> <Leader>n g:NERDTree.IsOpen() ? "\:NERDTreeClose<CR>" : bufexists(expand('%')) ? "\:NERDTreeFind<CR>" : "\:NERDTree<CR>"
+
 " }}}
 
 
@@ -123,7 +134,7 @@
 
   set showcmd           " show any commands
   set autowrite         " Automatically :write before running commands
-" set autoread          " Always reload buffer when external changes detected
+  set autoread          " Always reload buffer when external changes detected
   set magic             " Use 'magic' patterns (extended regular expressions).
   set mouse=a           " enable mouse (selection, resizing windows)
   set iskeyword+=-      " treat dash separated words as a word text object
@@ -147,23 +158,31 @@
   set modelines=0
   set ttimeoutlen=0
   set shortmess+=c      " don't give |ins-completion-menu| messages
+  set cursorline
+  set nolazyredraw      " don't redraw while executing macros
+  set backspace=indent,eol,start
+  " set clipboard=unnamed
+  " set clipboard+=unnamedplus
+
+  " Guicursor Setting
   set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50
         \,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor
         \,sm:block-blinkwait175-blinkoff150-blinkon175
-  set cursorline
-  "set guifont=Mono\ Nerd\ Font\ 11
-
+  
   " Ignore the following globs in file completions
     set wildignore+=*.o,*.obj,*.pyc,*.so,*.swp,*.zip,*.jpg,*.gif,*.png,*.pdf
     set wildignore+=.git,.hg,.svn,DS_STORE,bower_components,node_modules
+
+  " Mouse Settings
+    if has('mouse')
+        set mouse=a
+    endif
 
   " Tabbing
     set tabstop=2           " The number of spaces a tab is
     set shiftwidth=2        " Number of spaces to use in auto(indent)
     set softtabstop=2       " Just to be clear
     set expandtab           " Insert tabs as spaces
-    set backspace=indent,eol,start
-    set clipboard+=unnamedplus
 
   " Searching
     set wrapscan            " Wrap searches
@@ -207,22 +226,17 @@
 
 " UI Customizations ----------------------------- {{{
 
-  " Make it obvious where 80 characters is
-  " cheatsheet https://jonasjacek.github.io/colors/
-  "highlight ColorColumn ctermbg=236 guibg=#303030
-  "let &colorcolumn=join(range(80,999),',')
-  
   " Hightlight the characters on column 81
     highlight ColorColumn guibg=magenta
     call matchadd('ColorColumn', '\%81v', '100')
 
-" File Browsing --------------------------------
-  let g:netrw_banner=0        " disable annoying banner
-  let g:netrw_browse_split=4  " open in prior window
-  let g:netrw_altv=&spr       " open splits to the right
-  let g:netrw_liststyle=3     " tree view
-  let g:netrw_list_hide=netrw_gitignore#Hide()
-  let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+'
+  " File Browsing --------------------------------
+    let g:netrw_banner=0        " disable annoying banner
+    let g:netrw_browse_split=4  " open in prior window
+    let g:netrw_altv=&spr       " open splits to the right
+    let g:netrw_liststyle=3     " tree view
+    let g:netrw_list_hide=netrw_gitignore#Hide()
+    let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+'
 
 " }}}
 
