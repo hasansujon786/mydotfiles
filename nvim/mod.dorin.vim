@@ -96,8 +96,8 @@
 
   " Launch fzf with CTRL+P.
     nnoremap <silent> <C-p> :History<CR>
-    nnoremap <silent> <C-k><C-p> :FZF -m<CR>
-    nnoremap <silent> <C-k><C-m> :Windows<CR>
+    nnoremap <silent> <leader>p :FZF -m<CR>
+    nnoremap <silent> <leader>m :Windows<CR>
 
     let g:fzf_layout = { 'window': '8new' }
     " let g:fzf_action = {
@@ -243,13 +243,22 @@
 
 " Key Mappings ---------------------------------- {{{
 
+  " Map q & jk to Esc key
+    nnoremap <silent> q <ESC>:noh<CR>
+    vnoremap <silent> q <ESC>
+  " Insert mode
+    inoremap jk <ESC>
+    inoremap qq <ESC>
+    cnoremap qq <C-c>
+
+  " Press Q to record a macro
+    nnoremap Q q
+
   " j/k will move virtual lines (lines that wrap)
   " Seamlessly treat visual lines as actual lines when moving around.
   " Always move between wrapped lines
     noremap <silent> <expr> j (v:count == 0 ? 'gj' : 'j')
     noremap <silent> <expr> k (v:count == 0 ? 'gk' : 'k')
-    inoremap <Down> <C-o>gj
-    inoremap <Up> <C-o>gk
 
   " Prevent x from overriding what's in the clipboard.
     noremap x "_x
@@ -263,16 +272,6 @@
 
   " Make vaa select the entire file...
     xmap aa VGo1G
-
-  " Disable q key from mapping
-    nnoremap q <nop>
-  " map qq & jk to Esc key
-    nnoremap qq <ESC>
-    vnoremap q <ESC>
-    cnoremap qq <C-c>
-  " Insert mode
-    inoremap qq <ESC>
-    inoremap jk <ESC>
 
   " Silently open a shell in the directory of the current file
     if has("win32") || has("win64")
@@ -330,10 +329,10 @@
     nnoremap <leader>k <C-w>k
     nnoremap <leader>l <C-w>l
   " Navigate around splits with a single key combo.
-    nnoremap <A-l> <C-w><C-l>
-    nnoremap <A-h> <C-w><C-h>
-    nnoremap <A-k> <C-w><C-k>
-    nnoremap <A-j> <C-w><C-j>
+    nnoremap <C-l> <C-w><C-l>
+    nnoremap <C-h> <C-w><C-h>
+    nnoremap <C-k> <C-w><C-k>
+    nnoremap <C-j> <C-w><C-j>
 
   " zoom a vim pane, <C-w> = to re-balance
     nnoremap <silent> ,, :wincmd _<cr>:wincmd \|<cr>
@@ -369,9 +368,6 @@
     vnoremap * "xy/<C-R>x<CR>
 
     cnoremap *** %s/\<\>//ge<Left><Left><Left><Left><Left><Left>
-
-  " Clear search highlighting
-    nmap <silent> <C-l> :noh<CR>
 
   " interactive find replace preview
     set inccommand=nosplit
@@ -534,9 +530,6 @@
     inoremap <F1> <ESC>
     nnoremap <F1> <ESC>
     vnoremap <F1> <ESC>
-
-  " Disable Ex mode
-    nnoremap Q <nop>
 
 " }}}
 
