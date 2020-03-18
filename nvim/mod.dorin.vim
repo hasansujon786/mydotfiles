@@ -1,15 +1,15 @@
-"  ███▄    █ ▓█████  ▒█████   ██▒   █▓ ██▓ ███▄ ▄███▓
-"  ██ ▀█   █ ▓█   ▀ ▒██▒  ██▒▓██░   █▒▓██▒▓██▒▀█▀ ██▒
-" ▓██  ▀█ ██▒▒███   ▒██░  ██▒ ▓██  █▒░▒██▒▓██    ▓██░
-" ▓██▒  ▐▌██▒▒▓█  ▄ ▒██   ██░  ▒██ █░░░██░▒██    ▒██
-" ▒██░   ▓██░░▒████▒░ ████▓▒░   ▒▀█░  ░██░▒██▒   ░██▒
-" ░ ▒░   ▒ ▒ ░░ ▒░ ░░ ▒░▒░▒░    ░ ▐░  ░▓  ░ ▒░   ░  ░
-" ░ ░░   ░ ▒░ ░ ░  ░  ░ ▒ ▒░    ░ ░░   ▒ ░░  ░      ░
-"    ░   ░ ░    ░   ░ ░ ░ ▒       ░░   ▒ ░░      ░
-"          ░    ░  ░    ░ ░        ░   ░         ░
 "
-"         - Hasan's NeoVim Configuration -
-
+"   ███▄    █ ▓█████  ▒█████   ██▒   █▓ ██▓ ███▄ ▄███▓
+"   ██ ▀█   █ ▓█   ▀ ▒██▒  ██▒▓██░   █▒▓██▒▓██▒▀█▀ ██▒
+"  ▓██  ▀█ ██▒▒███   ▒██░  ██▒ ▓██  █▒░▒██▒▓██    ▓██░
+"  ▓██▒  ▐▌██▒▒▓█  ▄ ▒██   ██░  ▒██ █░░░██░▒██    ▒██
+"  ▒██░   ▓██░░▒████▒░ ████▓▒░   ▒▀█░  ░██░▒██▒   ░██▒
+"  ░ ▒░   ▒ ▒ ░░ ▒░ ░░ ▒░▒░▒░    ░ ▐░  ░▓  ░ ▒░   ░  ░
+"  ░ ░░   ░ ▒░ ░ ░  ░  ░ ▒ ▒░    ░ ░░   ▒ ░░  ░      ░
+"     ░   ░ ░    ░   ░ ░ ░ ▒       ░░   ▒ ░░      ░
+"           ░    ░  ░    ░ ░        ░   ░         ░
+"  Author: Hasan Mahmud
+"  Repo  : https://github.com/hasansujon786/mydotfiles/
 
 " Environment ----------------------------------- {{{
 
@@ -64,6 +64,7 @@
     Plug 'whatyouhide/vim-gotham'
     Plug 'rakr/vim-one'
     Plug 'junegunn/goyo.vim'
+    Plug 'itchyny/lightline.vim'
     "Plug 'ryanoasis/vim-devicons'
     "Plug 'rafi/awesome-vim-colorschemes'
     "Plug 'dragvisuals.vim'
@@ -127,6 +128,32 @@
     " " Open nerd tree at the current file or close nerd tree if pressed again.
     " nnoremap <silent> <expr> <Leader>n g:NERDTree.IsOpen() ? "\:NERDTreeClose<CR>" : bufexists(expand('%')) ? "\:NERDTreeFind<CR>" : "\:NERDTree<CR>"
 
+  " itchyny/lightline.vim --------------------------
+    let g:lightline = {
+      \ 'colorscheme': 'one',
+      \ 'active': {
+      \   'left': [[ 'mode', 'paste' ],
+      \            [ 'gitbranch','readonly', 'filename', 'modified', ]],
+      \
+      \   'right':  [[ 'lineinfo' ],
+      \              [ 'percent'  ],
+      \              [ 'filetype' ]]
+      \ },
+      \ 'component_function': {
+      \   'gitbranch': 'LightlineFugitive'
+      \ },
+      \ }
+
+    function! LightlineFugitive()
+      if exists('*FugitiveHead')
+        let branch = FugitiveHead()
+        return branch !=# '' ? branch : ''
+        " return branch !=# '' ? '# '.branch : ''
+      endif
+      return ''
+    endfunction
+    " let s:p.tabline.left   = [ [ s:gray1, s:bg ] ]
+    " let s:p.tabline.tabsel = [ [ s:fg, s:gray3, 'bold' ] ]
 " }}}
 
 
@@ -153,7 +180,7 @@
   set fillchars=""      " Remove characters in window split
   set encoding=utf-8    " Default encoding
   set showmode          " Persistent notice of current mode
-  " set noshowmode        " don't show mode as airline already does
+  set noshowmode        " don't show mode as airline already does
   set nomodeline
   set modelines=0
   set ttimeoutlen=0
