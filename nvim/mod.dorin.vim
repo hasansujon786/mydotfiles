@@ -192,10 +192,10 @@
   " set clipboard+=unnamedplus
 
   " Guicursor Setting
-  set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50
-        \,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor
-        \,sm:block-blinkwait175-blinkoff150-blinkon175
-  
+    set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50
+      \,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor
+      \,sm:block-blinkwait175-blinkoff150-blinkon175
+
   " Ignore the following globs in file completions
     set wildignore+=*.o,*.obj,*.pyc,*.so,*.swp,*.zip,*.jpg,*.gif,*.png,*.pdf
     set wildignore+=.git,.hg,.svn,DS_STORE,bower_components,node_modules
@@ -442,6 +442,10 @@
   " Auto complete file path
     inoremap <c-f> <c-x><c-f>
 
+  " Autocomplete with tab
+    inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+    inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
   " last typed word to lower case
     " inoremap <C-w>u <esc>guawA
   " last typed word to UPPER CASE
@@ -541,6 +545,14 @@
     "   endfor
     "   copen
     " endfunction
+
+  " PlaceholderImgTag
+    function! s:PlaceholderImgTag(size)
+      let url = 'http://dummyimage.com/' . a:size . '/000000/555555'
+      let [width,height] = split(a:size, 'x')
+      execute "normal a<img src=\"".url."\" width=\"".width."\" height=\"".height."\" />"
+    endfunction
+    command! -nargs=1 PlaceholderImgTag call s:PlaceholderImgTag(<f-args>)
 
 " }}}
 
@@ -665,7 +677,6 @@
 " }}}
 
 
-
 " Auto commands --------------------------------- {{{
   augroup vimrcEx
     autocmd!
@@ -724,14 +735,43 @@
 
 " Section name ---------------------------------- {{{
 " }}}
-"if !empty(glob("~/mydotfiles/nvim/init.vim"))
-"source ~/mydotfiles/nvim/init.vim
-"echo 'Welcom to Neovim'
-"endif
+" if !empty(glob("~/mydotfiles/nvim/init.vim"))
+"   source ~/mydotfiles/nvim/init.vim
+"   echo 'Welcom to Neovim'
+" endif
 echo "Welcome to Neovim"
 
 
 " Temporary ------------------------------------- {{{
+
+" " javascript {{{
+"   Plug 'nvim-typescript'
+"   Plug 'othree/yajs.vim'
+"   Plug 'mxw/vim-jsx'
+"   Plug 'heavenshell/vim-jsdoc'
+"   Plug 'elzr/vim-json'
+"   Plug 'HerringtonDarkholme/yats.vim'
+"   Plug 'Quramy/vison'
+"   Plug 'jxnblk/vim-mdx-js'
+"   Plug 'meain/vim-package-info', {'build': 'npm install'}
+"   Plug 'yardnsm/vim-import-cost', {'build': 'npm install'}
+" " }}}
+" " html {{{
+"   Plug 'othree/html5.vim'
+"   Plug 'mattn/emmet-vim'
+"   Plug 'valloric/MatchTagAlways', {'on_ft': 'html'}
+"   Plug 'posva/vim-vue'
+"   Plug 'skwp/vim-html-escape'
+"   Plug 'kana/vim-textobj-user'
+"   Plug 'whatyouhide/vim-textobj-xmlattr'
+"   Plug 'pedrohdz/vim-yaml-folds'
+" " }}}
+" " css {{{
+"   Plug 'hail2u/vim-css3-syntax'
+"   Plug 'ap/vim-css-color'
+"   Plug 'norcalli/nvim-colorizer.lua'
+"   Plug 'ncm2/ncm2-cssomni'
+" " }}}
 
   "set foldmethod=manual " set folds by syntax of current language
   "set foldcolumn=2      " display gutter markings for folds
