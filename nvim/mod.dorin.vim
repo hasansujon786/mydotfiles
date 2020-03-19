@@ -39,7 +39,6 @@
 
 " }}}
 
-
 " General settings ------------------------------ {{{
 
   scriptencoding utf-16      " allow emojis in vimrc
@@ -53,7 +52,6 @@
 
 " }}}
 
-
 " Plugin Settings ------------------------------- {{{
 
   " Specify a directory for plugins
@@ -65,18 +63,15 @@
     Plug 'rakr/vim-one'
     Plug 'junegunn/goyo.vim'
     Plug 'itchyny/lightline.vim'
+    Plug 'Yggdroot/indentLine'
     "Plug 'ryanoasis/vim-devicons'
     "Plug 'rafi/awesome-vim-colorschemes'
-    "Plug 'dragvisuals.vim'
-    "Plug 'vis.vim'
-    "Plug 'vmath.vim'
 
   " Functionality --------------------------------
     Plug 'michaeljsmith/vim-indent-object'
     Plug 'tpope/vim-commentary'
     Plug 'tpope/vim-surround'
     Plug 'jiangmiao/auto-pairs'
-    Plug 'Yggdroot/indentLine'
     Plug 'tpope/vim-fugitive'
     Plug 'airblade/vim-gitgutter'
     Plug 'junegunn/fzf', { 'do': './install --bin' }
@@ -84,9 +79,12 @@
     Plug 'terryma/vim-multiple-cursors'
     " Helpers for moving and manipulating files / directories.
     Plug 'tpope/vim-eunuch'
+    Plug 'christoomey/vim-tmux-navigator'
     " Plug 'alvan/vim-closetag'
     " Plug 'sheerun/vim-polyglot'     " Full lang support
-    " Plug 'kien/ctrlp.vim'
+    " Plug 'dragvisuals.vim'
+    " Plug 'vis.vim'
+    " Plug 'vmath.vim'
 
 
 
@@ -155,7 +153,6 @@
     " let s:p.tabline.left   = [ [ s:gray1, s:bg ] ]
     " let s:p.tabline.tabsel = [ [ s:fg, s:gray3, 'bold' ] ]
 " }}}
-
 
 " Behavior Modification ------------------------- {{{
 
@@ -250,7 +247,6 @@
 
 " }}}
 
-
 " UI Customizations ----------------------------- {{{
 
   " Hightlight the characters on column 81
@@ -266,7 +262,6 @@
     let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+'
 
 " }}}
-
 
 " Key Mappings ---------------------------------- {{{
 
@@ -316,57 +311,42 @@
     imap <C-s> <ESC>:GitGutter<CR>:write<CR>a
 
   " UTC date
-    nmap <leader>date a<C-R>=strftime("%d-%m-%Y")<CR>
-    "imap <leader>t <C-R>=strftime("%Y-%m-%d")<CR>
+    " nmap <leader>date a<C-R>=strftime("%d-%m-%Y")<CR>
+    " imap <leader>t <C-R>=strftime("%Y-%m-%d")<CR>
 
 
 " Organize files & folders -----------------------
 
-  " TODO: learn this shortcuts
-
   " Open a file relative to the current file
-  " See: http://vimcasts.org/episodes/the-edit-command/
-    cnoremap %% <C-R>=expand('%:h').'/'<cr>
-    cnoremap ++ <C-R>=expand("%:p:h") . "/"<CR>
-  " Synonyms: {e: edit, where: {w: window, s: split, v: vertical split, t: tab}}
-    map <leader>ew :e %%
-    map <leader>es :sp %%
-    map <leader>ev :vsp %%
-    map <leader>et :tabe %%
+    cnoremap ++ <C-R>=expand('%:h').'/'<cr>
+  " Synonyms: e: edit, 
+  " e: window,
+  " s: split,
+  " v: vertical split,
+  " t: tab,
+  " d: directory
+    map <leader>ee :e ++
+    map <leader>es :sp ++
+    map <leader>ev :vsp ++
+    map <leader>et :tabe ++
+    map <leader>ed :Mkdir ++
+    map <Leader>er :Move <C-R>=expand("%")<CR> 
+
+  " change dir to current file's dir
+    map <leader>cd :cd %:p:h<CR>:pwd<CR>
 
   " Find & open file on current window
     "map <C-p> :tabfind *
-
-  " Create a directory relative to the current file
-    nnoremap <leader>d :!mkdir -p %%
-  " rename current file
-    nnoremap <Leader>rn :Move <C-R>=expand("%")<CR>
-  " change dir to current file's dir
-    nnoremap <leader>cd :cd %:p:h<CR>:pwd<CR>
-
 
 " Window control --------------------------------
 
   " Prefix window control with space w
     map <leader>w <C-w>
 
-  " Move between splits with leader+[hjkl]
-    nnoremap <leader>h <C-w>h
-    nnoremap <leader>j <C-w>j
-    nnoremap <leader>k <C-w>k
-    nnoremap <leader>l <C-w>l
-  " Navigate around splits with a single key combo.
-    nnoremap <C-l> <C-w><C-l>
-    nnoremap <C-h> <C-w><C-h>
-    nnoremap <C-k> <C-w><C-k>
-    nnoremap <C-j> <C-w><C-j>
-
   " zoom a vim pane, <C-w> = to re-balance
     nnoremap <silent> ,, :wincmd _<cr>:wincmd \|<cr>
     nnoremap <silent> ,. :wincmd =<cr>
 
-  " Cycle through splits.
-    nnoremap <S-Tab> <C-w>w
   " Switch between the last two files
     nnoremap <tab><tab> <c-^>
 
@@ -381,8 +361,8 @@
     vnoremap <S-Tab> <gv
 
   " Move lines up and down in normal & visual mode
-    " nmap <silent> <A-k> :move -2<CR>==
-    " nmap <silent> <A-j> :move +1<CR>==
+    nmap <silent> <A-k> :move -2<CR>==
+    nmap <silent> <A-j> :move +1<CR>==
     xnoremap <silent> <A-j> :move '>+1<CR>gv=gv
     xnoremap <silent> <A-k> :move '<-2<CR>gv=gv
 
@@ -460,7 +440,6 @@
     " inoremap <C-g>t <esc>:s/\v<(.)(\w*)/\u\1\L\2/g<cr>:noh<cr>A
 
 " }}}
-
 
 " Comma commands ------------------------------- {{{
 
@@ -556,7 +535,6 @@
 
 " }}}
 
-
 " Disabled keys --------------------------------- {{{
 
   " disable arrow keys in normal mode
@@ -571,7 +549,6 @@
     vnoremap <F1> <ESC>
 
 " }}}
-
 
 " Fold, gets it's own section ------------------- {{{
 
@@ -625,7 +602,6 @@
 
 " }}}
 
-
 " Nvim terminal --------------------------------- {{{
 
   " TODO:
@@ -662,20 +638,18 @@
     "nnoremap <silent> <leader><space> :vertical botright Ttoggle<cr><C-w>l
     "
   " Navigate neovim + neovim terminal emulator with alt+direction
-    tnoremap <silent><C-h> <C-\><C-n><C-w>h
-    tnoremap <silent><C-j> <C-\><C-n><C-w>j
-    tnoremap <silent><C-k> <C-\><C-n><C-w>k
-    tnoremap <silent><C-l> <C-\><C-n><C-w>l
+    " tnoremap <silent><C-h> <C-\><C-n><C-w>h
+    " tnoremap <silent><C-j> <C-\><C-n><C-w>j
+    " tnoremap <silent><C-k> <C-\><C-n><C-w>k
+    " tnoremap <silent><C-l> <C-\><C-n><C-w>l
 
 " }}}
-
 
 " Abbreviations --------------------------------- {{{
 
   iab vsbst Nvim is best
 
 " }}}
-
 
 " Auto commands --------------------------------- {{{
   augroup vimrcEx
@@ -732,17 +706,13 @@
 
 " }}}
 
+" Temporary ------------------------------------- {{{
 
-" Section name ---------------------------------- {{{
-" }}}
 " if !empty(glob("~/mydotfiles/nvim/init.vim"))
 "   source ~/mydotfiles/nvim/init.vim
 "   echo 'Welcom to Neovim'
 " endif
 echo "Welcome to Neovim"
-
-
-" Temporary ------------------------------------- {{{
 
 " " javascript {{{
 "   Plug 'nvim-typescript'
@@ -822,4 +792,6 @@ echo "Welcome to Neovim"
 
 " }}}
 
+" Section name ---------------------------------- {{{
+" }}}
 
