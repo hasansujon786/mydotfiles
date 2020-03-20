@@ -37,6 +37,7 @@ alias tmux="env TERM=xterm-256color tmux"
 # handy short cuts #
 alias bashrc="vim ~/mydotfiles/bash/.bashrc"
 alias x='exit'
+alias c='clear'
 alias ..='cd ..'
 alias h='history'
 alias o='explorer'
