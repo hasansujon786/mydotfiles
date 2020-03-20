@@ -56,11 +56,11 @@ install_and_setup_nvim() {
     rm -rf ~/.config
   fi
 
-  echo 'Creating .config/nivm/init.vim.'
-  mkdir ~/.config/nivm -p
-  mkdir ~/.config/nivm/tmp -p
-  touch ~/.config/nivm/init.vim
-  printf 'if !empty(glob("~/mydotfiles/nvim/init.vim"))\n  source ~/mydotfiles/nvim/mod.dorin.vim\n  echo "Welcom to Neovim" \nendif' >> ~/.config/nivm/init.vim
+  echo 'Creating .config/nvim/init.vim.'
+  mkdir ~/.config/nvim -p
+  mkdir ~/.config/nvim/tmp -p
+  touch ~/.config/nvim/init.vim
+  printf 'if !empty(glob("~/mydotfiles/nvim/init.vim"))\n  source ~/mydotfiles/nvim/mod.dorin.vim\n  echo "Welcom to Neovim" \nendif' >> ~/.config/nvim/init.vim
 
   echo 'Installing vim-plug.'
   curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
