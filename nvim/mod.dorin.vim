@@ -712,7 +712,6 @@
 "   source ~/mydotfiles/nvim/init.vim
 "   echo 'Welcom to Neovim'
 " endif
-echo "Welcome to Neovim"
 
 " " javascript {{{
 "   Plug 'nvim-typescript'
