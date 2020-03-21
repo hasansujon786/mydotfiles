@@ -31,8 +31,8 @@ alias nd='npm run dev'
 alias vim=nvim
 
 # Tmux
-alias tm="env TERM=xterm-256color tmux"
-alias tmux="env TERM=xterm-256color tmux"
+alias tm="tmux new -s pasta"
+# alias tmux="env TERM=xterm-256color tmux"
 
 # handy short cuts #
 alias bashrc="vim ~/mydotfiles/bash/.bashrc"
