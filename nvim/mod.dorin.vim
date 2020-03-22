@@ -87,6 +87,8 @@
     " Plug 'vmath.vim'
 
 
+    Plug 'junegunn/gv.vim'
+    Plug 'mhinz/vim-startify'
 
   call plug#end()
 
@@ -97,6 +99,8 @@
     nnoremap <silent> <C-p> :History<CR>
     nnoremap <silent> <leader>p :FZF -m<CR>
     nnoremap <silent> <leader>m :Windows<CR>
+  " open FZF in current file's directory
+    nnoremap <silent> <Leader>_ :Files <C-R>=expand('%:h')<CR><CR>
 
     let g:fzf_layout = { 'window': '8new' }
     " let g:fzf_action = {
@@ -108,6 +112,13 @@
     " \   + filter(copy(filter(v:oldfiles, "-1 != stridx(v:val, $PWD)")), "filereadable(fnamemodify(v:val, ':p'))"),
     " let $FZF_DEFAULT_OPTS = '--bind ctrl-a:select-all'
 
+    " let $FZF_DEFAULT_COMMAND = 'fd --type f --hidden --follow --color=always -E .git --ignore-file ~/.gitignore'
+    " let g:fzf_files_options = '--preview "(bat --color \"always\" --line-range 0:100 {} || head -'.&lines.' {})"'
+    " let $FZF_DEFAULT_OPTS='--ansi --layout=reverse'
+    " imap <c-x><c-k> <plug>(fzf-complete-word)
+    " imap <c-x><c-f> <plug>(fzf-complete-path)
+    " imap <c-x><c-j> <plug>(fzf-complete-file-ag)
+    " imap <c-x><c-l> <plug>(fzf-complete-line)
 
   " indentLine -----------------------------------
 
@@ -152,7 +163,41 @@
     endfunction
     " let s:p.tabline.left   = [ [ s:gray1, s:bg ] ]
     " let s:p.tabline.tabsel = [ [ s:fg, s:gray3, 'bold' ] ]
-" }}}
+
+  " ----------------------------------------------------------------------------
+  " Startify
+  " ----------------------------------------------------------------------------
+    let g:startify_files_number = 5
+
+  " ----------------------------------------------------------------------------
+  " goyo.vim
+  " ----------------------------------------------------------------------------
+
+    let g:background_before_goyo = &background
+
+    function! s:goyo_enter()
+      let g:background_before_goyo = &background
+      if has('gui_running')
+        set linespace=7
+      elseif exists('$TMUX')
+        silent !tmux set status off
+      endif
+    endfunction
+
+    function! s:goyo_leave()
+      if has('gui_running')
+        set linespace=0
+      elseif exists('$TMUX')
+        silent !tmux set status on
+      endif
+      execute 'set background=' . g:background_before_goyo
+    endfunction
+
+    augroup GOYO
+      autocmd! User GoyoEnter nested call <SID>goyo_enter()
+      autocmd! User GoyoLeave nested call <SID>goyo_leave()
+    augroup END
+  " }}}
 
 " Behavior Modification ------------------------- {{{
 
@@ -465,11 +510,19 @@
   " Toggle highlighting of current line and column
     nnoremap <silent> ,c :setlocal cursorcolumn!<CR>
 
-  " Toggle relative line numbers and regular line numbers.
-    nmap <silent> <F6> :set invrelativenumber<CR>
+  " re-indent file and jump back to where the cursor was
+    map <F6> mzgg=G`z
 
   " Toggle spelling and show it's status
     nmap <F7> :setlocal spell! spell?<CR>
+
+  " Toggle relative line numbers and regular line numbers.
+    nmap <silent> <F8> :set invrelativenumber<CR>
+
+  " Pasting support
+    set pastetoggle=<F2>  " Press F2 in insert mode to preserve tabs when
+                          " pasting from clipboard into terminal
+
 
   " toggle background light / dark
     nnoremap <silent> <F10> :call ToggleBackground()<CR>
@@ -638,10 +691,10 @@
     "nnoremap <silent> <leader><space> :vertical botright Ttoggle<cr><C-w>l
     "
   " Navigate neovim + neovim terminal emulator with alt+direction
-    " tnoremap <silent><C-h> <C-\><C-n><C-w>h
-    " tnoremap <silent><C-j> <C-\><C-n><C-w>j
-    " tnoremap <silent><C-k> <C-\><C-n><C-w>k
-    " tnoremap <silent><C-l> <C-\><C-n><C-w>l
+    tnoremap <silent><C-h> <C-\><C-n><C-w>h
+    tnoremap <silent><C-j> <C-\><C-n><C-w>j
+    tnoremap <silent><C-k> <C-\><C-n><C-w>k
+    tnoremap <silent><C-l> <C-\><C-n><C-w>l
 
 " }}}
 
