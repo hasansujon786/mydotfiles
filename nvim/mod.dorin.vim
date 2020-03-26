@@ -81,7 +81,7 @@
     Plug 'tpope/vim-eunuch'
     Plug 'christoomey/vim-tmux-navigator'
     " Plug 'alvan/vim-closetag'
-    " Plug 'sheerun/vim-polyglot'     " Full lang support
+    Plug 'sheerun/vim-polyglot'     " Full lang support
     " Plug 'dragvisuals.vim'
     " Plug 'vis.vim'
     " Plug 'vmath.vim'
@@ -128,7 +128,9 @@
     let g:indentLine_color_gui = '#444444'
 
   " auto-pairs -----------------------------------
-    let g:AutoPairsShortcutToggle = ',p'
+    " let g:AutoPairsShortcutToggle = ',p'
+    let g:AutoPairsShortcutJump = '<tab>'
+
 
   " scrooloose/nerdtree --------------------------
     " let g:NERDTreeShowHidden=1
@@ -351,9 +353,9 @@
     nmap <leader>vis :source $MYVIMRC<CR>
 
   " Save file Quickly
-    nmap <C-s> :GitGutter<CR>:write<CR>
-    vmap <C-s> :GitGutter<CR>:write<CR>
-    imap <C-s> <ESC>:GitGutter<CR>:write<CR>a
+    nnoremap <C-s> :GitGutter<CR>:write<CR>
+    inoremap <C-s> <ESC>:GitGutter<CR>:write<CR>a
+    nnoremap <leader>s :GitGutter<CR>:write<CR>
 
   " UTC date
     " nmap <leader>date a<C-R>=strftime("%d-%m-%Y")<CR>
@@ -489,7 +491,8 @@
 " Comma commands ------------------------------- {{{
 
   " Compile & Run C code
-    nnoremap ,bb :!gcc % -o .lastbuild && ./.lastbuild<cr>
+    nnoremap ,bb :w<CR>:!gcc % -o .lastbuild && ./.lastbuild<cr>
+    nnoremap ,bl :w<CR>:!./.lastbuild<cr>
 
   " Index ctags from any project, including those outside Rails
     nnoremap ,tag :!ctags -R .<CR>
@@ -666,16 +669,13 @@
 
   " Terminal mappings -------------------------------
 
-    nmap <leader>s <C-w>s<C-w>j:terminal<CR>
-    nmap <leader>vs <C-w>v<C-w>l:terminal<CR>
-
     tmap <Esc> <C-\><C-n>
     tmap <C-w> <Esc><C-w>
     tmap <C-d> <Esc>:q<CR>
 
   " Open terminal
     nmap <leader>ts <C-w>s<C-w>j:terminal<CR>
-    nmap <leader>vs <C-w>v<C-w>l:terminal<CR>
+    nmap <leader>tv <C-w>v<C-w>l:terminal<CR>
 
   " easily escape terminal
     tnoremap <leader><esc> <C-\><C-n><esc><cr>
