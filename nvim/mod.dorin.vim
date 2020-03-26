@@ -90,6 +90,9 @@
     Plug 'junegunn/gv.vim'
     Plug 'mhinz/vim-startify'
 
+    Plug 'preservim/nerdtree'
+    Plug 'Xuyuanp/nerdtree-git-plugin'
+
   call plug#end()
 
 
@@ -133,11 +136,29 @@
 
 
   " scrooloose/nerdtree --------------------------
-    " let g:NERDTreeShowHidden=1
-    " let g:NERDTreeAutoDeleteBuffer=1
+    let g:NERDTreeShowHidden=1
+    let g:NERDTreeAutoDeleteBuffer=1
+    let g:NERDTreeIgnore = ['^node_modules$','^.git$']
 
-    " " Open nerd tree at the current file or close nerd tree if pressed again.
-    " nnoremap <silent> <expr> <Leader>n g:NERDTree.IsOpen() ? "\:NERDTreeClose<CR>" : bufexists(expand('%')) ? "\:NERDTreeFind<CR>" : "\:NERDTree<CR>"
+    let NERDTreeQuitOnOpen = 1
+    let NERDTreeMinimalUI = 1
+    " let NERDTreeMinimalMenu=1
+    " Open nerd tree at the current file or close nerd tree if pressed again.
+    nnoremap <silent> <expr> <Leader>n g:NERDTree.IsOpen() ? "\:NERDTreeClose<CR>" : bufexists(expand('%')) ? "\:NERDTreeFind<CR>" : "\:NERDTree<CR>"
+    nnoremap <silent> <C-b> :NERDTreeFind<CR>
+
+    let g:NERDTreeIndicatorMapCustom = {
+        \ "Modified"  : "✹",
+        \ "Staged"    : "✚",
+        \ "Untracked" : "✭",
+        \ "Renamed"   : "➜",
+        \ "Unmerged"  : "═",
+        \ "Deleted"   : "✖",
+        \ "Dirty"     : "✗",
+        \ "Clean"     : "✔︎",
+        \ 'Ignored'   : '☒',
+        \ "Unknown"   : "?"
+        \ }
 
   " itchyny/lightline.vim --------------------------
     let g:lightline = {
