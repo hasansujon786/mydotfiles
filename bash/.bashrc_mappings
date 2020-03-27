@@ -1,0 +1,49 @@
+# Yarn  & npm 
+alias ys='yarn start'
+alias yd='yarn dev'
+alias yul='yarn upgrade-interactive --latest'
+alias ns='npm start'
+alias nd='npm run dev'
+
+# Vim
+alias vim=nvim
+
+# Tmux
+alias tm="tmux new -s pasta"
+# alias tmux="env TERM=xterm-256color tmux"
+
+# handy short cuts #
+alias bashrc="vim ~/mydotfiles/bash/.bashrc"
+alias x='exit'
+alias c='clear'
+alias ..='cd ..'
+alias h='history'
+alias o='explorer'
+alias open='explorer'
+
+# kill port
+alias fipid='netstat -ano | findstr'
+alias kipid='taskkill /PID'
+
+## Colorize the ls output ##
+alias ls='ls --color=auto'
+alias lsa='ls -a'
+## Use a long listing format ##
+alias ll='ls -la'
+## Show hidden files ##
+alias l.='ls -d .* --color=auto'
+
+# handy date shortcuts #
+alias now='date +"%T"'
+alias nowdate='date +"%d-%m-%Y"'
+
+## Colorize the grep command output for ease of use (good for log files)##
+alias grep='grep --color=auto'
+alias egrep='egrep --color=auto'
+alias fgrep='fgrep --color=auto'
+
+if test -n "$ZSH_VERSION"; then
+  bindkey '^o' clear-screen
+else
+  bind '\C-o:clear-screen'
+fi
