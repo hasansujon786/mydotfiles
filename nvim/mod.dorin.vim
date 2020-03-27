@@ -145,7 +145,7 @@
     " let NERDTreeMinimalMenu=1
     " Open nerd tree at the current file or close nerd tree if pressed again.
     nnoremap <silent> <expr> <Leader>n g:NERDTree.IsOpen() ? "\:NERDTreeClose<CR>" : bufexists(expand('%')) ? "\:NERDTreeFind<CR>" : "\:NERDTree<CR>"
-    nnoremap <silent> <C-b> :NERDTreeFind<CR>
+    nnoremap <silent> <expr> <Leader>0 g:NERDTree.IsOpen() ? "\:NERDTreeClose<CR>" : bufexists(expand('%')) ? "\:NERDTreeFind<CR>" : "\:NERDTree<CR>"
 
     let g:NERDTreeIndicatorMapCustom = {
         \ "Modified"  : "✹",
