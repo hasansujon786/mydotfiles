@@ -1,0 +1,3 @@
+https://www.darkwiki.in/how-to-customize-termux-make-termux-terminal-look-awesome-ancii-color-font-style/
+
+sh -c "$(curl -fsSL https://github.com/Cabbagec/termux-ohmyzsh/raw/master/install.sh)"
