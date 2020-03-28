@@ -59,6 +59,9 @@ install_and_setup_nvim() {
   echo 'Creating .config/nvim/init.vim.'
   mkdir ~/.config/nvim -p
   mkdir ~/.config/nvim/tmp -p
+  mkdir ~/.config/nvim/tmp/backup -p
+  mkdir ~/.config/nvim/tmp/swap -p
+  mkdir ~/.config/nvim/tmp/undo -p
   touch ~/.config/nvim/init.vim
   printf 'if !empty(glob("~/mydotfiles/nvim/init.vim"))\n  source ~/mydotfiles/nvim/mod.dorin.vim\n  echo "Welcom to Neovim" \nendif' >> ~/.config/nvim/init.vim
 
