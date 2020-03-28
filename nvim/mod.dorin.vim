@@ -32,11 +32,6 @@
       source ~/.vimrc.local
     endif
 
-    if !has('nvim')             " does not work on neovim
-      set cryptmethod=blowfish2 " set encryption to use blowfish2 (vim -x file.txt)
-      set emoji                 " treat emojis 😄  as full width characters
-    endif
-
 " }}}
 
 " General settings ------------------------------ {{{
@@ -45,6 +40,12 @@
   set nocompatible           " forget about vi and set it first as it modifies future behaviour
   syntax on                  " syntax highlighting
   filetype plugin indent on  " try to recognize filetypes and load rel' plugins
+
+  if !has('nvim')             " does not work on neovim
+    set cryptmethod=blowfish2 " set encryption to use blowfish2 (vim -x file.txt)
+    set emoji                 " treat emojis 😄  as full width characters
+  endif
+
 
   " Map leader (the dedicated user-mapping prefix key) to space
     let mapleader="\<Space>"
@@ -55,49 +56,56 @@
 " Plugin Settings ------------------------------- {{{
 
   " Specify a directory for plugins
-  " - For Neovim: stdpath('data') . '/plugged'
+  " For Neovim: stdpath('data') . '/plugged'
   call plug#begin('~/.config/nvim/plugged')
 
-  " Visual ---------------------------------------
-    Plug 'whatyouhide/vim-gotham'
-    Plug 'rakr/vim-one'
-    Plug 'junegunn/goyo.vim'
+  " Visual & Theme ---------------------------------------
     Plug 'itchyny/lightline.vim'
     Plug 'Yggdroot/indentLine'
-    "Plug 'ryanoasis/vim-devicons'
-    "Plug 'rafi/awesome-vim-colorschemes'
+    Plug 'junegunn/goyo.vim'
+    Plug 'rakr/vim-one'
 
-  " Functionality --------------------------------
+    " Plug 'rafi/awesome-vim-colorschemes'
+    " Plug 'whatyouhide/vim-gotham'
+    " Plug 'ryanoasis/vim-devicons'
+
+  " Functionality & Helpers --------------------------------
     Plug 'michaeljsmith/vim-indent-object'
-    Plug 'tpope/vim-commentary'
-    Plug 'tpope/vim-surround'
-    Plug 'jiangmiao/auto-pairs'
-    Plug 'tpope/vim-fugitive'
-    Plug 'airblade/vim-gitgutter'
-    Plug 'junegunn/fzf', { 'do': './install --bin' }
-    Plug 'junegunn/fzf.vim'
     Plug 'terryma/vim-multiple-cursors'
-    " Helpers for moving and manipulating files / directories.
-    Plug 'tpope/vim-eunuch'
+    Plug 'tpope/vim-commentary'
+    Plug 'jiangmiao/auto-pairs'
+    Plug 'tpope/vim-surround'
+    Plug 'tpope/vim-eunuch'   "for moving and manipulating files / directories.
+
+  " Intrigration --------------------------------
     Plug 'christoomey/vim-tmux-navigator'
-    " Plug 'alvan/vim-closetag'
-    Plug 'sheerun/vim-polyglot'     " Full lang support
-    " Plug 'dragvisuals.vim'
-    " Plug 'vis.vim'
-    " Plug 'vmath.vim'
-
-
-    Plug 'junegunn/gv.vim'
     Plug 'mhinz/vim-startify'
 
-    Plug 'preservim/nerdtree'
+    Plug 'junegunn/fzf', { 'do': './install --bin' }
+    Plug 'junegunn/fzf.vim'
+
     Plug 'Xuyuanp/nerdtree-git-plugin'
+    Plug 'preservim/nerdtree'
+
+  " Syntax --------------------------------
+    Plug 'sheerun/vim-polyglot'     " Full lang support
+
+  " Git ------------------------------------------
+    Plug 'airblade/vim-gitgutter'
+    Plug 'tpope/vim-fugitive'
+    Plug 'junegunn/gv.vim'
+
+  " Not listed ------------------------------------------
+    " Plug 'alvan/vim-closetag'
+    " Plug 'dragvisuals.vim'
+    " Plug 'vmath.vim'
+    " Plug 'vis.vim'
 
   call plug#end()
 
-
-  " fzf ------------------------------------------
-
+  " ----------------------------------------------------------------------------
+  " junegunn/fzf
+  " ----------------------------------------------------------------------------
   " Launch fzf with CTRL+P.
     nnoremap <silent> <C-p> :History<CR>
     nnoremap <silent> <leader>p :FZF -m<CR>
@@ -123,44 +131,54 @@
     " imap <c-x><c-j> <plug>(fzf-complete-file-ag)
     " imap <c-x><c-l> <plug>(fzf-complete-line)
 
-  " indentLine -----------------------------------
-
+  " ----------------------------------------------------------------------------
+  " Yggdroot/indentLine
+  " ----------------------------------------------------------------------------
     " let g:indentLine_char_list = ['|', '¦', '┆', '┊']
     " let g:indentLine_color_gui = '#363949'
-    let g:indentLine_char = '▏'
     let g:indentLine_color_gui = '#444444'
+    let g:indentLine_char = '▏'
 
-  " auto-pairs -----------------------------------
-    " let g:AutoPairsShortcutToggle = ',p'
+  " ----------------------------------------------------------------------------
+  " jiangmiao/auto-pairs
+  " ----------------------------------------------------------------------------
     let g:AutoPairsShortcutJump = '<tab>'
+    " let g:AutoPairsShortcutToggle = ',p'
 
-
-  " scrooloose/nerdtree --------------------------
-    let g:NERDTreeShowHidden=1
-    let g:NERDTreeAutoDeleteBuffer=1
+  " ----------------------------------------------------------------------------
+  " scrooloose/nerdtree
+  " ----------------------------------------------------------------------------
     let g:NERDTreeIgnore = ['^node_modules$','^.git$']
+    let g:NERDTreeAutoDeleteBuffer=1
+    let g:NERDTreeShowHidden=1
 
     let NERDTreeQuitOnOpen = 1
     let NERDTreeMinimalUI = 1
     " let NERDTreeMinimalMenu=1
-    " Open nerd tree at the current file or close nerd tree if pressed again.
+
+  " Open nerd tree at the current file or close nerd tree if pressed again.
     nnoremap <silent> <expr> <Leader>n g:NERDTree.IsOpen() ? "\:NERDTreeClose<CR>" : bufexists(expand('%')) ? "\:NERDTreeFind<CR>" : "\:NERDTree<CR>"
     nnoremap <silent> <expr> <Leader>0 g:NERDTree.IsOpen() ? "\:NERDTreeClose<CR>" : bufexists(expand('%')) ? "\:NERDTreeFind<CR>" : "\:NERDTree<CR>"
 
-    let g:NERDTreeIndicatorMapCustom = {
-        \ "Modified"  : "✹",
-        \ "Staged"    : "✚",
-        \ "Untracked" : "✭",
-        \ "Renamed"   : "➜",
-        \ "Unmerged"  : "═",
-        \ "Deleted"   : "✖",
-        \ "Dirty"     : "✗",
-        \ "Clean"     : "✔︎",
-        \ 'Ignored'   : '☒',
-        \ "Unknown"   : "?"
-        \ }
+  " ----------------------------------------------------------------------------
+  " Xuyuanp/nerdtree-git-plugin
+  " ----------------------------------------------------------------------------
+    " let g:NERDTreeIndicatorMapCustom = {
+    "     \ "Modified"  : "✹",
+    "     \ "Staged"    : "✚",
+    "     \ "Untracked" : "✭",
+    "     \ "Renamed"   : "➜",
+    "     \ "Unmerged"  : "═",
+    "     \ "Deleted"   : "✖",
+    "     \ "Dirty"     : "✗",
+    "     \ "Clean"     : "✔︎",
+    "     \ 'Ignored'   : '☒',
+    "     \ "Unknown"   : "?"
+    "     \ }
 
-  " itchyny/lightline.vim --------------------------
+  " ----------------------------------------------------------------------------
+  " itchyny/lightline.vim
+  " ----------------------------------------------------------------------------
     let g:lightline = {
       \ 'colorscheme': 'one',
       \ 'active': {
@@ -175,6 +193,8 @@
       \   'gitbranch': 'LightlineFugitive'
       \ },
       \ }
+    " let s:p.tabline.left   = [ [ s:gray1, s:bg ] ]
+    " let s:p.tabline.tabsel = [ [ s:fg, s:gray3, 'bold' ] ]
 
     function! LightlineFugitive()
       if exists('*FugitiveHead')
@@ -184,8 +204,6 @@
       endif
       return ''
     endfunction
-    " let s:p.tabline.left   = [ [ s:gray1, s:bg ] ]
-    " let s:p.tabline.tabsel = [ [ s:fg, s:gray3, 'bold' ] ]
 
   " ----------------------------------------------------------------------------
   " Startify
@@ -195,7 +213,6 @@
   " ----------------------------------------------------------------------------
   " goyo.vim
   " ----------------------------------------------------------------------------
-
     let g:background_before_goyo = &background
 
     function! s:goyo_enter()
@@ -220,7 +237,8 @@
       autocmd! User GoyoEnter nested call <SID>goyo_enter()
       autocmd! User GoyoLeave nested call <SID>goyo_leave()
     augroup END
-  " }}}
+
+" }}}
 
 " Behavior Modification ------------------------- {{{
 
@@ -387,18 +405,14 @@
 
   " Open a file relative to the current file
     cnoremap ++ <C-R>=expand('%:h').'/'<cr>
-  " Synonyms: e: edit, 
-  " e: window,
-  " s: split,
-  " v: vertical split,
-  " t: tab,
-  " d: directory
-    map <leader>ee :e ++
-    map <leader>es :sp ++
-    map <leader>ev :vsp ++
-    map <leader>et :tabe ++
+  " Synonyms: e: edit,
+  " e: window, s: split, v: vertical split, t: tab, d: directory
+    map <Leader>er :Move <C-R>=expand("%")<CR>
     map <leader>ed :Mkdir ++
-    map <Leader>er :Move <C-R>=expand("%")<CR> 
+    map <leader>et :tabe ++
+    map <leader>ev :vsp ++
+    map <leader>es :sp ++
+    map <leader>ee :e ++
 
   " change dir to current file's dir
     map <leader>cd :cd %:p:h<CR>:pwd<CR>
@@ -473,10 +487,10 @@
     vmap gs :sort<CR>
 
   " Open a new tab
-    nmap gh :tabprevious<CR>
-    nmap gl :tabnext<CR>
-    nmap gk :tabfirst<CR>
-    nmap gj :tablast<CR>
+    " nmap <silent> gh :tabprevious<CR>
+    " nmap <silent> gl :tabnext<CR>
+    " nmap <silent> gk :tabfirst<CR>
+    " nmap <silent> gj :tablast<CR>
 
 
 " Insert Mode key mapping -----------------------
@@ -515,24 +529,27 @@
     nnoremap ,bb :w<CR>:!gcc % -o .lastbuild && ./.lastbuild<cr>
     nnoremap ,bl :w<CR>:!./.lastbuild<cr>
 
-  " Index ctags from any project, including those outside Rails
-    nnoremap ,tag :!ctags -R .<CR>
-
   " Prettier:
   " shows the output from prettier - useful for syntax errors
     nnoremap ,bt :!prettier %<CR>
 
-  " Allow j and k to work on visual lines (when wrapping)
-    noremap ,wp :call ToggleWrap()<CR>
-
-  " Trim Whitespaces
-    nnoremap ,tt :call TrimWhitespace()<CR>
-
-  " Toggle number
-    nnoremap <silent> ,nm :set relativenumber! number!<CR>
-
   " Toggle highlighting of current line and column
     nnoremap <silent> ,c :setlocal cursorcolumn!<CR>
+    
+  " Toggle relative line numbers and regular line numbers.
+    nnoremap <silent> ,nn :set invrelativenumber<CR>
+
+  " Trim Whitespaces
+    nnoremap <silent> ,tt :call TrimWhitespace()<CR>
+
+  " Index ctags from any project, including those outside Rails
+    nnoremap ,tag :!ctags -R .<CR>
+
+  " Allow j and k to work on visual lines (when wrapping)
+    noremap <silent> ,wp :call ToggleWrap()<CR>
+
+  " Toggle Goyo
+    nnoremap <silent> ,z :Goyo<CR>
 
   " re-indent file and jump back to where the cursor was
     map <F6> mzgg=G`z
@@ -540,19 +557,13 @@
   " Toggle spelling and show it's status
     nmap <F7> :setlocal spell! spell?<CR>
 
-  " Toggle relative line numbers and regular line numbers.
-    nmap <silent> <F8> :set invrelativenumber<CR>
-
   " Pasting support
-    set pastetoggle=<F2>  " Press F2 in insert mode to preserve tabs when
+    set pastetoggle=<F3>  " Press F3 in insert mode to preserve tabs when
                           " pasting from clipboard into terminal
 
 
   " toggle background light / dark
     nnoremap <silent> <F10> :call ToggleBackground()<CR>
-
-  " Toggle Goyo
-    nmap <silent> ,z :Goyo<CR>
 
   " Functions ------------------------------------
 
@@ -564,6 +575,7 @@
         silent! nunmap <buffer> j
         silent! nunmap <buffer> k
       else
+        " TODO: fix jk mapping while wrap toggle 
         echo 'Wrap ON'
         setlocal wrap linebreak nolist
         set virtualedit=
@@ -589,20 +601,7 @@
         call winrestview(l:save)
     endfunction
 
-  " Toggle quickfix window.
-    " nnoremap <silent> <Leader>qf :call QuickFix_toggle()<CR>
-    " function! QuickFix_toggle()
-    "   for i in range(1, winnr('$'))
-    "     let bnum = winbufnr(i)
-    "     if getbufvar(bnum, '&buftype') == 'quickfix'
-    "       cclose
-    "       return
-    "     endif
-    "   endfor
-    "   copen
-    " endfunction
-
-  " PlaceholderImgTag
+  " PlaceholderImgTag 300x200
     function! s:PlaceholderImgTag(size)
       let url = 'http://dummyimage.com/' . a:size . '/000000/555555'
       let [width,height] = split(a:size, 'x')
