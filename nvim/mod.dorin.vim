@@ -14,13 +14,13 @@
 " Environment ----------------------------------- {{{
 
   " set where swap file and undo/backup files are saved
-    set backupdir=~/.config/nvim/tmp,.
-    set directory=~/.config/nvim/tmp,.
+    set backupdir=~/.config/nvim/tmp/backup,.
+    set directory=~/.config/nvim/tmp/swap,.
 
   " persistent undo between file reloads
     if has('persistent_undo')
       set undofile
-      set undodir=~/.config/nvim/tmp,.
+      set undodir=~/.config/nvim/tmp/undo,.
       " set undolevels=5000   " Save a lot of back-history...
     endif
 
@@ -56,7 +56,7 @@
 
   " Specify a directory for plugins
   " - For Neovim: stdpath('data') . '/plugged'
-  call plug#begin('~/.vim/plugged')
+  call plug#begin('~/.config/nvim/plugged')
 
   " Visual ---------------------------------------
     Plug 'whatyouhide/vim-gotham'
