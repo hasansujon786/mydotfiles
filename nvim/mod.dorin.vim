@@ -142,7 +142,7 @@
   " ----------------------------------------------------------------------------
   " jiangmiao/auto-pairs
   " ----------------------------------------------------------------------------
-    let g:AutoPairsShortcutJump = '<tab>'
+    let g:AutoPairsShortcutJump = '<s-tab>'
     " let g:AutoPairsShortcutToggle = ',p'
 
   " ----------------------------------------------------------------------------
@@ -501,6 +501,12 @@
     inoremap <A-l> <Right>
     inoremap <A-h> <Left>
 
+  " Delete previous word
+    inoremap <A-BS> <c-w>
+
+  " Make a new line under the cursor
+    inoremap <silent> <A-CR> <Esc>mqA<CR><Esc>`qa
+
   " Auto complete file path
     inoremap <c-f> <c-x><c-f>
 
@@ -535,7 +541,7 @@
 
   " Toggle highlighting of current line and column
     nnoremap <silent> ,c :setlocal cursorcolumn!<CR>
-    
+
   " Toggle relative line numbers and regular line numbers.
     nnoremap <silent> ,nn :set invrelativenumber<CR>
 
@@ -575,7 +581,7 @@
         silent! nunmap <buffer> j
         silent! nunmap <buffer> k
       else
-        " TODO: fix jk mapping while wrap toggle 
+        " TODO: fix jk mapping while wrap toggle
         echo 'Wrap ON'
         setlocal wrap linebreak nolist
         set virtualedit=
