@@ -72,6 +72,7 @@
   " Functionality & Helpers --------------------------------
     Plug 'michaeljsmith/vim-indent-object'
     Plug 'terryma/vim-multiple-cursors'
+    Plug 'unblevable/quick-scope'
     Plug 'tpope/vim-commentary'
     Plug 'jiangmiao/auto-pairs'
     Plug 'tpope/vim-surround'
@@ -142,7 +143,7 @@
   " ----------------------------------------------------------------------------
   " jiangmiao/auto-pairs
   " ----------------------------------------------------------------------------
-    let g:AutoPairsShortcutJump = '<s-tab>'
+    let g:AutoPairsShortcutJump = '<S-tab>'
     " let g:AutoPairsShortcutToggle = ',p'
 
   " ----------------------------------------------------------------------------
@@ -236,6 +237,27 @@
     augroup GOYO
       autocmd! User GoyoEnter nested call <SID>goyo_enter()
       autocmd! User GoyoLeave nested call <SID>goyo_leave()
+    augroup END
+
+  " ----------------------------------------------------------------------------
+  " christoomey/vim-tmux-navigator
+  " ----------------------------------------------------------------------------
+    " let g:tmux_navigator_no_mappings = 1
+    " nnoremap <silent> <A-h> :TmuxNavigateLeft<cr>
+    " nnoremap <silent> <A-j> :TmuxNavigateDown<cr>
+    " nnoremap <silent> <A-k> :TmuxNavigateUp<cr>
+    " nnoremap <silent> <A-l> :TmuxNavigateRight<cr>
+    " nnoremap <silent> <A-\> :TmuxNavigatePrevious<cr>
+
+  " ----------------------------------------------------------------------------
+  " unblevable/quick-scope
+  " ----------------------------------------------------------------------------
+    let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
+    " let qs_max_chars=80
+    augroup qs_colors
+      autocmd!
+      autocmd ColorScheme * highlight QuickScopePrimary guifg='tomato' gui=underline ctermfg=155 cterm=underline
+      autocmd ColorScheme * highlight QuickScopeSecondary guifg='#d78787' gui=underline ctermfg=81 cterm=underline
     augroup END
 
 " }}}
@@ -404,15 +426,15 @@
 " Organize files & folders -----------------------
 
   " Open a file relative to the current file
-    cnoremap ++ <C-R>=expand('%:h').'/'<cr>
+    cnoremap +++ <C-R>=expand('%:h').'/'<cr>
   " Synonyms: e: edit,
   " e: window, s: split, v: vertical split, t: tab, d: directory
     map <Leader>er :Move <C-R>=expand("%")<CR>
-    map <leader>ed :Mkdir ++
-    map <leader>et :tabe ++
-    map <leader>ev :vsp ++
-    map <leader>es :sp ++
-    map <leader>ee :e ++
+    map <leader>ed :Mkdir +++
+    map <leader>et :tabe +++
+    map <leader>ev :vsp +++
+    map <leader>es :sp +++
+    map <leader>ee :e +++
 
   " change dir to current file's dir
     map <leader>cd :cd %:p:h<CR>:pwd<CR>
