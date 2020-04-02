@@ -6,7 +6,9 @@ alias ns='npm start'
 alias nd='npm run dev'
 
 # Vim
+alias v.='nvim .'
 alias vim=nvim
+alias v=nvim
 
 # Tmux
 alias tm="tmux new -s pasta"
