@@ -1,4 +1,4 @@
-# Yarn  & npm 
+# Yarn  & npm
 alias ys='yarn start'
 alias yd='yarn dev'
 alias yul='yarn upgrade-interactive --latest'
@@ -44,8 +44,8 @@ alias grep='grep --color=auto'
 alias egrep='egrep --color=auto'
 alias fgrep='fgrep --color=auto'
 
-if test -n "$ZSH_VERSION"; then
-  bindkey '^o' clear-screen
-else
-  bind '\C-o:clear-screen'
-fi
+# if test -n "$ZSH_VERSION"; then
+#   bindkey '^o' clear-screen
+# else
+#   bind '\C-o:clear-screen'
+# fi
