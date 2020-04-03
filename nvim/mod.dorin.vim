@@ -143,7 +143,7 @@
   " ----------------------------------------------------------------------------
   " jiangmiao/auto-pairs
   " ----------------------------------------------------------------------------
-    let g:AutoPairsShortcutJump = '<S-tab>'
+    let g:AutoPairsShortcutJump = '<tab>'
     " let g:AutoPairsShortcutToggle = ',p'
 
   " ----------------------------------------------------------------------------
@@ -293,6 +293,7 @@
   set cursorline
   set nolazyredraw      " don't redraw while executing macros
   set backspace=indent,eol,start
+  set updatetime=100
   " set clipboard=unnamed
   " set clipboard+=unnamedplus
 
@@ -445,7 +446,9 @@
 " Window control --------------------------------
 
   " Prefix window control with space w
-    map <leader>w <C-w>
+    nnoremap <leader>w <C-w>
+    nnoremap <silent> + :vertical resize +5<CR>
+    nnoremap <silent> - :vertical resize -5<CR>
 
   " zoom a vim pane, <C-w> = to re-balance
     nnoremap <silent> ,, :wincmd _<cr>:wincmd \|<cr>
@@ -628,6 +631,7 @@
         %s/\\\@<!\s\+$//e
         call winrestview(l:save)
     endfunction
+    autocmd BufWritePre * :call TrimWhitespace()
 
   " PlaceholderImgTag 300x200
     function! s:PlaceholderImgTag(size)
@@ -883,7 +887,7 @@
   "nnoremap gY gg"+yG
 
   " Insert cut marks...
-  nmap -- A<CR><CR><CR><ESC>k6i-----cut-----<ESC><CR>
+  " nmap -- A<CR><CR><CR><ESC>k6i-----cut-----<ESC><CR>
 
   " Automatically fix the last misspelled word and jump back to where you were.
   "   Taken from this talk: https://www.youtube.com/watch?v=lwD8G1P52Sk
