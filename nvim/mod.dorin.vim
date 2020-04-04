@@ -79,7 +79,7 @@
     Plug 'tpope/vim-eunuch'   "for moving and manipulating files / directories.
 
   " Intrigration --------------------------------
-    " Plug 'christoomey/vim-tmux-navigator'
+    Plug 'christoomey/vim-tmux-navigator'
     Plug 'mhinz/vim-startify'
 
     Plug 'junegunn/fzf', { 'do': './install --bin' }
@@ -242,6 +242,13 @@
   " ----------------------------------------------------------------------------
   " christoomey/vim-tmux-navigator
   " ----------------------------------------------------------------------------
+    " let g:tmux_navigator_no_mappings = 1
+    " nnoremap <silent> <A-h> :TmuxNavigateLeft<cr>
+    " nnoremap <silent> <A-j> :TmuxNavigateDown<cr>
+    " nnoremap <silent> <A-k> :TmuxNavigateUp<cr>
+    " nnoremap <silent> <A-l> :TmuxNavigateRight<cr>
+    " nnoremap <silent> <A-\> :TmuxNavigatePrevious<cr>
+    nnoremap <silent> <S-tab> :TmuxNavigatePrevious<cr>
 
   " ----------------------------------------------------------------------------
   " unblevable/quick-scope
