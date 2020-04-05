@@ -102,9 +102,6 @@ Plug 'itchyny/lightline.vim'
 Plug 'Yggdroot/indentLine'
 Plug 'junegunn/goyo.vim'
 Plug 'rakr/vim-one'
-Plug 'frazrepo/vim-rainbow'
-Plug 'vim-scripts/taglist.vim'
-Plug 'vim-scripts/YankRing.vim'
 
 " Plug 'rafi/awesome-vim-colorschemes'
 " Plug 'whatyouhide/vim-gotham'
@@ -115,6 +112,7 @@ Plug 'vim-scripts/YankRing.vim'
 " ======================================
 Plug 'michaeljsmith/vim-indent-object'
 Plug 'terryma/vim-multiple-cursors'
+Plug 'vim-scripts/YankRing.vim'
 Plug 'unblevable/quick-scope'
 Plug 'tpope/vim-commentary'
 Plug 'jiangmiao/auto-pairs'
@@ -137,6 +135,7 @@ Plug 'preservim/nerdtree'
 " => Syntax
 " ======================================
 Plug 'sheerun/vim-polyglot'     " Full lang support
+Plug 'ap/vim-css-color'
 
 " ======================================
 " => Git
@@ -148,6 +147,7 @@ Plug 'junegunn/gv.vim'
 " ======================================
 " => Not-listed
 " ======================================
+" Plug 'terryma/vim-expand-region'
 " Plug 'alvan/vim-closetag'
 " Plug 'dragvisuals.vim'
 " Plug 'vmath.vim'
@@ -247,6 +247,7 @@ let g:lightline = {
       \ }
 " let s:p.tabline.left   = [ [ s:gray1, s:bg ] ]
 " let s:p.tabline.tabsel = [ [ s:fg, s:gray3, 'bold' ] ]
+" nmap <leader>le :e ~/.config/nvim/plugged/lightline.vim/autoload/lightline/colorscheme/one.vim
 
 function! LightlineFugitive()
   if exists('*FugitiveHead')
@@ -311,6 +312,13 @@ augroup qs_colors
   autocmd ColorScheme * highlight QuickScopePrimary guifg='tomato' gui=underline ctermfg=155 cterm=underline
   autocmd ColorScheme * highlight QuickScopeSecondary guifg='#d78787' gui=underline ctermfg=81 cterm=underline
 augroup END
+
+" ======================================
+" => vim-scripts/YankRing.vim
+" ======================================
+nnoremap <silent> <leader>yy :YRShow<CR>
+let g:yankring_replace_n_pkey = '<m-p>'
+let g:yankring_replace_n_nkey = '<m-n>'
 
 " }}}
 
@@ -541,15 +549,10 @@ vmap y ygv<Esc>
 " Make vaa select the entire file...
 xmap aa VGo1G
 
-" Silently open a shell in the directory of the current file
-if has("win32") || has("win64")
-  map ,s :silent !start cmd /k cd %:p:h <CR>
-endif
-
 " Open vimrc in a new tab & source
 nmap <leader>vid :tabedit $MYVIMRC<CR>
 nmap <leader>vim :tabedit ~/mydotfiles/nvim/init.vim<CR>
-map <leader>vis :source $MYVIMRC<CR>
+nmap <leader>vis :source $MYVIMRC<CR>
 " Fast editing and reloading of vimrc configs
 " map <leader>e :e! ~/.vim_runtime/my_configs.vim<cr>
 " autocmd! bufwritepost ~/.vim_runtime/my_configs.vim source ~/.vim_runtime/my_configs.vim
@@ -559,25 +562,20 @@ nnoremap <C-s> :GitGutter<CR>:write<CR>
 inoremap <C-s> <ESC>:GitGutter<CR>:write<CR>a
 nnoremap <leader>s :GitGutter<CR>:write<CR>
 
-" UTC date
-" nmap <leader>date a<C-R>=strftime("%d-%m-%Y")<CR>
-" imap <leader>t <C-R>=strftime("%Y-%m-%d")<CR>
-
-
 " ======================================
 " => Organize-files-&-folders
 " ======================================
 
 " Open a file relative to the current file
-cnoremap +++ <C-R>=expand('%:h').'/'<cr>
+cnoremap $e <C-R>=expand('%:h').'/'<cr>
 " Synonyms: e: edit,
 " e: window, s: split, v: vertical split, t: tab, d: directory
 map <Leader>er :Move <C-R>=expand("%")<CR>
-map <leader>ed :Mkdir +++
-map <leader>et :tabe +++
-map <leader>ev :vsp +++
-map <leader>es :sp +++
-map <leader>ee :e +++
+map <leader>ed :Mkdir $e
+map <leader>et :tabe $e
+map <leader>ev :vsp $e
+map <leader>es :sp $e
+map <leader>ee :e $e
 
 " change dir to current file's dir
 map <leader>cd :cd %:p:h<CR>:pwd<CR>
@@ -601,17 +599,13 @@ nnoremap <silent> ,. :wincmd =<cr>
 " Switch between the last two files
 nnoremap <tab><tab> <c-^>
 
-" " Close the current buffer
+" " " Close the current buffer
 " map <leader>bd :Bclose<cr>:tabclose<cr>gT
-
-" " Close all the buffers
+" " " Close all the buffers
 " map <leader>ba :bufdo bd<cr>
-
 " map <leader>l :bnext<cr>
 " map <leader>h :bprevious<cr>
-
 " map <leader>tm :tabmove
-" " Let 'tl' toggle between this and the last accessed tab
 " let g:lasttab = 1
 " nmap <Leader>tl :exe "tabn ".g:lasttab<CR>
 " au TabLeave * let g:lasttab = tabpagenr()
@@ -763,6 +757,11 @@ noremap <silent> ,wp :call ToggleWrap()<CR>
 " Toggle Goyo
 nnoremap <silent> ,z :Goyo<CR>
 
+" Silently open a shell in the directory of the current file
+if has("win32") || has("win64")
+  map ,s :silent !start cmd /k cd %:p:h <CR>
+endif
+
 " ======================================
 " => Function-key-mappings
 " ======================================
@@ -890,6 +889,9 @@ tnoremap <silent><C-l> <C-\><C-n><C-w>l
 
 iab vsbst Nvim is best
 iab xdate <C-r>=strftime("%d/%m/%y %H:%M:%S")<cr>
+" UTC date
+" nmap <leader>date a<C-R>=strftime("%d-%m-%Y")<CR>
+" imap <leader>t <C-R>=strftime("%Y-%m-%d")<CR>
 
 " }}}
 
