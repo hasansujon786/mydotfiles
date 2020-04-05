@@ -490,7 +490,7 @@ call matchadd('ColorColumn', '\%81v', '100')
 
 " }}}
 
-" => Spell-checking --------------------------------- {{{
+" => Spell-checking -------------------------------- {{{
 
 " Set spellfile to location that is guaranteed to exist
 set spellfile=~/.config/nvim/spell/en.utf-8.add
