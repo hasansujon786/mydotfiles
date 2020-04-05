@@ -20,23 +20,21 @@
 "  -> Colors-and-Fonts
 "  -> Files-and-backups
 "  -> Text-Tab-and-Indent
-"  -> Key-Mappings
-"  -> Visual-mode-related
-"  -> Moving-around-tabs-and-buffers
-"  -> Status-line
-"  -> Editing-mappings
-"  -> vimgrep-searching-and-cope-displaying
 "  -> Spell-checking
-"  -> Misc
+"  -> Key-Mappings
+"  -> Disabled-keys
+"  -> Fold-related
+"  -> Nvim-terminal
+"  -> Abbreviations
+"  -> Auto-commands
 "  -> Helper-functions
+"  -> Temporary
+"  -> Misc
 "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 
 " => Environment ----------------------------------- {{{
-
-" Set spellfile to location that is guaranteed to exist
-set spellfile=~/.config/nvim/spell/en.utf-8.add
 
 " Local config
 if filereadable($HOME . '/.vimrc.local')
@@ -57,14 +55,6 @@ au FocusGained,BufEnter * checktime
 
 " Automatically :write before running commands
 set autowrite
-
-" Map leader (the dedicated user-mapping prefix key) to space
-let mapleader="\<Space>"
-let maplocalleader = "\<Space>"
-
-" :W sudo saves the file
-" (useful for handling the permission-denied error)
-command! W execute 'w !sudo tee % > /dev/null' <bar> edit!
 
 " Some general settings
 set magic             " For regular expressions turn magic on
@@ -89,6 +79,14 @@ if has('mouse')
   set mouse=a           " enable mouse (selection, resizing windows)
 endif
 
+" Map leader (the dedicated user-mapping prefix key) to space
+let mapleader="\<Space>"
+let maplocalleader = "\<Space>"
+
+" :W sudo saves the file
+" (useful for handling the permission-denied error)
+command! W execute 'w !sudo tee % > /dev/null' <bar> edit!
+
 " }}}
 
 " => Plugin-Settings ------------------------------- {{{
@@ -97,7 +95,9 @@ endif
 " For Neovim: stdpath('data') . '/plugged'
 call plug#begin('~/.config/nvim/plugged')
 
-" Visual & Theme ---------------------------------------
+" ======================================
+" => Visual-&-Theme
+" ======================================
 Plug 'itchyny/lightline.vim'
 Plug 'Yggdroot/indentLine'
 Plug 'junegunn/goyo.vim'
@@ -110,7 +110,9 @@ Plug 'vim-scripts/YankRing.vim'
 " Plug 'whatyouhide/vim-gotham'
 " Plug 'ryanoasis/vim-devicons'
 
-" Functionality & Helpers --------------------------------
+" ======================================
+" => Functionality-&-Helpers
+" ======================================
 Plug 'michaeljsmith/vim-indent-object'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'unblevable/quick-scope'
@@ -119,7 +121,9 @@ Plug 'jiangmiao/auto-pairs'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-eunuch'   "for moving and manipulating files / directories.
 
-" Intrigration --------------------------------
+" ======================================
+" => Intrigration
+" ======================================
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'mhinz/vim-startify'
 
@@ -129,15 +133,21 @@ Plug 'junegunn/fzf.vim'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'preservim/nerdtree'
 
-" Syntax --------------------------------
+" ======================================
+" => Syntax
+" ======================================
 Plug 'sheerun/vim-polyglot'     " Full lang support
 
-" Git ------------------------------------------
+" ======================================
+" => Git
+" ======================================
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
 Plug 'junegunn/gv.vim'
 
-" Not listed ------------------------------------------
+" ======================================
+" => Not-listed
+" ======================================
 " Plug 'alvan/vim-closetag'
 " Plug 'dragvisuals.vim'
 " Plug 'vmath.vim'
@@ -145,9 +155,9 @@ Plug 'junegunn/gv.vim'
 
 call plug#end()
 
-" ----------------------------------------------------------------------------
-" junegunn/fzf
-" ----------------------------------------------------------------------------
+" ======================================
+" => junegunn/fzf
+" ======================================
 " Launch fzf with CTRL+P.
 nnoremap <silent> <C-p> :History<CR>
 nnoremap <silent> <leader>p :FZF -m<CR>
@@ -173,23 +183,23 @@ let g:fzf_layout = { 'window': '8new' }
 " imap <c-x><c-j> <plug>(fzf-complete-file-ag)
 " imap <c-x><c-l> <plug>(fzf-complete-line)
 
-" ----------------------------------------------------------------------------
-" Yggdroot/indentLine
-" ----------------------------------------------------------------------------
+" ======================================
+" => Yggdroot/indentLine
+" ======================================
 " let g:indentLine_char_list = ['|', '¦', '┆', '┊']
 " let g:indentLine_color_gui = '#363949'
 let g:indentLine_color_gui = '#444444'
 let g:indentLine_char = '▏'
 
-" ----------------------------------------------------------------------------
-" jiangmiao/auto-pairs
-" ----------------------------------------------------------------------------
+" ======================================
+" => jiangmiao/auto-pairs
+" ======================================
 let g:AutoPairsShortcutJump = '<tab>'
 " let g:AutoPairsShortcutToggle = ',p'
 
-" ----------------------------------------------------------------------------
-" scrooloose/nerdtree
-" ----------------------------------------------------------------------------
+" ======================================
+" => scrooloose/nerdtree
+" ======================================
 let g:NERDTreeIgnore = ['^node_modules$','^.git$']
 let g:NERDTreeAutoDeleteBuffer=1
 let g:NERDTreeShowHidden=1
@@ -202,9 +212,9 @@ let NERDTreeMinimalUI = 1
 nnoremap <silent> <expr> <Leader>n g:NERDTree.IsOpen() ? "\:NERDTreeClose<CR>" : bufexists(expand('%')) ? "\:NERDTreeFind<CR>" : "\:NERDTree<CR>"
 nnoremap <silent> <expr> <Leader>0 g:NERDTree.IsOpen() ? "\:NERDTreeClose<CR>" : bufexists(expand('%')) ? "\:NERDTreeFind<CR>" : "\:NERDTree<CR>"
 
-" ----------------------------------------------------------------------------
-" Xuyuanp/nerdtree-git-plugin
-" ----------------------------------------------------------------------------
+" ======================================
+" => Xuyuanp/nerdtree-git-plugin
+" ======================================
 " let g:NERDTreeIndicatorMapCustom = {
 "     \ "Modified"  : "✹",
 "     \ "Staged"    : "✚",
@@ -218,9 +228,9 @@ nnoremap <silent> <expr> <Leader>0 g:NERDTree.IsOpen() ? "\:NERDTreeClose<CR>" :
 "     \ "Unknown"   : "?"
 "     \ }
 
-" ----------------------------------------------------------------------------
-" itchyny/lightline.vim
-" ----------------------------------------------------------------------------
+" ======================================
+" => itchyny/lightline.vim
+" ======================================
 let g:lightline = {
       \ 'colorscheme': 'one',
       \ 'active': {
@@ -247,14 +257,14 @@ function! LightlineFugitive()
   return ''
 endfunction
 
-" ----------------------------------------------------------------------------
-" Startify
-" ----------------------------------------------------------------------------
+" ======================================
+" => Startify
+" ======================================
 let g:startify_files_number = 5
 
-" ----------------------------------------------------------------------------
-" goyo.vim
-" ----------------------------------------------------------------------------
+" ======================================
+" => goyo.vim
+" ======================================
 let g:background_before_goyo = &background
 
 function! s:goyo_enter()
@@ -280,9 +290,9 @@ augroup GOYO
   autocmd! User GoyoLeave nested call <SID>goyo_leave()
 augroup END
 
-" ----------------------------------------------------------------------------
-" christoomey/vim-tmux-navigator
-" ----------------------------------------------------------------------------
+" ======================================
+" => christoomey/vim-tmux-navigator
+" ======================================
 " let g:tmux_navigator_no_mappings = 1
 " nnoremap <silent> <A-h> :TmuxNavigateLeft<cr>
 " nnoremap <silent> <A-j> :TmuxNavigateDown<cr>
@@ -291,9 +301,9 @@ augroup END
 " nnoremap <silent> <A-\> :TmuxNavigatePrevious<cr>
 nnoremap <silent> <S-tab> :TmuxNavigatePrevious<cr>
 
-" ----------------------------------------------------------------------------
-" unblevable/quick-scope
-" ----------------------------------------------------------------------------
+" ======================================
+" => unblevable/quick-scope
+" ======================================
 let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 " let qs_max_chars=80
 augroup qs_colors
@@ -367,6 +377,12 @@ set number
 set numberwidth=1
 set relativenumber
 
+" Specify the behavior when switching between buffers
+try
+  set switchbuf=useopen,usetab,newtab
+  set showtabline=2
+catch
+endtry
 
 " }}}
 
@@ -429,9 +445,9 @@ set noswapfile
 
 " persistent undo between file reloads
 if has('persistent_undo')
-  set undofile
-  set undodir=~/.config/nvim/tmp/undo,.
   " set undolevels=5000   " Save a lot of back-history...
+  set undodir=~/.config/nvim/tmp/undo,.
+  set undofile
 endif
 
 " File Browsing ----------------------------------
@@ -444,7 +460,7 @@ let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+'
 
 " }}}
 
-" => Text-Tab-and-Indent ------------------- {{{
+" => Text-Tab-and-Indent --------------------------- {{{
 
 " Tabbing
 set tabstop=2           " The number of spaces a tab is
@@ -465,10 +481,31 @@ set nowrap                          " nowrap by default
 set listchars=tab:»·,trail:·,nbsp:· " Display extra whitespace
 set list                            " show invisible characters
 set matchpairs+=<:>,«:»,｢:｣         " Match angle brackets...
+set ai "Auto indent
+set si "Smart indent
 
 " Hightlight the characters on column 81
 highlight ColorColumn guibg=magenta
 call matchadd('ColorColumn', '\%81v', '100')
+
+" }}}
+
+" => Spell-checking --------------------------------- {{{
+
+" Set spellfile to location that is guaranteed to exist
+set spellfile=~/.config/nvim/spell/en.utf-8.add
+
+" Pressing ,ss will toggle and untoggle spell checking
+map <leader>ss :setlocal spell!<cr>
+" Toggle spelling and show it's status
+nmap <F7> :setlocal spell! spell?<CR>
+
+" Short cut using <leader>
+map <leader>sn ]s
+map <leader>sp [s
+map <leader>sa zg
+map <leader>s? z=
+map <leader>se :e ~/.config/nvim/spell/en.utf-8.add
 
 " }}}
 
@@ -512,7 +549,10 @@ endif
 " Open vimrc in a new tab & source
 nmap <leader>vid :tabedit $MYVIMRC<CR>
 nmap <leader>vim :tabedit ~/mydotfiles/nvim/init.vim<CR>
-nmap <leader>vis :source $MYVIMRC<CR>
+map <leader>vis :source $MYVIMRC<CR>
+" Fast editing and reloading of vimrc configs
+" map <leader>e :e! ~/.vim_runtime/my_configs.vim<cr>
+" autocmd! bufwritepost ~/.vim_runtime/my_configs.vim source ~/.vim_runtime/my_configs.vim
 
 " Save file Quickly
 nnoremap <C-s> :GitGutter<CR>:write<CR>
@@ -524,7 +564,9 @@ nnoremap <leader>s :GitGutter<CR>:write<CR>
 " imap <leader>t <C-R>=strftime("%Y-%m-%d")<CR>
 
 
-" Organize files & folders -----------------------
+" ======================================
+" => Organize-files-&-folders
+" ======================================
 
 " Open a file relative to the current file
 cnoremap +++ <C-R>=expand('%:h').'/'<cr>
@@ -543,7 +585,9 @@ map <leader>cd :cd %:p:h<CR>:pwd<CR>
 " Find & open file on current window
 "map <C-p> :tabfind *
 
-" Window control --------------------------------
+" ======================================
+" => Moving-around-tabs-and-buffers
+" ======================================
 
 " Prefix window control with space w
 nnoremap <leader>w <C-w>
@@ -557,8 +601,24 @@ nnoremap <silent> ,. :wincmd =<cr>
 " Switch between the last two files
 nnoremap <tab><tab> <c-^>
 
+" " Close the current buffer
+" map <leader>bd :Bclose<cr>:tabclose<cr>gT
 
-" Modify & Rearrange texts -----------------------
+" " Close all the buffers
+" map <leader>ba :bufdo bd<cr>
+
+" map <leader>l :bnext<cr>
+" map <leader>h :bprevious<cr>
+
+" map <leader>tm :tabmove
+" " Let 'tl' toggle between this and the last accessed tab
+" let g:lasttab = 1
+" nmap <Leader>tl :exe "tabn ".g:lasttab<CR>
+" au TabLeave * let g:lasttab = tabpagenr()
+
+" ======================================
+" => Modify-&-Rearrange-texts
+" ======================================
 
 " Keep selection when indenting/outdenting.
 vnoremap > >gv
@@ -574,12 +634,16 @@ xnoremap <silent> <A-j> :move '>+1<CR>gv=gv
 xnoremap <silent> <A-k> :move '<-2<CR>gv=gv
 
 
-" Search functionalities -------------------------
+" ======================================
+" => Search-functionalities
+" ======================================
 
 "TODO: Learn this shortcuts
 
-" Search for selected text
-vnoremap * "xy/<C-R>x<CR>
+" Visual mode pressing * or # searches for the current selection
+vnoremap <silent> * :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
+vnoremap <silent> # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
+" vnoremap * "xy/<C-R>x<CR>
 
 cnoremap *** %s/\<\>//ge<Left><Left><Left><Left><Left><Left>
 
@@ -605,8 +669,9 @@ nnoremap <Leader>rc :%s///gc<Left><Left><Left>
 nnoremap <silent> s* :let @/='\<'.expand('<cword>').'\>'<CR>cgn
 xnoremap <silent> s* "sy:let @/=@s<CR>cgn
 
-
-" Special key 'g' commands ------------------------
+" ======================================
+" => Special-key-'g'-commands
+" ======================================
 
 " sort selected lines
 vmap gs :sort<CR>
@@ -618,7 +683,9 @@ vmap gs :sort<CR>
 " nmap <silent> gj :tablast<CR>
 
 
-" Insert Mode key mapping -----------------------
+" ======================================
+" => Insert-Mode-key-mapping
+" ======================================
 
 " move cursor on insert mode
 inoremap <A-k> <up>
@@ -652,10 +719,24 @@ inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 " Current Line To Title Case
 " inoremap <C-g>t <esc>:s/\v<(.)(\w*)/\u\1\L\2/g<cr>:noh<cr>A
 
-" }}}
+" ======================================
+" => Command-mode-related
+" ======================================
 
-" => Comma commands -------------------------------- {{{
+" Smart mappings on the command line
+cno $h e ~/
+cno $d e ~/Desktop/
+cno $j e ./
+cno $c e <C-\>eCurrentFileDir("e")<cr>
 
+" Bash like keys for the command line
+cnoremap <C-A>		<Home>
+cnoremap <C-E>		<End>
+cnoremap <C-K>		<C-U>
+
+" ======================================
+" => Comma-commands
+" ======================================
 " Compile & Run C code
 nnoremap ,bb :w<CR>:!gcc % -o .lastbuild && ./.lastbuild<cr>
 nnoremap ,bl :w<CR>:!./.lastbuild<cr>
@@ -682,68 +763,23 @@ noremap <silent> ,wp :call ToggleWrap()<CR>
 " Toggle Goyo
 nnoremap <silent> ,z :Goyo<CR>
 
+" ======================================
+" => Function-key-mappings
+" ======================================
+
 " re-indent file and jump back to where the cursor was
 map <F6> mzgg=G`z
-
-" Toggle spelling and show it's status
-nmap <F7> :setlocal spell! spell?<CR>
 
 " Pasting support
 set pastetoggle=<F3>  " Press F3 in insert mode to preserve tabs when
 " pasting from clipboard into terminal
 
-
 " toggle background light / dark
 nnoremap <silent> <F10> :call ToggleBackground()<CR>
 
-" Functions ------------------------------------
-
-function! ToggleWrap()
-  if &wrap
-    echo 'Wrap OFF'
-    setlocal nowrap
-    set virtualedit=all
-    silent! nunmap <buffer> j
-    silent! nunmap <buffer> k
-  else
-    " TODO: fix jk mapping while wrap toggle
-    echo 'Wrap ON'
-    setlocal wrap linebreak nolist
-    set virtualedit=
-    setlocal display+=lastline
-    noremap  <buffer> <silent> k gk
-    noremap  <buffer> <silent> j gj
-    inoremap <buffer> <silent> <Up> <C-o>gk
-    inoremap <buffer> <silent> <Down> <C-o>gj
-  endif
-endfunction
-
-fun! ToggleBackground()
-  if (&background ==? 'dark')
-    set background=light
-  else
-    set background=dark
-  endif
-endfun
-
-function! TrimWhitespace()
-  let l:save = winsaveview()
-  %s/\\\@<!\s\+$//e
-  call winrestview(l:save)
-endfunction
-autocmd BufWritePre * :call TrimWhitespace()
-
-" PlaceholderImgTag 300x200
-function! s:PlaceholderImgTag(size)
-  let url = 'http://dummyimage.com/' . a:size . '/000000/555555'
-  let [width,height] = split(a:size, 'x')
-  execute "normal a<img src=\"".url."\" width=\"".width."\" height=\"".height."\" />"
-endfunction
-command! -nargs=1 PlaceholderImgTag call s:PlaceholderImgTag(<f-args>)
-
 " }}}
 
-" => Disabled keys --------------------------------- {{{
+" => Disabled-keys --------------------------------- {{{
 
 " disable arrow keys in normal mode
 nnoremap <Left> :echoe "Use h"<CR>
@@ -758,7 +794,7 @@ vnoremap <F1> <ESC>
 
 " }}}
 
-" => Fold, gets it's own section ------------------- {{{
+" => Fold-related ---------------------------------- {{{
 
 " Space to toggle folds.
 nnoremap <leader>z za
@@ -810,7 +846,7 @@ set foldtext=MyFoldText()
 
 " }}}
 
-" => Nvim terminal --------------------------------- {{{
+" => Nvim-terminal --------------------------------- {{{
 
 " TODO:
 
@@ -853,10 +889,11 @@ tnoremap <silent><C-l> <C-\><C-n><C-w>l
 " => Abbreviations --------------------------------- {{{
 
 iab vsbst Nvim is best
+iab xdate <C-r>=strftime("%d/%m/%y %H:%M:%S")<cr>
 
 " }}}
 
-" => Auto commands --------------------------------- {{{
+" => Auto-commands --------------------------------- {{{
 augroup vimrcEx
   autocmd!
 
@@ -905,6 +942,95 @@ augroup CursorLine
   au WinLeave * setlocal nocursorline
 augroup END
 
+
+" }}}
+
+" => Helper-functions ------------------------------ {{{
+
+function! ToggleWrap()
+  if &wrap
+    echo 'Wrap OFF'
+    setlocal nowrap
+    set virtualedit=all
+    silent! nunmap <buffer> j
+    silent! nunmap <buffer> k
+  else
+    " TODO: fix jk mapping while wrap toggle
+    echo 'Wrap ON'
+    setlocal wrap linebreak nolist
+    set virtualedit=
+    setlocal display+=lastline
+    noremap  <buffer> <silent> k gk
+    noremap  <buffer> <silent> j gj
+    inoremap <buffer> <silent> <Up> <C-o>gk
+    inoremap <buffer> <silent> <Down> <C-o>gj
+  endif
+endfunction
+
+fun! ToggleBackground()
+  if (&background ==? 'dark')
+    set background=light
+  else
+    set background=dark
+  endif
+endfun
+
+function! TrimWhitespace()
+  let l:save = winsaveview()
+  %s/\\\@<!\s\+$//e
+  call winrestview(l:save)
+endfunction
+autocmd BufWritePre * :call TrimWhitespace()
+
+" PlaceholderImgTag 300x200
+function! s:PlaceholderImgTag(size)
+  let url = 'http://dummyimage.com/' . a:size . '/000000/555555'
+  let [width,height] = split(a:size, 'x')
+  execute "normal a<img src=\"".url."\" width=\"".width."\" height=\"".height."\" />"
+endfunction
+command! -nargs=1 PlaceholderImgTag call s:PlaceholderImgTag(<f-args>)
+
+" Don't close window, when deleting a buffer
+command! Bclose call <SID>BufcloseCloseIt()
+function! <SID>BufcloseCloseIt()
+    let l:currentBufNum = bufnr("%")
+    let l:alternateBufNum = bufnr("#")
+
+    if buflisted(l:alternateBufNum)
+        buffer #
+    else
+        bnext
+    endif
+
+    if bufnr("%") == l:currentBufNum
+        new
+    endif
+
+    if buflisted(l:currentBufNum)
+        execute("bdelete! ".l:currentBufNum)
+    endif
+endfunction
+
+function! CmdLine(str)
+    call feedkeys(":" . a:str)
+endfunction
+
+function! VisualSelection(direction, extra_filter) range
+    let l:saved_reg = @"
+    execute "normal! vgvy"
+
+    let l:pattern = escape(@", "\\/.*'$^~[]")
+    let l:pattern = substitute(l:pattern, "\n$", "", "")
+
+    if a:direction == 'gv'
+        call CmdLine("Ack '" . l:pattern . "' " )
+    elseif a:direction == 'replace'
+        call CmdLine("%s" . '/'. l:pattern . '/')
+    endif
+
+    let @/ = l:pattern
+    let @" = l:saved_reg
+endfunction
 
 " }}}
 
@@ -992,6 +1118,30 @@ augroup END
 
 " }}}
 
+" => Misc ------------------------------------------ {{{
+
+" ======================================
+" => Omni complete functions
+" ======================================
+autocmd FileType css set omnifunc=csscomplete#CompleteCSS
+
+" Remove the Windows ^M - when the encodings gets messed up
+noremap <Leader>m mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
+
+" Quickly open a buffer for scribble
+map <leader>q :e ~/buffer<cr>
+
+" Quickly open a markdown buffer for scribble
+map <leader>x :e ~/buffer.md<cr>
+
+" Toggle paste mode on and off
+map <leader>pp :setlocal paste!<cr>
+
+" }}}
+
 " => Section name ---------------------------------- {{{
 " }}}
 
+" ======================================
+" => Title
+" ======================================
