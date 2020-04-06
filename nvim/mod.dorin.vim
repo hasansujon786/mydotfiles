@@ -61,10 +61,8 @@ set magic             " For regular expressions turn magic on
 set showcmd           " show any commands
 set noshowmode        " don't show mode as airline already does
 set path+=**          " usefull while using find in nested folders
-set spelllang=en_gb   " Speak proper English
-set complete+=kspell  " Autocomplete with dictionary words when spell check is on
 set fillchars=""      " Remove characters in window split
-set showmode          " Persistent notice of current mode
+set fillchars=stlnc:=
 set nomodeline
 set modelines=0
 set ttimeoutlen=0
@@ -81,7 +79,7 @@ endif
 
 " Map leader (the dedicated user-mapping prefix key) to space
 let mapleader="\<Space>"
-let maplocalleader = "\<Space>"
+let maplocalleader="\<Space>"
 
 " :W sudo saves the file
 " (useful for handling the permission-denied error)
@@ -112,8 +110,8 @@ Plug 'rakr/vim-one'
 " ======================================
 Plug 'michaeljsmith/vim-indent-object'
 Plug 'terryma/vim-multiple-cursors'
-Plug 'vim-scripts/YankRing.vim'
 Plug 'unblevable/quick-scope'
+Plug 'vim-scripts/YankRing.vim', { 'on':  'YRShow' }
 Plug 'tpope/vim-commentary'
 Plug 'jiangmiao/auto-pairs'
 Plug 'tpope/vim-surround'
@@ -194,8 +192,9 @@ let g:indentLine_char = '▏'
 " ======================================
 " => jiangmiao/auto-pairs
 " ======================================
-let g:AutoPairsShortcutJump = '<tab>'
-" let g:AutoPairsShortcutToggle = ',p'
+let g:AutoPairsShortcutJump = '<F4>'
+let g:AutoPairsShortcutToggle = '<A-i>'
+imap qq <F4>
 
 " ======================================
 " => scrooloose/nerdtree
@@ -210,7 +209,7 @@ let NERDTreeMinimalUI = 1
 
 " Open nerd tree at the current file or close nerd tree if pressed again.
 nnoremap <silent> <expr> <Leader>n g:NERDTree.IsOpen() ? "\:NERDTreeClose<CR>" : bufexists(expand('%')) ? "\:NERDTreeFind<CR>" : "\:NERDTree<CR>"
-nnoremap <silent> <expr> <Leader>0 g:NERDTree.IsOpen() ? "\:NERDTreeClose<CR>" : bufexists(expand('%')) ? "\:NERDTreeFind<CR>" : "\:NERDTree<CR>"
+nnoremap <silent> <Leader>0 :NERDTreeToggle<CR>
 
 " ======================================
 " => Xuyuanp/nerdtree-git-plugin
@@ -342,9 +341,9 @@ set wildignore+=*.o,*~,*.pyc,*.obj,*.pyc,*.so,*.swp
 set wildignore+=*.zip,*.jpg,*.gif,*.png,*.pdf
 set wildignore+=.git,.hg,.svn,DS_STORE,bower_components,node_modules
 if has("win16") || has("win32")
-    set wildignore+=.git\*,.hg\*,.svn\*
+  set wildignore+=.git\*,.hg\*,.svn\*
 else
-    set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
+  set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
 endif
 
 set hidden            " enable hidden unsaved buffers
@@ -368,7 +367,7 @@ set t_vb=
 set tm=500
 " Properly disable sound on errors on MacVim
 if has("gui_macvim")
-    autocmd GUIEnter * set vb t_vb=
+  autocmd GUIEnter * set vb t_vb=
 endif
 
 " Configure backspace so it acts as it should act
@@ -401,7 +400,7 @@ syntax on
 
 " Enable 256 colors palette in Gnome Terminal
 if $COLORTERM == 'gnome-terminal'
-    set t_Co=256
+  set t_Co=256
 endif
 
 "Use 24-bit (true-color) mode in Vim/Neovim when outside tmux.
@@ -421,10 +420,10 @@ catch
 endtry
 
 if has("gui_running")
-    set guioptions-=T
-    set guioptions-=e
-    set t_Co=256
-    set guitablabel=%M\ %t
+  set guioptions-=T
+  set guioptions-=e
+  set t_Co=256
+  set guitablabel=%M\ %t
 endif
 
 " Set utf8 as standard encoding and en_US as the standard language
@@ -500,6 +499,9 @@ call matchadd('ColorColumn', '\%81v', '100')
 
 " => Spell-checking -------------------------------- {{{
 
+set spelllang=en_gb   " Speak proper English
+set complete+=kspell  " Autocomplete with dictionary words when spell check is on
+
 " Set spellfile to location that is guaranteed to exist
 set spellfile=~/.config/nvim/spell/en.utf-8.add
 
@@ -524,7 +526,7 @@ nnoremap <silent> q <ESC>:noh<CR>
 vnoremap <silent> q <ESC>
 " Insert mode
 inoremap jk <ESC>
-inoremap qq <ESC>
+" inoremap qq <ESC>
 cnoremap qq <C-c>
 
 " Press Q to record a macro
@@ -995,43 +997,43 @@ command! -nargs=1 PlaceholderImgTag call s:PlaceholderImgTag(<f-args>)
 " Don't close window, when deleting a buffer
 command! Bclose call <SID>BufcloseCloseIt()
 function! <SID>BufcloseCloseIt()
-    let l:currentBufNum = bufnr("%")
-    let l:alternateBufNum = bufnr("#")
+  let l:currentBufNum = bufnr("%")
+  let l:alternateBufNum = bufnr("#")
 
-    if buflisted(l:alternateBufNum)
-        buffer #
-    else
-        bnext
-    endif
+  if buflisted(l:alternateBufNum)
+    buffer #
+  else
+    bnext
+  endif
 
-    if bufnr("%") == l:currentBufNum
-        new
-    endif
+  if bufnr("%") == l:currentBufNum
+    new
+  endif
 
-    if buflisted(l:currentBufNum)
-        execute("bdelete! ".l:currentBufNum)
-    endif
+  if buflisted(l:currentBufNum)
+    execute("bdelete! ".l:currentBufNum)
+  endif
 endfunction
 
 function! CmdLine(str)
-    call feedkeys(":" . a:str)
+  call feedkeys(":" . a:str)
 endfunction
 
 function! VisualSelection(direction, extra_filter) range
-    let l:saved_reg = @"
-    execute "normal! vgvy"
+  let l:saved_reg = @"
+  execute "normal! vgvy"
 
-    let l:pattern = escape(@", "\\/.*'$^~[]")
-    let l:pattern = substitute(l:pattern, "\n$", "", "")
+  let l:pattern = escape(@", "\\/.*'$^~[]")
+  let l:pattern = substitute(l:pattern, "\n$", "", "")
 
-    if a:direction == 'gv'
-        call CmdLine("Ack '" . l:pattern . "' " )
-    elseif a:direction == 'replace'
-        call CmdLine("%s" . '/'. l:pattern . '/')
-    endif
+  if a:direction == 'gv'
+    call CmdLine("Ack '" . l:pattern . "' " )
+  elseif a:direction == 'replace'
+    call CmdLine("%s" . '/'. l:pattern . '/')
+  endif
 
-    let @/ = l:pattern
-    let @" = l:saved_reg
+  let @/ = l:pattern
+  let @" = l:saved_reg
 endfunction
 
 " }}}
@@ -1128,16 +1130,16 @@ endfunction
 autocmd FileType css set omnifunc=csscomplete#CompleteCSS
 
 " Remove the Windows ^M - when the encodings gets messed up
-noremap <Leader>m mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
+" noremap <Leader>m mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
 
 " Quickly open a buffer for scribble
-map <leader>q :e ~/buffer<cr>
+" map <leader>q :e ~/buffer<cr>
 
 " Quickly open a markdown buffer for scribble
-map <leader>x :e ~/buffer.md<cr>
+" map <leader>x :e ~/buffer.md<cr>
 
 " Toggle paste mode on and off
-map <leader>pp :setlocal paste!<cr>
+" map <leader>pp :setlocal paste!<cr>
 
 " }}}
 
