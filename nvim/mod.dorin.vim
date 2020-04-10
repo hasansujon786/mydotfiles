@@ -192,9 +192,8 @@ let g:indentLine_char = '▏'
 " ======================================
 " => jiangmiao/auto-pairs
 " ======================================
-let g:AutoPairsShortcutJump = '<F4>'
+let g:AutoPairsShortcutJump = '<S-tab>'
 let g:AutoPairsShortcutToggle = '<A-i>'
-imap qq <F4>
 
 " ======================================
 " => scrooloose/nerdtree
@@ -318,6 +317,19 @@ augroup END
 nnoremap <silent> <leader>yy :YRShow<CR>
 let g:yankring_replace_n_pkey = '<m-p>'
 let g:yankring_replace_n_nkey = '<m-n>'
+
+" ======================================
+" => terryma/vim-multiple-cursors
+" ======================================
+" Default mappings
+let g:multi_cursor_start_word_key      = 'gb'
+let g:multi_cursor_select_all_word_key = '<C-F2>'
+let g:multi_cursor_next_key            = 'gb'
+let g:multi_cursor_prev_key            = 'gp'
+" let g:multi_cursor_start_key           = 'g<C-n>'
+" let g:multi_cursor_select_all_key      = 'g<A-n>'
+" let g:multi_cursor_skip_key            = '<C-x>'
+" let g:multi_cursor_quit_key            = '<Esc>'
 
 " }}}
 
@@ -526,7 +538,7 @@ nnoremap <silent> q <ESC>:noh<CR>
 vnoremap <silent> q <ESC>
 " Insert mode
 inoremap jk <ESC>
-" inoremap qq <ESC>
+inoremap qq <ESC>
 cnoremap qq <C-c>
 
 " Press Q to record a macro
@@ -547,6 +559,9 @@ xnoremap p pgvy
 
 " Keep cursor at the bottom of the visual selection after you yank it.
 vmap y ygv<Esc>
+
+" Ensure Y works similar to D,C.
+nmap Y y$
 
 " Make vaa select the entire file...
 xmap aa VGo1G
