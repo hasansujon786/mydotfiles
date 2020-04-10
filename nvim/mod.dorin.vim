@@ -503,7 +503,7 @@ set matchpairs+=<:>,«:»,｢:｣         " Match angle brackets...
 set ai "Auto indent
 set si "Smart indent
 
-" Hightlight the characters on column 81
+" Highlight the characters on column 81
 highlight ColorColumn guibg=magenta
 call matchadd('ColorColumn', '\%81v', '100')
 
@@ -520,12 +520,14 @@ set spellfile=~/.config/nvim/spell/en.utf-8.add
 " Toggle spelling and show it's status
 nmap <F7> :setlocal spell! spell?<CR>
 
-" Short cut using <leader>
-map <leader>sn ]s
-map <leader>sp [s
-map <leader>sa zg
-map <leader>s? z=
-map <leader>se :e ~/.config/nvim/spell/en.utf-8.add
+"Open spell file
+map <leader>qe :tabnew ~/.config/nvim/spell/en.utf-8.add<Cr>
+
+" Spell commands
+" Next wrong spell      ]s
+" Previous wrong spell  [s
+" Add to spell file     zg
+" Prompt spell fixes    z=
 
 " }}}
 
