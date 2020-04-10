@@ -517,8 +517,6 @@ set complete+=kspell  " Autocomplete with dictionary words when spell check is o
 " Set spellfile to location that is guaranteed to exist
 set spellfile=~/.config/nvim/spell/en.utf-8.add
 
-" Pressing ,ss will toggle and untoggle spell checking
-map <leader>ss :setlocal spell!<cr>
 " Toggle spelling and show it's status
 nmap <F7> :setlocal spell! spell?<CR>
 
