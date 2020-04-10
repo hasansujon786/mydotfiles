@@ -103,3 +103,4 @@ prompt_and_get_answers() {
 prompt_and_get_answers
 # git config --global user.email "hasansujon786@gmail.com"
 # git config --global user.name "Hasan Mahmud"
+# git config --global credential.helper -timeout=86400
