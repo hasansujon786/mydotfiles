@@ -299,7 +299,7 @@ augroup END
 " nnoremap <silent> <A-k> :TmuxNavigateUp<cr>
 " nnoremap <silent> <A-l> :TmuxNavigateRight<cr>
 " nnoremap <silent> <A-\> :TmuxNavigatePrevious<cr>
-nnoremap <silent> <S-tab> :TmuxNavigatePrevious<cr>
+" nnoremap <silent> <S-tab> :TmuxNavigatePrevious<cr>
 
 " ======================================
 " => unblevable/quick-scope
@@ -619,8 +619,8 @@ nnoremap <silent> + :vertical resize +5<CR>
 nnoremap <silent> - :vertical resize -5<CR>
 
 " zoom a vim pane, <C-w> = to re-balance
-nnoremap <silent> ,, :wincmd _<cr>:wincmd \|<cr>
-nnoremap <silent> ,. :wincmd =<cr>
+nnoremap <silent> \ :wincmd _<cr>:wincmd \|<cr>
+nnoremap <silent> <Bar> :wincmd =<cr>
 
 " Switch between the last two files
 nnoremap <tab><tab> <c-^>
@@ -686,8 +686,8 @@ nnoremap <Leader>rc :%s///gc<Left><Left><Left>
 " xnoremap <Leader>rc :s///gc<Left><Left><Left>
 " Type a replacement term and press . to repeat the replacement again. Useful
 " for replacing a few instances of the term (comparable to multiple cursors).
-nnoremap <silent> s* :let @/='\<'.expand('<cword>').'\>'<CR>cgn
-xnoremap <silent> s* "sy:let @/=@s<CR>cgn
+" nnoremap <silent> s* :let @/='\<'.expand('<cword>').'\>'<CR>cgn
+" xnoremap <silent> s* "sy:let @/=@s<CR>cgn
 
 " ======================================
 " => Special-key-'g'-commands
@@ -750,42 +750,43 @@ cno $j e ./
 cno $c e <C-\>eCurrentFileDir("e")<cr>
 
 " Bash like keys for the command line
-cnoremap <C-A>		<Home>
-cnoremap <C-E>		<End>
-cnoremap <C-K>		<C-U>
+cnoremap <C-A> <Home>
+cnoremap <C-E> <End>
+cnoremap <C-K> <C-U>
 
 " ======================================
-" => Comma-commands
+" => underscore-commands
 " ======================================
 " Compile & Run C code
-nnoremap ,bb :w<CR>:!gcc % -o .lastbuild && ./.lastbuild<cr>
-nnoremap ,bl :w<CR>:!./.lastbuild<cr>
+nnoremap _bb :w<CR>:!gcc % -o .lastbuild && ./.lastbuild<cr>
+nnoremap _b :w<CR>:!./.lastbuild<cr>
 
 " Prettier:
 " shows the output from prettier - useful for syntax errors
-nnoremap ,bt :!prettier %<CR>
+nnoremap _bt :!prettier %<CR>
 
 " Toggle highlighting of current line and column
-nnoremap <silent> ,c :setlocal cursorcolumn!<CR>
+nnoremap <silent> _c :setlocal cursorcolumn!<CR>
 
 " Toggle relative line numbers and regular line numbers.
-nnoremap <silent> ,nn :set invrelativenumber<CR>
+nnoremap <silent> _nn :set invrelativenumber<CR>
+nnoremap <silent> _n :set nu!<CR>
 
 " Trim Whitespaces
-nnoremap <silent> ,tt :call TrimWhitespace()<CR>
+nnoremap <silent> _tt :call TrimWhitespace()<CR>
 
 " Index ctags from any project, including those outside Rails
-nnoremap ,tag :!ctags -R .<CR>
+nnoremap _tag :!ctags -R .<CR>
 
 " Allow j and k to work on visual lines (when wrapping)
-noremap <silent> ,wp :call ToggleWrap()<CR>
+noremap <silent> _wp :call ToggleWrap()<CR>
 
 " Toggle Goyo
-nnoremap <silent> ,z :Goyo<CR>
+nnoremap <silent> __ :Goyo<CR>
 
 " Silently open a shell in the directory of the current file
 if has("win32") || has("win64")
-  map ,s :silent !start cmd /k cd %:p:h <CR>
+  map _s :silent !start cmd /k cd %:p:h <CR>
 endif
 
 " ======================================
