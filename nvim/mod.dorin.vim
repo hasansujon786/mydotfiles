@@ -258,12 +258,12 @@ function! LightlineFugitive()
 endfunction
 
 " ======================================
-" => Startify
+" => mhinz/vim-startify
 " ======================================
 let g:startify_files_number = 5
 
 " ======================================
-" => goyo.vim
+" => junegunn/goyo.vim
 " ======================================
 let g:background_before_goyo = &background
 
