@@ -122,6 +122,7 @@ Plug 'tpope/vim-eunuch'   "for moving and manipulating files / directories.
 " ======================================
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'mhinz/vim-startify'
+Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 
 Plug 'junegunn/fzf', { 'do': './install --bin' }
 Plug 'junegunn/fzf.vim'
@@ -330,6 +331,14 @@ let g:multi_cursor_prev_key            = 'gp'
 " let g:multi_cursor_select_all_key      = 'g<A-n>'
 " let g:multi_cursor_skip_key            = '<C-x>'
 " let g:multi_cursor_quit_key            = '<Esc>'
+
+" ======================================
+" => mbbill/undotree
+" ======================================
+let g:undotree_WindowLayout = 2
+let g:undotree_DiffAutoOpen = 0
+" let g:undotree_DiffpanelHeight = 10
+nnoremap <silent> <C-F5> :UndotreeToggle<cr>
 
 " }}}
 
