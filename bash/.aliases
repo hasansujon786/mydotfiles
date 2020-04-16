@@ -23,6 +23,22 @@ alias h='history'
 alias o='explorer'
 alias open='explorer'
 
+# git
+alias gs='git show'
+alias gt='git tag'
+alias gupd='git update'
+alias ggpusht='git push origin $(git_current_branch) --tags'
+alias ggpushf='git push origin $(git_current_branch) --force'
+alias ggpushtf='git push origin $(git_current_branch) --tags --force'
+alias ggpushft='git push origin $(git_current_branch) --tags --force'
+alias ggpull='git pull --rebase origin $(git_current_branch)'
+alias ggpp='git pull --rebase origin $(git_current_branch) && git push origin $(git_current_branch)'
+alias gg='git graph'
+alias gsts='git stash save'
+alias grget='git remote get-url origin'
+alias gpr='hub pull-request'
+alias gci='hub issue create'
+
 # kill port
 alias fipid='netstat -ano | findstr'
 alias kipid='taskkill /PID'

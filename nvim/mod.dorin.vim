@@ -575,6 +575,10 @@ nmap Y y$
 " Make vaa select the entire file...
 xmap aa VGo1G
 
+" Scrolling
+nmap J <C-d>
+nmap K <C-u>
+
 " Open vimrc in a new tab & source
 nmap <leader>vid :tabedit $MYVIMRC<CR>
 nmap <leader>vim :tabedit ~/mydotfiles/nvim/init.vim<CR>
