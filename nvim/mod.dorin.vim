@@ -144,9 +144,45 @@ Plug 'tpope/vim-fugitive'
 Plug 'junegunn/gv.vim'
 
 " ======================================
+" => Languae-support
+" ======================================
+" javascript {{{
+"   Plug 'nvim-typescript'
+"   Plug 'othree/yajs.vim'
+"   Plug 'mxw/vim-jsx'
+"   Plug 'heavenshell/vim-jsdoc'
+"   Plug 'elzr/vim-json'
+"   Plug 'HerringtonDarkholme/yats.vim'
+"   Plug 'Quramy/vison'
+"   Plug 'jxnblk/vim-mdx-js'
+"   Plug 'meain/vim-package-info', {'build': 'npm install'}
+"   Plug 'yardnsm/vim-import-cost', {'build': 'npm install'}
+" }}}
+
+" html {{{
+"   Plug 'othree/html5.vim'
+"   Plug 'mattn/emmet-vim'
+"   Plug 'valloric/MatchTagAlways', {'on_ft': 'html'}
+"   Plug 'posva/vim-vue'
+"   Plug 'skwp/vim-html-escape'
+"   Plug 'kana/vim-textobj-user'
+"   Plug 'whatyouhide/vim-textobj-xmlattr'
+"   Plug 'pedrohdz/vim-yaml-folds'
+" }}}
+
+" css {{{
+"   Plug 'hail2u/vim-css3-syntax'
+"   Plug 'ap/vim-css-color'
+"   Plug 'norcalli/nvim-colorizer.lua'
+"   Plug 'ncm2/ncm2-cssomni'
+" }}}
+
+" ======================================
 " => Not-listed
 " ======================================
+" Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' }
 " Plug 'terryma/vim-expand-region'
+" Plug 'voldikss/vim-floaterm'
 " Plug 'alvan/vim-closetag'
 " Plug 'dragvisuals.vim'
 " Plug 'vmath.vim'
@@ -353,6 +389,8 @@ set langmenu=en
 source $VIMRUNTIME/delmenu.vim
 source $VIMRUNTIME/menu.vim
 
+" Autocompletion
+set wildmode=longest,list,full
 set wildmenu          " Turn on the Wild menu
 set pumblend=15       " set pum background visibility to 20 percent
 set wildoptions=pum   " set file completion in command to use pum
@@ -369,12 +407,13 @@ endif
 
 set hidden            " enable hidden unsaved buffers
 set diffopt+=vertical " Always use vertical diffs
-set splitbelow        " Open new split panes to bottom, which feels more natural
-set splitright        " Open new split panes to right, which feels more natural
-set ruler             "Always show current position
+set ruler             " Always show current position
 set cmdheight=1       " Height of the command bar
 set foldcolumn=1      " display gutter markings for folds
 set cursorline        " Show a line on current line
+
+" Fix splitting
+set splitbelow splitright
 
 " Guicursor Setting
 set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50
@@ -662,14 +701,13 @@ xnoremap <silent> <A-k> :move '<-2<CR>gv=gv
 " => Search-functionalities
 " ======================================
 
-"TODO: Learn this shortcuts
-
 " Visual mode pressing * or # searches for the current selection
 vnoremap <silent> * :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
 vnoremap <silent> # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
 " vnoremap * "xy/<C-R>x<CR>
 
-cnoremap *** %s/\<\>//ge<Left><Left><Left><Left><Left><Left>
+" Alias replace all to S
+nnoremap S :%s//gI<Left><Left><Left>
 
 " interactive find replace preview
 set inccommand=nosplit
@@ -677,25 +715,13 @@ set inccommand=nosplit
 nnoremap <Leader>ff :%s/\<<C-r><C-w>\>//gc<Left><Left><Left>
 vnoremap <Leader>ff y :%s/<C-r>"//gc<Left><Left><Left>
 
-" Press * to search for the term under the cursor or a visual selection and
-" then press a key below to replace all instances of it in the current file.
-nnoremap <Leader>r :%s///g<Left><Left>
-nnoremap <Leader>rc :%s///gc<Left><Left><Left>
-
-" The same as above but instead of acting on the whole file it will be
-" restricted to the previously visually selected range. You can do that by
-" pressing *, visually selecting the range you want it to apply to and then
-" press a key below to replace all instances of it in the current selection.
-" xnoremap <Leader>r :s///g<Left><Left>
-" xnoremap <Leader>rc :s///gc<Left><Left><Left>
-" Type a replacement term and press . to repeat the replacement again. Useful
-" for replacing a few instances of the term (comparable to multiple cursors).
-" nnoremap <silent> s* :let @/='\<'.expand('<cword>').'\>'<CR>cgn
-" xnoremap <silent> s* "sy:let @/=@s<CR>cgn
-
 " ======================================
 " => Special-key-'g'-commands
 " ======================================
+
+" select a block {} of code
+nmap gs{ vf{%
+vmap gs{ f{%
 
 " sort selected lines
 vmap gs :sort<CR>
@@ -1069,84 +1095,12 @@ endfunction
 
 " => Temporary ------------------------------------- {{{
 
+" if !exists('g:vscode') endif
+
 " if !empty(glob("~/mydotfiles/nvim/init.vim"))
 "   source ~/mydotfiles/nvim/init.vim
 "   echo 'Welcom to Neovim'
 " endif
-
-" " javascript {{{
-"   Plug 'nvim-typescript'
-"   Plug 'othree/yajs.vim'
-"   Plug 'mxw/vim-jsx'
-"   Plug 'heavenshell/vim-jsdoc'
-"   Plug 'elzr/vim-json'
-"   Plug 'HerringtonDarkholme/yats.vim'
-"   Plug 'Quramy/vison'
-"   Plug 'jxnblk/vim-mdx-js'
-"   Plug 'meain/vim-package-info', {'build': 'npm install'}
-"   Plug 'yardnsm/vim-import-cost', {'build': 'npm install'}
-" " }}}
-" " html {{{
-"   Plug 'othree/html5.vim'
-"   Plug 'mattn/emmet-vim'
-"   Plug 'valloric/MatchTagAlways', {'on_ft': 'html'}
-"   Plug 'posva/vim-vue'
-"   Plug 'skwp/vim-html-escape'
-"   Plug 'kana/vim-textobj-user'
-"   Plug 'whatyouhide/vim-textobj-xmlattr'
-"   Plug 'pedrohdz/vim-yaml-folds'
-" " }}}
-" " css {{{
-"   Plug 'hail2u/vim-css3-syntax'
-"   Plug 'ap/vim-css-color'
-"   Plug 'norcalli/nvim-colorizer.lua'
-"   Plug 'ncm2/ncm2-cssomni'
-" " }}}
-
-"set foldmethod=manual " set folds by syntax of current language
-" fold file based on syntax
-"nnoremap <silent> <leader>zs :setlocal foldmethod=syntax<CR>
-
-" Write and build the current file
-" map <leader>m :write<CR> :make %<CR>
-" Run the binary of the current file
-" map <leader>r :!./%:r<CR>
-" pwgen
-" nmap <leader>pg :read !pwgen -sy1 32<CR>
-" nmap <leader>q gqip
-
-" temporary Map Function keys --------------------
-
-" Toggle paste mode (particularly useful to temporarily disable autoindent)
-"set pastetoggle=<F3>
-
-" Pasting support
-"set pastetoggle=<F2>  " Press F2 in insert mode to preserve tabs when
-"map <F10> :set paste<CR>
-"map <F11> :set nopaste<CR>
-"imap <F10> <C-O>:set paste<CR>
-"imap <F11> <nop>
-"set pastetoggle=<F11>
-
-" Copy to osx clipboard
-"vnoremap <C-c> "*y<CR>
-"vnoremap y "*y<CR>
-" Delete to untilled register
-"nnoremap <leader>d "_d
-"vnoremap <leader>d "_d
-" copy to end of line
-"nnoremap Y y$
-" copy to system clipboard
-"noremap gy "+y
-" copy whole file to system clipboard
-"nnoremap gY gg"+yG
-
-" Insert cut marks...
-" nmap -- A<CR><CR><CR><ESC>k6i-----cut-----<ESC><CR>
-
-" Automatically fix the last misspelled word and jump back to where you were.
-"   Taken from this talk: https://www.youtube.com/watch?v=lwD8G1P52Sk
-" nnoremap <leader>sp :normal! mz[s1z=`z<CR>
 
 
 " }}}
