@@ -238,11 +238,17 @@ let g:AutoPairsShortcutToggle = '<A-i>'
 let g:NERDTreeIgnore = ['^node_modules$','^.git$']
 let g:NERDTreeAutoDeleteBuffer=1
 let g:NERDTreeShowHidden=1
-
 let NERDTreeQuitOnOpen = 1
 let NERDTreeMinimalUI = 1
 " let NERDTreeMinimalMenu=1
+" Would be useful mappings, but they interfere with my default window movement
+" bindings (<C-j> and <C-k>).
+let g:NERDTreeMapJumpPrevSibling='<Nop>'
+let g:NERDTreeMapJumpNextSibling='<Nop>'
 
+" let NERDTreeCascadeSingleChildDir=1
+" autocmd BufEnter NERD_tree_* nmap  d<CR> <CR> :NERDTreeToggle <CR>
+" autocmd BufLeave NERD_tree_* unmap d<CR>
 " Open nerd tree at the current file or close nerd tree if pressed again.
 nnoremap <silent> <expr> <Leader>n g:NERDTree.IsOpen() ? "\:NERDTreeClose<CR>" : bufexists(expand('%')) ? "\:NERDTreeFind<CR>" : "\:NERDTree<CR>"
 nnoremap <silent> <Leader>0 :NERDTreeToggle<CR>
@@ -390,7 +396,7 @@ source $VIMRUNTIME/delmenu.vim
 source $VIMRUNTIME/menu.vim
 
 " Autocompletion
-set wildmode=longest,list,full
+" set wildmode=longest,list,full
 set wildmenu          " Turn on the Wild menu
 set pumblend=15       " set pum background visibility to 20 percent
 set wildoptions=pum   " set file completion in command to use pum
@@ -597,6 +603,10 @@ nnoremap Q q
 " Always move between wrapped lines
 noremap <silent> <expr> j (v:count == 0 ? 'gj' : 'j')
 noremap <silent> <expr> k (v:count == 0 ? 'gk' : 'k')
+
+" Store relative line number jumps in the jumplist if they exceed a threshold.
+nnoremap <expr> k (v:count > 5 ? "m'" . v:count : '') . 'k'
+nnoremap <expr> j (v:count > 5 ? "m'" . v:count : '') . 'j'
 
 " Prevent x from overriding what's in the clipboard.
 noremap x "_x
@@ -953,6 +963,9 @@ iab xdate <C-r>=strftime("%d/%m/%y %H:%M:%S")<cr>
 " }}}
 
 " => Auto-commands --------------------------------- {{{
+" Vertically center document when entering insert mode
+autocmd InsertEnter * norm zz
+
 augroup vimrcEx
   autocmd!
 
