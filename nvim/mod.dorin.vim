@@ -350,11 +350,13 @@ augroup END
 " => vim-scripts/YankRing.vim
 " ======================================
 nnoremap <silent> <leader>y :YRShow<CR>
-let g:yankring_replace_n_pkey = '<m-->'
+let g:yankring_replace_n_pkey = '<m-p>'
 let g:yankring_replace_n_nkey = '<m-=>'
 
 function! YRRunAfterMaps()
   nnoremap <silent> Y :<C-U>YRYankCount 'y$'<CR>
+  vnoremap p pgvy
+  vnoremap y ygv<Esc>
 endfunction
 
 " ======================================
@@ -583,20 +585,18 @@ map <leader>dic :tabnew ~/.config/nvim/spell/en.utf-8.add<Cr>
 
 " => Key-Mappings ---------------------------------- {{{
 
-" Map q & jk to Esc key
+" Use q, qq & jk to return to normal mode
 nnoremap <silent> q <ESC>:noh<CR>
-vnoremap <silent> q <ESC>
-" Insert mode
+vnoremap <silent> q <ESC>:noh<CR>
 inoremap jk <ESC>
 inoremap qq <ESC>
 cnoremap qq <C-c>
 
-" Press Q to record a macro
+" Use Q to record macros
 nnoremap Q q
 
 " j/k will move virtual lines (lines that wrap)
 " Seamlessly treat visual lines as actual lines when moving around.
-" Always move between wrapped lines
 noremap <silent> <expr> j (v:count == 0 ? 'gj' : 'j')
 noremap <silent> <expr> k (v:count == 0 ? 'gk' : 'k')
 
@@ -604,16 +604,14 @@ noremap <silent> <expr> k (v:count == 0 ? 'gk' : 'k')
 nnoremap <expr> k (v:count > 5 ? "m'" . v:count : '') . 'k'
 nnoremap <expr> j (v:count > 5 ? "m'" . v:count : '') . 'j'
 
-" Prevent x from overriding what's in the clipboard.
+" Prevent x from overriding the clipboard.
 noremap x "_x
 noremap X "_x
 
 " Prevent selecting and pasting from overwriting what you originally copied.
-xnoremap p pgvy
-
+vnoremap p pgvy
 " Keep cursor at the bottom of the visual selection after you yank it.
-vmap y ygv<Esc>
-
+vnoremap y ygv<Esc>
 " Ensure Y works similar to D,C.
 nnoremap Y y$
 
@@ -621,41 +619,11 @@ nnoremap Y y$
 xmap aa VGo1G
 
 " Vertical scrolling
-nnoremap <A-k> <C-u>
-nnoremap <A-j> <C-d>
+nnoremap K <C-u>
+nnoremap J <C-d>
 " Horizontal scroll
 nnoremap <A-l> 5zl
 nnoremap <A-h> 5zh
-
-" Save file Quickly
-nnoremap <leader>s :write<CR>
-nnoremap <silent> <leader>q :close<CR>
-
-" Open vimrc in a new tab & source
-nmap <leader>vid :tabedit $MYVIMRC<CR>
-nmap <leader>vim :tabedit ~/mydotfiles/nvim/init.vim<CR>
-nmap <leader>vis :source $MYVIMRC<CR>
-
-" ======================================
-" => Organize-files-&-folders
-" ======================================
-
-" Open a file relative to the current file
-cnoremap $e <C-R>=expand('%:h').'/'<cr>
-" Synonyms: e: edit,
-" e: window, s: split, v: vertical split, t: tab, d: directory
-map <Leader>er :Move <C-R>=expand("%")<CR>
-map <leader>ed :Mkdir $e
-map <leader>et :tabe $e
-map <leader>ev :vsp $e
-map <leader>es :sp $e
-map <leader>ee :e $e
-
-" change dir to current file's dir
-map <leader>cd :cd %:p:h<CR>:pwd<CR>
-
-" Find & open file on current window
-"map <C-p> :tabfind *
 
 " ======================================
 " => Moving-around-tabs-and-buffers
@@ -669,9 +637,6 @@ nnoremap <silent> <A--> :resize -3<CR>
 " zoom a vim pane
 nnoremap <silent> \ :wincmd _<cr>:wincmd \|<cr>
 nnoremap <silent> <Bar> :wincmd =<cr>
-
-" Switch between the last two files
-nnoremap <tab><tab> <c-^>
 
 " Jump between tabs
 nnoremap <silent> gl :tabnext<CR>
@@ -688,10 +653,10 @@ vnoremap > >gv
 vnoremap < <gv
 
 " Move lines up and down in normal & visual mode
-" nmap <silent> <A-k> :move -2<CR>==
-" nmap <silent> <A-j> :move +1<CR>==
-xnoremap <silent> <A-j> :move '>+1<CR>gv=gv
-xnoremap <silent> <A-k> :move '<-2<CR>gv=gv
+nnoremap <silent> <A-k> :move -2<CR>==
+nnoremap <silent> <A-j> :move +1<CR>==
+vnoremap <silent> <A-k> :move '<-2<CR>gv=gv
+vnoremap <silent> <A-j> :move '>+1<CR>gv=gv
 
 " ======================================
 " => Search-functionalities
@@ -722,6 +687,9 @@ vmap gs{ f{%
 " sort selected lines
 vmap gs :sort<CR>
 
+" Toggle Goyo
+nnoremap <silent> go :Goyo<CR>
+
 " ======================================
 " => Insert-Mode-key-mapping
 " ======================================
@@ -745,67 +713,69 @@ inoremap <c-f> <c-x><c-f>
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
-" last typed word to lower case
-" inoremap <C-w>u <esc>guawA
-" last typed word to UPPER CASE
-" inoremap <C-w>U <esc>gUawA
-" Entire Line To Lower Case
-" inoremap <C-g>u <esc>guuA
-" Entire Line To Upper Case
-" inoremap <C-g>U <esc>gUUA
-" Last Word To Title Caseu
-" inoremap <C-w>t <esc>bvgU<esc>A
-" Current Line To Title Case
-" inoremap <C-g>t <esc>:s/\v<(.)(\w*)/\u\1\L\2/g<cr>:noh<cr>A
-
 " ======================================
 " => Command-mode-related
 " ======================================
-
-" Smart mappings on the command line
-cno $h e ~/
-cno $d e ~/Desktop/
-cno $j e ./
-cno $c e <C-\>eCurrentFileDir("e")<cr>
 
 " Bash like keys for the command line
 cnoremap <C-A> <Home>
 cnoremap <C-E> <End>
 
-" " ======================================
-" " => underscore-commands
-" " ======================================
-" " Compile & Run C code
-" nnoremap _bb :w<CR>:!gcc % -o .lastbuild && ./.lastbuild<cr>
-" nnoremap _b :w<CR>:!./.lastbuild<cr>
+" ======================================
+" => leader-commands
+" ======================================
 
-" " Prettier:
-" " shows the output from prettier - useful for syntax errors
-" nnoremap _bt :!prettier %<CR>
+" Save file Quickly
+nnoremap <leader>s :write<CR>
+nnoremap <silent> <leader>q :close<CR>
 
-" " Toggle highlighting of current line and column
-" nnoremap <silent> _c :setlocal cursorcolumn!<CR>
+" Switch between the last two files
+nnoremap <leader><tab> <c-^>
 
-" " Toggle relative line numbers and regular line numbers.
-" nnoremap <silent> _nn :set invrelativenumber<CR>
-" nnoremap <silent> _n :set nu!<CR>
+" Open vimrc in a new tab & source
+nmap <leader>vid :tabedit $MYVIMRC<CR>
+nmap <leader>vim :tabedit ~/mydotfiles/nvim/init.vim<CR>
+nmap <leader>vis :source $MYVIMRC<CR>
 
-" " Trim Whitespaces
-" nnoremap <silent> _tt :call TrimWhitespace()<CR>
+" compile & run c Code
+nnoremap <leader>bb :w<CR>:!gcc % -o .lastbuild && ./.lastbuild<cr>
+nnoremap <leader>b :w<CR>:!./.lastbuild<cr>
 
-" " Index ctags from any project, including those outside Rails
-" nnoremap _tag :!ctags -R .<CR>
+" Toggle highlighting of current line and column
+nnoremap <silent> <leader>c :setlocal cursorcolumn!<CR>
 
-" " Allow j and k to work on visual lines (when wrapping)
-" noremap <silent> _wp :call ToggleWrap()<CR>
+" Toggle relative line numbers and regular line numbers.
+nnoremap <silent> <leader>mm :set nu! invrelativenumber<CR>
+nnoremap <silent> <leader>mu :set invrelativenumber<CR>
 
-" " Toggle Goyo
-" nnoremap <silent> __ :Goyo<CR>
+" Allow j and k to work on visual lines (when wrapping)
+noremap <silent> <leader>wp :call ToggleWrap()<CR>
 
-" " Silently open a shell in the directory of the current file
-" if has("win32") || has("win64")
-"   map _s :silent !start cmd /k cd %:p:h <CR>
-" endif
+" Silently open a shell in the directory of the current file
+if has("win32") || has("win64")
+  map <leader>t :silent !start cmd /k cd %:p:h <CR>
+endif
+
+" ======================================
+" => Organize-files-&-folders
+" ======================================
+
+" Open a file relative to the current file
+cnoremap $e <C-R>=expand('%:h').'/'<cr>
+" Synonyms: e: edit,
+" e: window, s: split, v: vertical split, t: tab, d: directory
+nnoremap <Leader>er :Move <C-R>=expand("%")<CR>
+nnoremap <leader>ed :Mkdir $e
+nnoremap <leader>et :tabe $e
+nnoremap <leader>ev :vsp $e
+nnoremap <leader>es :sp $e
+nnoremap <leader>ee :e $e
+
+" change dir to current file's dir
+nnoremap <leader>cd :cd %:p:h<CR>:pwd<CR>
+
+" Find & open file on current window
+"map <C-p> :tabfind *
 
 " ======================================
 " => Function-key-mappings
