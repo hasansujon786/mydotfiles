@@ -81,16 +81,10 @@ endif
 let mapleader="\<Space>"
 let maplocalleader="\<Space>"
 
-" :W sudo saves the file
-" (useful for handling the permission-denied error)
-command! W execute 'w !sudo tee % > /dev/null' <bar> edit!
-
 " }}}
 
 " => Plugin-Settings ------------------------------- {{{
 
-" Specify a directory for plugins
-" For Neovim: stdpath('data') . '/plugged'
 call plug#begin('~/.config/nvim/plugged')
 
 " ======================================
@@ -193,26 +187,27 @@ call plug#end()
 " ======================================
 " => junegunn/fzf
 " ======================================
-" Launch fzf with CTRL+P.
 nnoremap <silent> <C-p> :History<CR>
-nnoremap <silent> <leader>p :FZF -m<CR>
-nnoremap <silent> <leader>m :Windows<CR>
-" open FZF in current file's directory
-nnoremap <silent> <Leader>_ :Files <C-R>=expand('%:h')<CR><CR>
+nnoremap <silent> <C-_> :Files<CR>
+nnoremap <silent> - :Files <C-R>=expand('%:h')<CR><CR>
+" nnoremap <silent> <C-_> :Windows <CR>
 
-let g:fzf_layout = { 'window': '8new' }
-" let g:fzf_action = {
-"   \ 'ctrl-t': 'tab split',
-"   \ 'ctrl-x': 'split',
-"   \ 'ctrl-v': 'vsplit',
-"   \ 'ctrl-y': {lines -> setreg('*', join(lines, "\n"))}}
+let g:fzf_layout = { 'window': '12new' }
+let g:fzf_files_options = '--preview "(cat {})"'
 
-" \   + filter(copy(filter(v:oldfiles, "-1 != stridx(v:val, $PWD)")), "filereadable(fnamemodify(v:val, ':p'))"),
-" let $FZF_DEFAULT_OPTS = '--bind ctrl-a:select-all'
+let $FZF_DEFAULT_OPTS =' --color=dark,
+      \fg:-1,bg:-1,hl:#61afef,
+      \fg+:#c678dd,bg+:#2c323c,hl+:#61afef,
+      \info:#98c379,prompt:#61afef,pointer:#c678dd,
+      \marker:#e5c07b,spinner:#61afef,header:#61afef,gutter:#282c34
+      \ --bind ctrl-a:select-all'
 
-" let $FZF_DEFAULT_COMMAND = 'fd --type f --hidden --follow --color=always -E .git --ignore-file ~/.gitignore'
-" let g:fzf_files_options = '--preview "(bat --color \"always\" --line-range 0:100 {} || head -'.&lines.' {})"'
-" let $FZF_DEFAULT_OPTS='--ansi --layout=reverse'
+let g:fzf_action = {
+      \ 'T': 'tab split',
+      \ 'S': 'split',
+      \ 'V': 'vsplit',
+      \ 'q': 'normal <C-c>'}
+
 " imap <c-x><c-k> <plug>(fzf-complete-word)
 " imap <c-x><c-f> <plug>(fzf-complete-path)
 " imap <c-x><c-j> <plug>(fzf-complete-file-ag)
@@ -221,8 +216,6 @@ let g:fzf_layout = { 'window': '8new' }
 " ======================================
 " => Yggdroot/indentLine
 " ======================================
-" let g:indentLine_char_list = ['|', '¦', '┆', '┊']
-" let g:indentLine_color_gui = '#363949'
 let g:indentLine_color_gui = '#444444'
 let g:indentLine_char = '▏'
 
@@ -234,19 +227,18 @@ let g:AutoPairsShortcutToggle = '<A-i>'
 
 " ======================================
 " => scrooloose/nerdtree
-" ======================================
-let g:NERDTreeIgnore = ['^node_modules$','^.git$']
-let g:NERDTreeAutoDeleteBuffer=1
+" ====================================== let g:NERDTreeIgnore = ['^node_modules$','^.git$'] let g:NERDTreeAutoDeleteBuffer=1
 let g:NERDTreeShowHidden=1
 let NERDTreeQuitOnOpen = 1
 let NERDTreeMinimalUI = 1
-" let NERDTreeMinimalMenu=1
+let NERDTreeCascadeSingleChildDir=0
 " Would be useful mappings, but they interfere with my default window movement
-" bindings (<C-j> and <C-k>).
+" unmap (<C-j> and <C-k>).
 let g:NERDTreeMapJumpPrevSibling='<Nop>'
 let g:NERDTreeMapJumpNextSibling='<Nop>'
+let NERDTreeMapOpenSplit='s'
+let NERDTreeMapOpenVSplit='v'
 
-" let NERDTreeCascadeSingleChildDir=1
 " autocmd BufEnter NERD_tree_* nmap  d<CR> <CR> :NERDTreeToggle <CR>
 " autocmd BufLeave NERD_tree_* unmap d<CR>
 " Open nerd tree at the current file or close nerd tree if pressed again.
@@ -357,9 +349,13 @@ augroup END
 " ======================================
 " => vim-scripts/YankRing.vim
 " ======================================
-nnoremap <silent> <leader>yy :YRShow<CR>
-let g:yankring_replace_n_pkey = '<m-p>'
-let g:yankring_replace_n_nkey = '<m-n>'
+nnoremap <silent> <leader>y :YRShow<CR>
+let g:yankring_replace_n_pkey = '<m-->'
+let g:yankring_replace_n_nkey = '<m-=>'
+
+function! YRRunAfterMaps()
+  nnoremap <silent> Y :<C-U>YRYankCount 'y$'<CR>
+endfunction
 
 " ======================================
 " => terryma/vim-multiple-cursors
@@ -575,7 +571,7 @@ set spellfile=~/.config/nvim/spell/en.utf-8.add
 nmap <F7> :setlocal spell! spell?<CR>
 
 "Open spell file
-map <leader>qe :tabnew ~/.config/nvim/spell/en.utf-8.add<Cr>
+map <leader>dic :tabnew ~/.config/nvim/spell/en.utf-8.add<Cr>
 
 " Spell commands
 " Next wrong spell      ]s
@@ -619,27 +615,26 @@ xnoremap p pgvy
 vmap y ygv<Esc>
 
 " Ensure Y works similar to D,C.
-nmap Y y$
+nnoremap Y y$
 
 " Make vaa select the entire file...
 xmap aa VGo1G
 
-" Scrolling
-nmap J <C-d>
-nmap K <C-u>
+" Vertical scrolling
+nnoremap <A-k> <C-u>
+nnoremap <A-j> <C-d>
+" Horizontal scroll
+nnoremap <A-l> 5zl
+nnoremap <A-h> 5zh
+
+" Save file Quickly
+nnoremap <leader>s :write<CR>
+nnoremap <silent> <leader>q :close<CR>
 
 " Open vimrc in a new tab & source
 nmap <leader>vid :tabedit $MYVIMRC<CR>
 nmap <leader>vim :tabedit ~/mydotfiles/nvim/init.vim<CR>
 nmap <leader>vis :source $MYVIMRC<CR>
-" Fast editing and reloading of vimrc configs
-" map <leader>e :e! ~/.vim_runtime/my_configs.vim<cr>
-" autocmd! bufwritepost ~/.vim_runtime/my_configs.vim source ~/.vim_runtime/my_configs.vim
-
-" Save file Quickly
-nnoremap <C-s> :GitGutter<CR>:write<CR>
-inoremap <C-s> <ESC>:GitGutter<CR>:write<CR>a
-nnoremap <leader>s :GitGutter<CR>:write<CR>
 
 " ======================================
 " => Organize-files-&-folders
@@ -666,28 +661,23 @@ map <leader>cd :cd %:p:h<CR>:pwd<CR>
 " => Moving-around-tabs-and-buffers
 " ======================================
 
-" Prefix window control with space w
-nnoremap <leader>w <C-w>
+" Resize splits
 nnoremap <silent> + :vertical resize +5<CR>
-nnoremap <silent> - :vertical resize -5<CR>
-
-" zoom a vim pane, <C-w> = to re-balance
+nnoremap <silent> _ :vertical resize -5<CR>
+nnoremap <silent> <A-=> :resize +3<CR>
+nnoremap <silent> <A--> :resize -3<CR>
+" zoom a vim pane
 nnoremap <silent> \ :wincmd _<cr>:wincmd \|<cr>
 nnoremap <silent> <Bar> :wincmd =<cr>
 
 " Switch between the last two files
 nnoremap <tab><tab> <c-^>
 
-" " " Close the current buffer
-" map <leader>bd :Bclose<cr>:tabclose<cr>gT
-" " " Close all the buffers
-" map <leader>ba :bufdo bd<cr>
-" map <leader>l :bnext<cr>
-" map <leader>h :bprevious<cr>
-" map <leader>tm :tabmove
-" let g:lasttab = 1
-" nmap <Leader>tl :exe "tabn ".g:lasttab<CR>
-" au TabLeave * let g:lasttab = tabpagenr()
+" Jump between tabs
+nnoremap <silent> gl :tabnext<CR>
+nnoremap <silent> gh :tabprevious<CR>
+nnoremap <silent> gL :tablast<CR>
+nnoremap <silent> gH :tabfirst<CR>
 
 " ======================================
 " => Modify-&-Rearrange-texts
@@ -696,16 +686,12 @@ nnoremap <tab><tab> <c-^>
 " Keep selection when indenting/outdenting.
 vnoremap > >gv
 vnoremap < <gv
-" Tab/shift-tab to indent/outdent in visual mode.
-vnoremap <Tab> >gv
-vnoremap <S-Tab> <gv
 
 " Move lines up and down in normal & visual mode
-nmap <silent> <A-k> :move -2<CR>==
-nmap <silent> <A-j> :move +1<CR>==
+" nmap <silent> <A-k> :move -2<CR>==
+" nmap <silent> <A-j> :move +1<CR>==
 xnoremap <silent> <A-j> :move '>+1<CR>gv=gv
 xnoremap <silent> <A-k> :move '<-2<CR>gv=gv
-
 
 " ======================================
 " => Search-functionalities
@@ -735,13 +721,6 @@ vmap gs{ f{%
 
 " sort selected lines
 vmap gs :sort<CR>
-
-" Open a new tab
-" nmap <silent> gh :tabprevious<CR>
-" nmap <silent> gl :tabnext<CR>
-" nmap <silent> gk :tabfirst<CR>
-" nmap <silent> gj :tablast<CR>
-
 
 " ======================================
 " => Insert-Mode-key-mapping
@@ -792,42 +771,41 @@ cno $c e <C-\>eCurrentFileDir("e")<cr>
 " Bash like keys for the command line
 cnoremap <C-A> <Home>
 cnoremap <C-E> <End>
-cnoremap <C-K> <C-U>
 
-" ======================================
-" => underscore-commands
-" ======================================
-" Compile & Run C code
-nnoremap _bb :w<CR>:!gcc % -o .lastbuild && ./.lastbuild<cr>
-nnoremap _b :w<CR>:!./.lastbuild<cr>
+" " ======================================
+" " => underscore-commands
+" " ======================================
+" " Compile & Run C code
+" nnoremap _bb :w<CR>:!gcc % -o .lastbuild && ./.lastbuild<cr>
+" nnoremap _b :w<CR>:!./.lastbuild<cr>
 
-" Prettier:
-" shows the output from prettier - useful for syntax errors
-nnoremap _bt :!prettier %<CR>
+" " Prettier:
+" " shows the output from prettier - useful for syntax errors
+" nnoremap _bt :!prettier %<CR>
 
-" Toggle highlighting of current line and column
-nnoremap <silent> _c :setlocal cursorcolumn!<CR>
+" " Toggle highlighting of current line and column
+" nnoremap <silent> _c :setlocal cursorcolumn!<CR>
 
-" Toggle relative line numbers and regular line numbers.
-nnoremap <silent> _nn :set invrelativenumber<CR>
-nnoremap <silent> _n :set nu!<CR>
+" " Toggle relative line numbers and regular line numbers.
+" nnoremap <silent> _nn :set invrelativenumber<CR>
+" nnoremap <silent> _n :set nu!<CR>
 
-" Trim Whitespaces
-nnoremap <silent> _tt :call TrimWhitespace()<CR>
+" " Trim Whitespaces
+" nnoremap <silent> _tt :call TrimWhitespace()<CR>
 
-" Index ctags from any project, including those outside Rails
-nnoremap _tag :!ctags -R .<CR>
+" " Index ctags from any project, including those outside Rails
+" nnoremap _tag :!ctags -R .<CR>
 
-" Allow j and k to work on visual lines (when wrapping)
-noremap <silent> _wp :call ToggleWrap()<CR>
+" " Allow j and k to work on visual lines (when wrapping)
+" noremap <silent> _wp :call ToggleWrap()<CR>
 
-" Toggle Goyo
-nnoremap <silent> __ :Goyo<CR>
+" " Toggle Goyo
+" nnoremap <silent> __ :Goyo<CR>
 
-" Silently open a shell in the directory of the current file
-if has("win32") || has("win64")
-  map _s :silent !start cmd /k cd %:p:h <CR>
-endif
+" " Silently open a shell in the directory of the current file
+" if has("win32") || has("win64")
+"   map _s :silent !start cmd /k cd %:p:h <CR>
+" endif
 
 " ======================================
 " => Function-key-mappings
@@ -1115,6 +1093,8 @@ endfunction
 "   echo 'Welcom to Neovim'
 " endif
 
+" clear search
+" nnoremap <silent> <leader>sdf :let @/ = ''<cr>
 
 " }}}
 
