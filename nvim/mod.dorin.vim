@@ -601,8 +601,8 @@ noremap <silent> <expr> j (v:count == 0 ? 'gj' : 'j')
 noremap <silent> <expr> k (v:count == 0 ? 'gk' : 'k')
 
 " Store relative line number jumps in the jumplist if they exceed a threshold.
-nnoremap <expr> k (v:count > 5 ? "m'" . v:count : '') . 'k'
-nnoremap <expr> j (v:count > 5 ? "m'" . v:count : '') . 'j'
+noremap <expr> k (v:count > 5 ? "m'" . v:count : '') . 'k'
+noremap <expr> j (v:count > 5 ? "m'" . v:count : '') . 'j'
 
 " Prevent x from overriding the clipboard.
 noremap x "_x
@@ -616,7 +616,7 @@ vnoremap y ygv<Esc>
 nnoremap Y y$
 
 " Make vaa select the entire file...
-xmap aa VGo1G
+vnoremap aa VGo1G
 
 " Vertical scrolling
 nnoremap K <C-u>
@@ -862,8 +862,6 @@ set foldtext=MyFoldText()
 
 " => Nvim-terminal --------------------------------- {{{
 
-" TODO:
-
 " Default settings
 au BufEnter * if &buftype == 'terminal' | :startinsert | endif
 autocmd BufEnter term://* startinsert
@@ -873,30 +871,20 @@ autocmd TermOpen * set bufhidden=hide
 
 tmap <Esc> <C-\><C-n>
 tmap <C-w> <Esc><C-w>
-tmap <C-d> <Esc>:q<CR>
+tmap <silent> <C-d> <Esc>:q<CR>
 
 " Open terminal
-nmap <leader>ts <C-w>s<C-w>j:terminal<CR>
-nmap <leader>tv <C-w>v<C-w>l:terminal<CR>
+nmap <silent> <C-t>s <C-w>s<C-w>j:terminal<CR>a
+nmap <silent> <C-t>v <C-w>v<C-w>l:terminal<CR>a
 
-" easily escape terminal
-tnoremap <leader><esc> <C-\><C-n><esc><cr>
-tnoremap <C-o> <C-\><C-n><esc><cr>
+" easily jump from terminal
+tmap <C-o> <C-\><C-n><C-o>
 
-" close terminal
-tnoremap <silent> <leader>o <C-\><C-n>:Ttoggle<cr>
-tnoremap <silent> <leader><space> <C-\><C-n>:Ttoggle<cr>
-
-" quickly toggle term
-"nnoremap <silent> <leader>o :vertical botright Ttoggle<cr><C-w>l
-"nnoremap <silent> <leader>O :botright Ttoggle<cr><C-w>j
-"nnoremap <silent> <leader><space> :vertical botright Ttoggle<cr><C-w>l
-"
-" Navigate neovim + neovim terminal emulator with alt+direction
-tnoremap <silent><C-h> <C-\><C-n><C-w>h
-tnoremap <silent><C-j> <C-\><C-n><C-w>j
-tnoremap <silent><C-k> <C-\><C-n><C-w>k
-tnoremap <silent><C-l> <C-\><C-n><C-w>l
+" navigate neovim + neovim terminal emulator with alt+direction
+tnoremap <silent><c-h> <c-\><c-n><c-w>h
+tnoremap <silent><c-j> <c-\><c-n><c-w>j
+tnoremap <silent><c-k> <c-\><c-n><c-w>k
+tnoremap <silent><c-l> <c-\><c-n><c-w>l
 
 " }}}
 
