@@ -65,10 +65,13 @@ set fillchars=""      " Remove characters in window split
 set fillchars=stlnc:=
 set nomodeline
 set modelines=0
-set ttimeoutlen=0
 set shortmess+=c      " don't give |ins-completion-menu| messages
 set lazyredraw        " Don't redraw while executing macros (good performance config)
 set updatetime=100
+" Quickly time out on keycodes, but never time out on mappings
+set timeout ttimeout ttimeoutlen=200
+set mousemodel=popup
+" snippets
 " set clipboard=unnamed
 " set clipboard+=unnamedplus
 
@@ -97,7 +100,7 @@ Plug 'rakr/vim-one'
 
 " Plug 'rafi/awesome-vim-colorschemes'
 " Plug 'whatyouhide/vim-gotham'
-" Plug 'ryanoasis/vim-devicons'
+Plug 'ryanoasis/vim-devicons'
 
 " ======================================
 " => Functionality-&-Helpers
@@ -121,7 +124,7 @@ Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 Plug 'junegunn/fzf', { 'do': './install --bin' }
 Plug 'junegunn/fzf.vim'
 
-Plug 'Xuyuanp/nerdtree-git-plugin'
+" Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'preservim/nerdtree'
 
 " ======================================
@@ -227,7 +230,9 @@ let g:AutoPairsShortcutToggle = '<A-i>'
 
 " ======================================
 " => scrooloose/nerdtree
-" ====================================== let g:NERDTreeIgnore = ['^node_modules$','^.git$'] let g:NERDTreeAutoDeleteBuffer=1
+" ======================================
+let g:NERDTreeIgnore = ['^node_modules$','^.git$']
+let g:NERDTreeAutoDeleteBuffer=1
 let g:NERDTreeShowHidden=1
 let NERDTreeQuitOnOpen = 1
 let NERDTreeMinimalUI = 1
@@ -244,6 +249,18 @@ let NERDTreeMapOpenVSplit='v'
 " Open nerd tree at the current file or close nerd tree if pressed again.
 nnoremap <silent> <expr> <Leader>n g:NERDTree.IsOpen() ? "\:NERDTreeClose<CR>" : bufexists(expand('%')) ? "\:NERDTreeFind<CR>" : "\:NERDTree<CR>"
 nnoremap <silent> <Leader>0 :NERDTreeToggle<CR>
+
+" ======================================
+" => ryanoasis/vim-devicons
+" ======================================
+let g:webdevicons_enable_nerdtree = 1
+let g:WebDevIconsNerdTreeGitPluginForceVAlign = 0
+" enable open and close folder/directory glyph flags (disabled by default with 0)
+let g:DevIconsEnableFoldersOpenClose = 1
+" change the default dictionary mappings for file extension matches
+let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols = {} " needed
+let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols['js'] = 'ƛ'
+let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols['vue'] = 'ƛ'
 
 " ======================================
 " => Xuyuanp/nerdtree-git-plugin
@@ -264,31 +281,63 @@ nnoremap <silent> <Leader>0 :NERDTreeToggle<CR>
 " ======================================
 " => itchyny/lightline.vim
 " ======================================
-let g:lightline = {
-      \ 'colorscheme': 'one',
-      \ 'active': {
-      \   'left': [[ 'mode', 'paste' ],
-      \            [ 'gitbranch','readonly', 'filename', 'modified', ]],
-      \
-      \   'right':  [[ 'lineinfo' ],
-      \              [ 'percent'  ],
-      \              [ 'filetype' ]]
-      \ },
-      \ 'component_function': {
-      \   'gitbranch': 'LightlineFugitive'
-      \ },
-      \ }
 " let s:p.tabline.left   = [ [ s:gray1, s:bg ] ]
 " let s:p.tabline.tabsel = [ [ s:fg, s:gray3, 'bold' ] ]
 " nmap <leader>le :e ~/.config/nvim/plugged/lightline.vim/autoload/lightline/colorscheme/one.vim
 
+" let g:lightline.separator.right = ''
+" let g:lightline.separator.left =  ''
+
+let g:lightline = {
+      \ 'colorscheme': 'one',
+      \ 'mode_map': { 'c': 'NORMAL' },
+      \ 'active': {
+      \   'left': [[ 'mode', 'paste', 'readonly'],
+      \            [ 'fugitive', 'filename' ]],
+      \ 'right':  [[ 'lineinfo' ],
+      \            [ 'percent'  ],
+      \            [ 'filetype' ]],
+      \ },
+      \   'component': {
+      \   'readonly': '%{&readonly?"":""}',
+      \ },
+      \ 'component_function': {
+      \   'fugitive': 'LightlineFugitive',
+      \   'filename': 'MyFilename',
+      \   'filetype': 'MyFiletype',
+      \   'mode': 'MyMode',
+      \ },
+      \ 'separator': { 'left': "\ue0b0", 'right': "\ue0b2" },
+      \ 'subseparator': { 'left': "\ue0b1", 'right': "\ue0b3" }
+      \ }
+
 function! LightlineFugitive()
   if exists('*FugitiveHead')
     let branch = FugitiveHead()
-    return branch !=# '' ? branch : ''
-    " return branch !=# '' ? '# '.branch : ''
+    return winwidth(0) > 60 ? branch !=# '' ? ' '.branch : '' : ''
   endif
   return ''
+endfunction
+
+function! MyFiletype()
+  return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
+  " return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype . ' ' . WebDevIconsGetFileTypeSymbol() : 'no ft') : ''
+endfunction
+
+function! MyMode()
+  return winwidth(0) > 60 ? lightline#mode() : ''
+endfunction
+
+function! MyModified()
+  return &modified ? '+' : &modifiable ? '' : '-'
+endfunction
+
+function! MyFilename()
+  return (&ft == 'vimfiler' ? vimfiler#get_status_string() :
+        \  &ft == 'unite' ? unite#get_status_string() :
+        \  &ft == 'vimshell' ? vimshell#get_status_string() :
+        \ '' != expand('%:t') ? expand('%:t') : '[No Name]') .
+        \ ('' != MyModified() ? ' ' . MyModified() : '')
 endfunction
 
 " ======================================
@@ -491,7 +540,7 @@ if has("gui_running")
 endif
 
 " Set utf8 as standard encoding and en_US as the standard language
-set encoding=utf-8    " Default encoding
+set encoding=UTF-8    " Default encoding
 scriptencoding utf-16 " allow emojis in vimrc
 
 " Use Unix as the standard file type
@@ -890,11 +939,9 @@ tnoremap <silent><c-l> <c-\><c-n><c-w>l
 
 " => Abbreviations --------------------------------- {{{
 
-iab vsbst Nvim is best
 iab xdate <C-r>=strftime("%d/%m/%y %H:%M:%S")<cr>
-" UTC date
-" nmap <leader>date a<C-R>=strftime("%d-%m-%Y")<CR>
-" imap <leader>t <C-R>=strftime("%Y-%m-%d")<CR>
+iab reutrn return
+iab re return
 
 " }}}
 
@@ -1083,3 +1130,4 @@ autocmd FileType css set omnifunc=csscomplete#CompleteCSS
 " ======================================
 " => Title
 " ======================================
+"
