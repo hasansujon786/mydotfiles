@@ -11,29 +11,6 @@
 "  Author: Hasan Mahmud
 "  Repo  : https://github.com/hasansujon786/mydotfiles/
 "
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"  Sections:
-"  -> Environment
-"  -> General
-"  -> Plugin-Settings
-"  -> VIM-User-Interface
-"  -> Colors-and-Fonts
-"  -> Files-and-backups
-"  -> Text-Tab-and-Indent
-"  -> Spell-checking
-"  -> Key-Mappings
-"  -> Disabled-keys
-"  -> Fold-related
-"  -> Nvim-terminal
-"  -> Abbreviations
-"  -> Auto-commands
-"  -> Helper-functions
-"  -> Temporary
-"  -> Misc
-"
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-
 " => Environment ----------------------------------- {{{
 
 " Local config
@@ -42,7 +19,6 @@ if filereadable($HOME . '/.vimrc.local')
 endif
 
 " }}}
-
 " => General --------------------------------------- {{{
 
 " Enable filetype plugins
@@ -85,7 +61,6 @@ let mapleader="\<Space>"
 let maplocalleader="\<Space>"
 
 " }}}
-
 " => Plugin-Settings ------------------------------- {{{
 
 call plug#begin('~/.config/nvim/plugged')
@@ -430,7 +405,6 @@ let g:undotree_DiffAutoOpen = 0
 nnoremap <silent> <C-F5> :UndotreeToggle<cr>
 
 " }}}
-
 " => VIM-User-Interface ---------------------------- {{{
 
 " Set 7 lines to the cursor - when moving vertically using j/k
@@ -505,7 +479,6 @@ catch
 endtry
 
 " }}}
-
 " => Colors-and-Fonts ------------------------------ {{{
 
 " Enable syntax highlighting
@@ -551,7 +524,6 @@ set ffs=unix,dos,mac
 let g:sh_fold_enabled=1           " enable folding in bash files
 
 " }}}
-
 " => Files-backup-undo ----------------------------- {{{
 "
 " Turn backup off, since most stuff is in SVN, git etc. anyway...
@@ -579,7 +551,6 @@ let g:netrw_list_hide=netrw_gitignore#Hide()
 let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+'
 
 " }}}
-
 " => Text-Tab-and-Indent --------------------------- {{{
 
 " Tabbing
@@ -609,7 +580,6 @@ highlight ColorColumn guibg=magenta
 call matchadd('ColorColumn', '\%81v', '100')
 
 " }}}
-
 " => Spell-checking -------------------------------- {{{
 
 set spelllang=en_gb   " Speak proper English
@@ -631,7 +601,6 @@ map <leader>dic :tabnew ~/.config/nvim/spell/en.utf-8.add<Cr>
 " Prompt spell fixes    z=
 
 " }}}
-
 " => Key-Mappings ---------------------------------- {{{
 
 " Use q, qq & jk to return to normal mode
@@ -841,7 +810,6 @@ set pastetoggle=<F3>  " Press F3 in insert mode to preserve tabs when
 nnoremap <silent> <F10> :call ToggleBackground()<CR>
 
 " }}}
-
 " => Disabled-keys --------------------------------- {{{
 
 " disable arrow keys in normal mode
@@ -856,7 +824,6 @@ nnoremap <F1> <ESC>
 vnoremap <F1> <ESC>
 
 " }}}
-
 " => Fold-related ---------------------------------- {{{
 
 " Space to toggle folds.
@@ -908,7 +875,6 @@ set foldtext=MyFoldText()
 
 
 " }}}
-
 " => Nvim-terminal --------------------------------- {{{
 
 " Default settings
@@ -936,7 +902,6 @@ tnoremap <silent><c-k> <c-\><c-n><c-w>k
 tnoremap <silent><c-l> <c-\><c-n><c-w>l
 
 " }}}
-
 " => Abbreviations --------------------------------- {{{
 
 iab xdate <C-r>=strftime("%d/%m/%y %H:%M:%S")<cr>
@@ -944,7 +909,6 @@ iab reutrn return
 iab re return
 
 " }}}
-
 " => Auto-commands --------------------------------- {{{
 " Vertically center document when entering insert mode
 autocmd InsertEnter * norm zz
@@ -999,7 +963,6 @@ augroup END
 
 
 " }}}
-
 " => Helper-functions ------------------------------ {{{
 
 function! ToggleWrap()
@@ -1088,7 +1051,6 @@ function! VisualSelection(direction, extra_filter) range
 endfunction
 
 " }}}
-
 " => Temporary ------------------------------------- {{{
 
 " if !exists('g:vscode') endif
@@ -1102,7 +1064,6 @@ endfunction
 " nnoremap <silent> <leader>sdf :let @/ = ''<cr>
 
 " }}}
-
 " => Misc ------------------------------------------ {{{
 
 " ======================================
@@ -1123,11 +1084,10 @@ autocmd FileType css set omnifunc=csscomplete#CompleteCSS
 " map <leader>pp :setlocal paste!<cr>
 
 " }}}
-
 " => Section name ---------------------------------- {{{
-" }}}
-
 " ======================================
 " => Title
 " ======================================
-"
+" }}}
+
+
