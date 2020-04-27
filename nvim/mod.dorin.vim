@@ -98,8 +98,9 @@ Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 
 Plug 'junegunn/fzf', { 'do': './install --bin' }
 Plug 'junegunn/fzf.vim'
+Plug 'yuki-ycino/fzf-preview.vim'
 
-" Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'preservim/nerdtree'
 
 " ======================================
@@ -163,11 +164,35 @@ Plug 'junegunn/gv.vim'
 call plug#end()
 
 " ======================================
+" => yuki-ycino/fzf-preview.vim
+" ======================================
+let g:fzf_preview_use_dev_icons = 1
+" let g:fzf_preview_layout = 'tabe'
+" let g:fzf_preview_use_floating_window = 0
+" let g:fzf_preview_rate = 0.1
+
+let g:fzf_preview_custom_default_processors = {
+      \  '':      function('fzf_preview#resource_processor#edit'),
+      \ 'ctrl-s': function('fzf_preview#resource_processor#split'),
+      \ 'ctrl-v': function('fzf_preview#resource_processor#vsplit'),
+      \ 'ctrl-t': function('fzf_preview#resource_processor#tabedit'),
+      \ 'ctrl-q': function('fzf_preview#resource_processor#export_quickfix') }
+
+" let $FZF_PREVIEW_PREVIEW_BAT_THEME = 'TwoDark'
+
+let g:fzf_pco = '--multi --ansi --bind=ctrl-d:preview-page-down,ctrl-u:preview-page-up,?:toggle-preview'
+nnoremap <silent> <Leader>b :<C-u>FzfPreviewBuffers -overwrite-fzf-args=g:fzf_pco<CR>
+nnoremap <silent> <Leader>m :<C-u>FzfPreviewOldFiles -overwrite-fzf-args=g:fzf_pco<CR>
+nnoremap <silent> <Leader>P :<C-u>FzfPreviewDirectoryFiles -overwrite-fzf-args=g:fzf_pco<CR>
+
+nnoremap <silent> <C-p> :<C-u>FzfPreviewProjectOldFiles -overwrite-fzf-args=g:fzf_pco<CR>
+nnoremap <silent> <C-_> :<C-u>FzfPreviewProjectFiles -overwrite-fzf-args=g:fzf_pco<CR>
+" ======================================
 " => junegunn/fzf
 " ======================================
-nnoremap <silent> <C-p> :History<CR>
-nnoremap <silent> <C-_> :Files<CR>
-nnoremap <silent> - :Files <C-R>=expand('%:h')<CR><CR>
+" nnoremap <silent> <C-p> :History<CR>
+" nnoremap <silent> <C-_> :Files<CR>
+" nnoremap <silent> - :Files <C-R>=expand('%:h')<CR><CR>
 " nnoremap <silent> <C-_> :Windows <CR>
 
 let g:fzf_layout = { 'window': '12new' }
@@ -229,13 +254,13 @@ nnoremap <silent> <Leader>0 :NERDTreeToggle<CR>
 " => ryanoasis/vim-devicons
 " ======================================
 let g:webdevicons_enable_nerdtree = 1
-let g:WebDevIconsNerdTreeGitPluginForceVAlign = 0
+let g:WebDevIconsNerdTreeGitPluginForceVAlign = 1
 " enable open and close folder/directory glyph flags (disabled by default with 0)
 let g:DevIconsEnableFoldersOpenClose = 1
 " change the default dictionary mappings for file extension matches
 let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols = {} " needed
-let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols['js'] = 'ƛ'
-let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols['vue'] = 'ƛ'
+let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols['vue'] = 'V'
+" let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols['vue'] = '∇'
 
 " ======================================
 " => Xuyuanp/nerdtree-git-plugin
@@ -626,32 +651,37 @@ noremap <expr> j (v:count > 5 ? "m'" . v:count : '') . 'j'
 noremap x "_x
 noremap X "_x
 
+" Vertical scrolling
+nnoremap <A-k> <C-u>
+nnoremap <A-j> <C-d>
+" Horizontal scroll
+nnoremap <A-l> 5zl
+nnoremap <A-h> 5zh
+
+" ======================================
+" => Copy-paset
+" ======================================
 " Prevent selecting and pasting from overwriting what you originally copied.
 vnoremap p pgvy
 " Keep cursor at the bottom of the visual selection after you yank it.
 vnoremap y ygv<Esc>
 " Ensure Y works similar to D,C.
 nnoremap Y y$
+" Paste from current register/buffer in insert mode
+imap <C-v> <C-R>*
 
 " Make vaa select the entire file...
 vnoremap aa VGo1G
-
-" Vertical scrolling
-nnoremap K <C-u>
-nnoremap J <C-d>
-" Horizontal scroll
-nnoremap <A-l> 5zl
-nnoremap <A-h> 5zh
 
 " ======================================
 " => Moving-around-tabs-and-buffers
 " ======================================
 
 " Resize splits
-nnoremap <silent> + :vertical resize +5<CR>
-nnoremap <silent> _ :vertical resize -5<CR>
-nnoremap <silent> <A-=> :resize +3<CR>
-nnoremap <silent> <A--> :resize -3<CR>
+nnoremap <silent> <A-=> :vertical resize +5<CR>
+nnoremap <silent> <A--> :vertical resize -5<CR>
+nnoremap <silent> <A-+> :resize +3<CR>
+nnoremap <silent> <A-_> :resize -3<CR>
 " zoom a vim pane
 nnoremap <silent> \ :wincmd _<cr>:wincmd \|<cr>
 nnoremap <silent> <Bar> :wincmd =<cr>
@@ -671,8 +701,8 @@ vnoremap > >gv
 vnoremap < <gv
 
 " Move lines up and down in normal & visual mode
-nnoremap <silent> <A-k> :move -2<CR>==
-nnoremap <silent> <A-j> :move +1<CR>==
+" nnoremap <silent> <A-k> :move -2<CR>==
+" nnoremap <silent> <A-j> :move +1<CR>==
 vnoremap <silent> <A-k> :move '<-2<CR>gv=gv
 vnoremap <silent> <A-j> :move '>+1<CR>gv=gv
 
@@ -886,7 +916,7 @@ autocmd TermOpen * set bufhidden=hide
 
 tmap <Esc> <C-\><C-n>
 tmap <C-w> <Esc><C-w>
-tmap <silent> <C-d> <Esc>:q<CR>
+" tmap <silent> <C-d> <Esc>:q<CR>
 
 " Open terminal
 nmap <silent> <C-t>s <C-w>s<C-w>j:terminal<CR>a
@@ -1062,6 +1092,28 @@ endfunction
 
 " clear search
 " nnoremap <silent> <leader>sdf :let @/ = ''<cr>
+
+" Jump to adjacent files
+" General
+nmap <leader>ip :e %:r.pug<CR>
+nmap <leader>is :e %:r.sass<CR>
+nmap <leader>it :e %:r.ts<CR>
+nmap <leader>ih :e %:r.html<CR>
+
+" C++
+" au BufRead,BufNewFile,BufEnter *.c nmap <leader>ih :e %:h/../inc/%:t:r.h<CR>
+" au BufRead,BufNewFile,BufEnter *.c nmap <leader>ic :e %:h/../src/%:t:r.c<CR>
+" au BufRead,BufNewFile,BufEnter *.c nmap <leader>gh :e %:h/../inc/%:t:r.h<CR>
+" au BufRead,BufNewFile,BufEnter *.h nmap <leader>gh :e %:h/../src/%:t:r.c<CR>
+" au BufRead,BufNewFile,BufEnter *.c nmap <leader>ii :e %:h/../inc/%:t:r.h<CR>
+" au BufRead,BufNewFile,BufEnter *.h nmap <leader>ii :e %:h/../src/%:t:r.c<CR>
+
+" au BufRead,BufNewFile,BufEnter *.cpp nmap <leader>ih :e %:h/../inc/%:t:r.hpp<CR>
+" au BufRead,BufNewFile,BufEnter *.cpp nmap <leader>ic :e %:h/../src/%:t:r.cpp<CR>
+" au BufRead,BufNewFile,BufEnter *.cpp nmap <leader>gh :e %:h/../inc/%:t:r.hpp<CR>
+" au BufRead,BufNewFile,BufEnter *.hpp nmap <leader>gh :e %:h/../src/%:t:r.cpp<CR>
+" au BufRead,BufNewFile,BufEnter *.cpp nmap <leader>ii :e %:h/../inc/%:t:r.hpp<CR>
+" au BufRead,BufNewFile,BufEnter *.hpp nmap <leader>ii :e %:h/../src/%:t:r.cpp<CR>
 
 " }}}
 " => Misc ------------------------------------------ {{{

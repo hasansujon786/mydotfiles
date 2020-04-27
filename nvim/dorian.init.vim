@@ -1381,4 +1381,4 @@ augroup END
 nnoremap <leader>m :vs test.md<cr>
 nnoremap <leader>q :q!<cr>
 
-"}}} 
+"}}}

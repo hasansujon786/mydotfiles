@@ -822,7 +822,6 @@ call plug#end()
   " reformat current paragraph without leaving insert mode
   inoremap <c-k> <c-o>gwip
 
-  " clear search
   nnoremap <silent> <leader>sdf :let @/ = ''<cr>
 
   " horizontal scroll
