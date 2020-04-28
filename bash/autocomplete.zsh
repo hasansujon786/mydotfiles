@@ -1,3 +1,4 @@
+# source ~/mydotfiles/bash/autocomplete.zsh
 # auto-completes aliases
 # enables to define
 # - normal aliases (completed with trailing space)
