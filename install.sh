@@ -29,6 +29,15 @@ setup_bash() {
   mkSpace
 }
 
+setup_git_defaults() {
+  git config --global user.email "hasansujon786@gmail.com"
+  git config --global user.name "Hasan Mahmud"
+  git config --global credential.helper store
+
+  # git config --global credential.helper 'cache --timeout=86400'
+  # git credential-cache exit
+}
+
 install_and_setup_tmux() {
   echo 'Instlling tmux...'
   $pkgm install tmux
@@ -78,6 +87,7 @@ auto_install_everything() {
   echo ' ** Auto Install ** '
 
   setup_bash
+  setup_git_defaults
   install_and_setup_tmux
   install_and_setup_nvim
 }
@@ -101,7 +111,3 @@ prompt_and_get_answers() {
 }
 
 prompt_and_get_answers
-# git config --global user.email "hasansujon786@gmail.com"
-# git config --global user.name "Hasan Mahmud"
-# git config --global credential.helper 'cache --timeout=86400'
-# git credential-cache exit
