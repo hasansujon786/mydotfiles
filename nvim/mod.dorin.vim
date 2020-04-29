@@ -599,6 +599,9 @@ set list                            " show invisible characters
 set matchpairs+=<:>,«:»,｢:｣         " Match angle brackets...
 set ai "Auto indent
 set si "Smart indent
+set linebreak                       " Don't break words when wrapping lines
+let &showbreak="↳ "                 " Make wrapped lines more obvious
+set cpoptions+=n
 
 " Highlight the characters on column 81
 highlight ColorColumn guibg=magenta
@@ -809,18 +812,17 @@ endif
 " ======================================
 
 " Open a file relative to the current file
-cnoremap $e <C-R>=expand('%:h').'/'<cr>
 " Synonyms: e: edit,
 " e: window, s: split, v: vertical split, t: tab, d: directory
 nnoremap <Leader>er :Move <C-R>=expand("%")<CR>
-nnoremap <leader>ed :Mkdir $e
-nnoremap <leader>et :tabe $e
-nnoremap <leader>ev :vsp $e
-nnoremap <leader>es :sp $e
-nnoremap <leader>ee :e $e
+nnoremap <leader>ed :Mkdir <C-R>=expand('%:h').'/'<cr>
+nnoremap <leader>et :tabe <C-R>=expand('%:h').'/'<cr>
+nnoremap <leader>ev :vsp <C-R>=expand('%:h').'/'<cr>
+nnoremap <leader>es :sp <C-R>=expand('%:h').'/'<cr>
+nnoremap <leader>ee :e <C-R>=expand('%:h').'/'<cr>
 
-" change dir to current file's dir
-nnoremap <leader>cd :cd %:p:h<CR>:pwd<CR>
+" Change dir to current file's dir
+nnoremap <leader>CD :cd %:p:h<CR>:pwd<CR>
 
 " Find & open file on current window
 "map <C-p> :tabfind *
