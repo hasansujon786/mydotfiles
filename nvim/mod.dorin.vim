@@ -226,7 +226,8 @@ let g:indentLine_char = '▏'
 " => jiangmiao/auto-pairs
 " ======================================
 let g:AutoPairsShortcutJump = '<S-tab>'
-let g:AutoPairsShortcutToggle = '<A-i>'
+let g:AutoPairsShortcutToggle = '<A-q>'
+let g:AutoPairsShortcutBackInsert = '<Nul>'
 
 " ======================================
 " => scrooloose/nerdtree
@@ -673,6 +674,14 @@ nnoremap Y y$
 " Paste from current register/buffer in insert mode
 imap <C-v> <C-R>*
 
+" Easier system clipboard usage
+"vnoremap <Leader>y "+y
+"vnoremap <Leader>d "+d
+"nnoremap <Leader>p "+p
+"nnoremap <Leader>P "+P
+"vnoremap <Leader>p "+p
+"vnoremap <Leader>P "+P
+
 " Make vaa select the entire file...
 vnoremap aa VGo1G
 
@@ -745,20 +754,29 @@ nnoremap <silent> go :Goyo<CR>
 " => Insert-Mode-key-mapping
 " ======================================
 
-" move cursor on insert mode
-inoremap <A-k> <up>
-inoremap <A-j> <Down>
-inoremap <A-l> <Right>
-inoremap <A-h> <Left>
-
-" Delete previous word
-inoremap <A-BS> <c-w>
+" Move cursor by character
+inoremap <C-b> <Left>
+inoremap <C-f> <Right>
+inoremap <M-n> <Down>
+inoremap <M-p> <Up>
+" Move cursor by words
+inoremap <A-f> <S-right>
+inoremap <M-b> <S-left>
+" Jump cursor to start & end of a line
+inoremap <C-A> <C-O>^
+inoremap <C-E> <C-O>$
+" Delete by characters & words
+inoremap <C-d> <Delete>
+inoremap <A-d> <C-O>dw
+inoremap <M-BS> <C-W>
+inoremap <M-C-h> <C-W>
 
 " Make a new line under the cursor
 inoremap <silent> <A-CR> <Esc>mqA<CR><Esc>`qa
 
-" Auto complete file path
-inoremap <c-f> <c-x><c-f>
+" " CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
+" " so that you can undo CTRL-U after inserting a line break.
+inoremap <C-U> <C-G>u<C-U>
 
 " Autocomplete with tab
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"

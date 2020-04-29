@@ -296,7 +296,7 @@ alias -g V='| vim -'
 
 # executables
 ialias -g l='exa -al'
-ialias -g cat='bat --plain --wrap character'
+# ialias -g cat='bat --plain --wrap character'
 
 # arguments
 alias -g cpjson="-XPOST -H 'Content-Type: application/json' -d '{}'"
