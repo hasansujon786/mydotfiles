@@ -294,7 +294,9 @@ let g:lightline = {
       \ 'mode_map': { 'c': 'NORMAL' },
       \ 'active': {
       \   'left': [[ 'mode', 'paste', 'readonly'],
-      \            [ 'fugitive', 'filename' ]],
+      \            [ 'fugitive', 'filename',],
+      \            [ 'cocstatus' ]],
+      \
       \ 'right':  [[ 'lineinfo' ],
       \            [ 'percent'  ],
       \            [ 'filetype' ]],
@@ -307,10 +309,14 @@ let g:lightline = {
       \   'filename': 'MyFilename',
       \   'filetype': 'MyFiletype',
       \   'mode': 'MyMode',
+	    \   'cocstatus': 'coc#status'
       \ },
       \ 'separator': { 'left': "\ue0b0", 'right': "\ue0b2" },
       \ 'subseparator': { 'left': "\ue0b1", 'right': "\ue0b3" }
       \ }
+
+" Use auocmd to force lightline update.
+autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
 
 function! LightlineFugitive()
   if exists('*FugitiveHead')
