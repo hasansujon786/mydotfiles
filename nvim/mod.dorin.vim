@@ -149,6 +149,7 @@ Plug 'junegunn/gv.vim'
 "   Plug 'ncm2/ncm2-cssomni'
 " }}}
 
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " ======================================
 " => Not-listed
 " ======================================
@@ -429,6 +430,7 @@ let g:undotree_DiffAutoOpen = 0
 " let g:undotree_DiffpanelHeight = 10
 nnoremap <silent> <C-F5> :UndotreeToggle<cr>
 
+source ~/mydotfiles/nvim/plugin/config.vim
 " }}}
 " => VIM-User-Interface ---------------------------- {{{
 
