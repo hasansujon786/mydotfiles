@@ -245,6 +245,22 @@ let g:NERDTreeMapJumpNextSibling='<Nop>'
 let NERDTreeMapOpenSplit='s'
 let NERDTreeMapOpenVSplit='v'
 
+let NERDTreeDirArrowExpandable="➙"
+let NERDTreeDirArrowCollapsible="➘"
+
+let g:NERDTreeIndicatorMapCustom = {
+            \ 'Modified'  : 'M',
+            \ 'Staged'    : 'S',
+            \ 'Untracked' : 'U',
+            \ 'Renamed'   : 'R',
+            \ 'Deleted'   : 'D',
+            \ 'Unmerged'  : '═',
+            \ 'Dirty'     : '✹',
+            \ 'Clean'     : '✔︎',
+            \ 'Ignored'   : '☒',
+            \ 'Unknown'   : '?'
+            \ }
+
 " autocmd BufEnter NERD_tree_* nmap  d<CR> <CR> :NERDTreeToggle <CR>
 " autocmd BufLeave NERD_tree_* unmap d<CR>
 " Open nerd tree at the current file or close nerd tree if pressed again.
@@ -262,22 +278,6 @@ let g:DevIconsEnableFoldersOpenClose = 1
 let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols = {} " needed
 let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols['vue'] = 'V'
 " let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols['vue'] = '∇'
-
-" ======================================
-" => Xuyuanp/nerdtree-git-plugin
-" ======================================
-" let g:NERDTreeIndicatorMapCustom = {
-"     \ "Modified"  : "✹",
-"     \ "Staged"    : "✚",
-"     \ "Untracked" : "✭",
-"     \ "Renamed"   : "➜",
-"     \ "Unmerged"  : "═",
-"     \ "Deleted"   : "✖",
-"     \ "Dirty"     : "✗",
-"     \ "Clean"     : "✔︎",
-"     \ 'Ignored'   : '☒',
-"     \ "Unknown"   : "?"
-"     \ }
 
 " ======================================
 " => itchyny/lightline.vim
