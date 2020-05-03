@@ -167,9 +167,9 @@ call plug#end()
 " => yuki-ycino/fzf-preview.vim
 " ======================================
 let g:fzf_preview_use_dev_icons = 1
-" let g:fzf_preview_layout = 'tabe'
-" let g:fzf_preview_use_floating_window = 0
-" let g:fzf_preview_rate = 0.1
+let g:fzf_preview_layout = '12split new'
+let g:fzf_preview_use_floating_window = 0
+let g:fzf_preview_command = 'head -100 {-1}'
 
 let g:fzf_preview_custom_default_processors = {
       \  '':      function('fzf_preview#resource_processor#edit'),
