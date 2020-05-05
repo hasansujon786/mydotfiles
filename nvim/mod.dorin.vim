@@ -181,9 +181,10 @@ let g:fzf_preview_custom_default_processors = {
 " let $FZF_PREVIEW_PREVIEW_BAT_THEME = 'TwoDark'
 
 let g:fzf_pco = '--multi --ansi --bind=ctrl-d:preview-page-down,ctrl-u:preview-page-up,?:toggle-preview'
-nnoremap <silent> <Leader>b :<C-u>FzfPreviewBuffers -overwrite-fzf-args=g:fzf_pco<CR>
-nnoremap <silent> <Leader>m :<C-u>FzfPreviewOldFiles -overwrite-fzf-args=g:fzf_pco<CR>
-nnoremap <silent> <Leader>P :<C-u>FzfPreviewDirectoryFiles -overwrite-fzf-args=g:fzf_pco<CR>
+nnoremap <silent> <Leader>fb :<C-u>FzfPreviewBuffers -overwrite-fzf-args=g:fzf_pco<CR>
+nnoremap <silent> <Leader>fh :<C-u>FzfPreviewOldFiles -overwrite-fzf-args=g:fzf_pco<CR>
+nnoremap <silent> <Leader>fd :<C-u>FzfPreviewDirectoryFiles -overwrite-fzf-args=g:fzf_pco<CR>
+nnoremap <silent> <Leader>fw :<C-u>Windows<CR>
 
 nnoremap <silent> <C-p> :<C-u>FzfPreviewProjectOldFiles -overwrite-fzf-args=g:fzf_pco<CR>
 nnoremap <silent> <C-_> :<C-u>FzfPreviewProjectFiles -overwrite-fzf-args=g:fzf_pco<CR>
@@ -225,8 +226,8 @@ let g:indentLine_char = '▏'
 " ======================================
 " => jiangmiao/auto-pairs
 " ======================================
-let g:AutoPairsShortcutJump = '<S-tab>'
-let g:AutoPairsShortcutToggle = '<A-q>'
+let g:AutoPairsShortcutJump = '<M-n>'
+let g:AutoPairsShortcutToggle = '<M-q>'
 let g:AutoPairsShortcutBackInsert = '<Nul>'
 
 " ======================================
@@ -468,7 +469,7 @@ endif
 set hidden            " enable hidden unsaved buffers
 set diffopt+=vertical " Always use vertical diffs
 set ruler             " Always show current position
-set cmdheight=1       " Height of the command bar
+set cmdheight=2       " Height of the command bar
 set foldcolumn=1      " display gutter markings for folds
 set cursorline        " Show a line on current line
 
@@ -762,43 +763,37 @@ nnoremap <silent> go :Goyo<CR>
 " ======================================
 
 " Move cursor by character
-inoremap <C-b> <Left>
-inoremap <C-f> <Right>
-inoremap <M-n> <Down>
-inoremap <M-p> <Up>
+inoremap <A-h> <left>
+inoremap <A-l> <right>
+inoremap <A-j> <down>
+inoremap <A-k> <up>
 " Move cursor by words
 inoremap <A-f> <S-right>
-inoremap <M-b> <S-left>
+inoremap <A-b> <S-left>
 " Jump cursor to start & end of a line
-inoremap <C-A> <C-O>^
-inoremap <C-E> <C-O>$
+inoremap <C-a> <C-O>^
+inoremap <C-e> <C-O>$
 " Delete by characters & words
 inoremap <C-d> <Delete>
 inoremap <A-d> <C-O>dw
-inoremap <M-BS> <C-W>
-inoremap <M-C-h> <C-W>
-
+inoremap <A-BS> <C-W>
 " Make a new line under the cursor
 inoremap <silent> <A-CR> <Esc>mqA<CR><Esc>`qa
 
 " " CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
 " " so that you can undo CTRL-U after inserting a line break.
-inoremap <C-U> <C-G>u<C-U>
-
-" Autocomplete with tab
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <C-u> <C-G>u<C-U>
 
 " ======================================
 " => Command-mode-related
 " ======================================
 
 " Bash like keys for the command line
-cnoremap <C-A> <Home>
-cnoremap <C-E> <End>
+cnoremap <C-a> <Home>
+cnoremap <C-e> <End>
 
 " ======================================
-" => leader-commands
+" => Leader-commands
 " ======================================
 
 " Save file Quickly
@@ -815,7 +810,7 @@ nmap <leader>vis :source $MYVIMRC<CR>
 
 " compile & run c Code
 nnoremap <leader>bb :w<CR>:!gcc % -o .lastbuild && ./.lastbuild<cr>
-nnoremap <leader>b :w<CR>:!./.lastbuild<cr>
+nnoremap <leader>bl :w<CR>:!./.lastbuild<cr>
 
 " Toggle highlighting of current line and column
 nnoremap <silent> <leader>c :setlocal cursorcolumn!<CR>
