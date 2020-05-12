@@ -185,9 +185,9 @@ nnoremap <silent> <Leader>fb :<C-u>FzfPreviewBuffers -overwrite-fzf-args=g:fzf_p
 nnoremap <silent> <Leader>fh :<C-u>FzfPreviewOldFiles -overwrite-fzf-args=g:fzf_pco<CR>
 nnoremap <silent> <Leader>fd :<C-u>FzfPreviewDirectoryFiles -overwrite-fzf-args=g:fzf_pco<CR>
 nnoremap <silent> <Leader>fw :<C-u>Windows<CR>
+nnoremap <silent> <Leader>fp :<C-u>FzfPreviewProjectFiles -overwrite-fzf-args=g:fzf_pco<CR>
 
 nnoremap <silent> <C-p> :<C-u>FzfPreviewProjectOldFiles -overwrite-fzf-args=g:fzf_pco<CR>
-nnoremap <silent> <C-_> :<C-u>FzfPreviewProjectFiles -overwrite-fzf-args=g:fzf_pco<CR>
 " ======================================
 " => junegunn/fzf
 " ======================================
@@ -407,8 +407,9 @@ augroup END
 " => vim-scripts/YankRing.vim
 " ======================================
 nnoremap <silent> <leader>y :YRShow<CR>
-let g:yankring_replace_n_pkey = '<m-p>'
-let g:yankring_replace_n_nkey = '<m-=>'
+vnoremap <silent> <leader>y y:YRShow<CR>:close<CR>
+let g:yankring_replace_n_pkey = '<M-S-y>'
+let g:yankring_replace_n_nkey = '<M-y>'
 
 function! YRRunAfterMaps()
   nnoremap <silent> Y :<C-U>YRYankCount 'y$'<CR>
@@ -1003,9 +1004,6 @@ augroup vimrcEx
 
 augroup END
 
-" Auto-resize splits when Vim gets resized.
-autocmd VimResized * wincmd =
-
 " Only show the cursor line in the active buffer.
 augroup CursorLine
   au!
@@ -1213,11 +1211,13 @@ endfunction
 " nnoremap <silent> <leader>sdf :let @/ = ''<cr>
 
 " Jump to adjacent files
-" General
-nmap <leader>ip :e %:r.pug<CR>
-nmap <leader>is :e %:r.sass<CR>
-nmap <leader>it :e %:r.ts<CR>
-nmap <leader>ih :e %:r.html<CR>
+" nmap <leader>ip :e %:r.pug<CR>
+" nmap <leader>is :e %:r.sass<CR>
+" nmap <leader>it :e %:r.ts<CR>
+" nmap <leader>ih :e %:r.html<CR>
+
+" au FileType javascript imap <C-t> $log();<esc>hi
+" au FileType javascript imap <C-a> alert();<esc>hi
 
 " C++
 " au BufRead,BufNewFile,BufEnter *.c nmap <leader>ih :e %:h/../inc/%:t:r.h<CR>
