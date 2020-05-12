@@ -470,7 +470,7 @@ endif
 set hidden            " enable hidden unsaved buffers
 set diffopt+=vertical " Always use vertical diffs
 set ruler             " Always show current position
-set cmdheight=2       " Height of the command bar
+set cmdheight=1       " Height of the command bar
 set foldcolumn=1      " display gutter markings for folds
 set cursorline        " Show a line on current line
 
@@ -721,6 +721,10 @@ nnoremap <silent> gH :tabfirst<CR>
 vnoremap > >gv
 vnoremap < <gv
 
+" Comment or uncomment lines
+nmap <C-_> mzgcc`z
+vmap <C-_> mzgc`z
+
 " Move lines up and down in normal & visual mode
 " nnoremap <silent> <A-k> :move -2<CR>==
 " nnoremap <silent> <A-j> :move +1<CR>==
@@ -792,6 +796,7 @@ inoremap <C-u> <C-G>u<C-U>
 " Bash like keys for the command line
 cnoremap <C-a> <Home>
 cnoremap <C-e> <End>
+cnoremap <C-v> <C-R>+
 
 " ======================================
 " => Leader-commands
@@ -1209,6 +1214,14 @@ endfunction
 
 " clear search
 " nnoremap <silent> <leader>sdf :let @/ = ''<cr>
+
+" map markdown preview
+" nmap <leader>m :!open -a "Marked 2" "%"<cr><cr>
+
+" map git commands
+" nmap <leader>b :Gblame<cr>
+" nmap <leader>l :split \| terminal git log -p %<cr>
+" nmap <leader>d :split \| terminal git diff %<cr>
 
 " Jump to adjacent files
 " nmap <leader>ip :e %:r.pug<CR>
