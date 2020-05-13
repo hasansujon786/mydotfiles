@@ -1,4 +1,17 @@
-# mydotfiles
+# tmux resources
+
+### Pair programming in tmux
+- https://github.com/livingsocial/ls-pair
+### Everything you need to know about tmux statusbar
+- https://arcolinux.com/everything-you-need-to-know-about-tmux-status-bar/
+### tmux command references
+- https://hyperpolyglot.org/multiplexers
+### Get host & current user name in tmux statusbar
+- https://github.com/soyuka/tmux-current-pane-hostname
+
+# tmux variables
+- Date: %m/%d/%y | %A, %d %b %Y
+- Time: %I:%M:%p
 
 > " Ctrl-@                 0x00            NUL
 > " Ctrl-A to Ctrl-Z       0x01 to 0x1A
@@ -9,5 +22,3 @@
 > " Ctrl-^                 0x1E
 > " Ctrl-_                 0x1F
 > " Ctrl-?                 0x7F            DEL
-
-
