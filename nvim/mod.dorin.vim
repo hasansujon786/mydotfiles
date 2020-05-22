@@ -133,7 +133,7 @@ Plug 'junegunn/gv.vim'
 
 " html {{{
 "   Plug 'othree/html5.vim'
-"   Plug 'mattn/emmet-vim'
+  Plug 'mattn/emmet-vim'
 "   Plug 'valloric/MatchTagAlways', {'on_ft': 'html'}
 "   Plug 'posva/vim-vue'
 "   Plug 'skwp/vim-html-escape'
@@ -655,14 +655,9 @@ nnoremap Q q
 " Seamlessly treat visual lines as actual lines when moving around.
 noremap <silent> <expr> j (v:count == 0 ? 'gj' : 'j')
 noremap <silent> <expr> k (v:count == 0 ? 'gk' : 'k')
-
 " Store relative line number jumps in the jumplist if they exceed a threshold.
 noremap <expr> k (v:count > 5 ? "m'" . v:count : '') . 'k'
 noremap <expr> j (v:count > 5 ? "m'" . v:count : '') . 'j'
-
-" Prevent x from overriding the clipboard.
-noremap x "_x
-noremap X "_x
 
 " Vertical scrolling
 nnoremap <A-k> <C-u>
@@ -680,8 +675,12 @@ vnoremap p pgvy
 vnoremap y ygv<Esc>
 " Ensure Y works similar to D,C.
 nnoremap Y y$
+" Prevent x from overriding the clipboard.
+noremap x "_x
+noremap X "_x
 " Paste from current register/buffer in insert mode
 imap <C-v> <C-R>*
+cmap <C-v> <C-R>+
 
 " Easier system clipboard usage
 "vnoremap <Leader>y "+y
@@ -691,18 +690,40 @@ imap <C-v> <C-R>*
 "vnoremap <Leader>p "+p
 "vnoremap <Leader>P "+P
 
+" ======================================
+" => Modify-&-Rearrange-texts
+" ======================================
+
 " Make vaa select the entire file...
 vnoremap aa VGo1G
+
+" map . in visual mode
+vnoremap . :norm.<cr>
+
+" Keep selection when indenting/outdenting.
+vnoremap > >gv
+vnoremap < <gv
+
+" Comment or uncomment lines
+nmap <C-_> mzgcc`z
+imap <C-_> <ESC>gccgi
+vmap <C-_> mzgc`zgv
+
+" Move lines up and down in normal & visual mode
+" nnoremap <silent> <A-k> :move -2<CR>==
+" nnoremap <silent> <A-j> :move +1<CR>==
+vnoremap <silent> <A-k> :move '<-2<CR>gv=gv
+vnoremap <silent> <A-j> :move '>+1<CR>gv=gv
 
 " ======================================
 " => Moving-around-tabs-and-buffers
 " ======================================
 
 " Resize splits
-nnoremap <silent> <A-=> :vertical resize +5<CR>
-nnoremap <silent> <A--> :vertical resize -5<CR>
-nnoremap <silent> <A-+> :resize +3<CR>
-nnoremap <silent> <A-_> :resize -3<CR>
+nnoremap <silent> <A-=> :resize +3<CR>
+nnoremap <silent> <A--> :resize -3<CR>
+nnoremap <silent> <A-.> :vertical resize +5<CR>
+nnoremap <silent> <A-,> :vertical resize -5<CR>
 " zoom a vim pane
 nnoremap <silent> \ :wincmd _<cr>:wincmd \|<cr>
 nnoremap <silent> <Bar> :wincmd =<cr>
@@ -712,24 +733,6 @@ nnoremap <silent> gl :tabnext<CR>
 nnoremap <silent> gh :tabprevious<CR>
 nnoremap <silent> gL :tablast<CR>
 nnoremap <silent> gH :tabfirst<CR>
-
-" ======================================
-" => Modify-&-Rearrange-texts
-" ======================================
-
-" Keep selection when indenting/outdenting.
-vnoremap > >gv
-vnoremap < <gv
-
-" Comment or uncomment lines
-nmap <C-_> mzgcc`z
-vmap <C-_> mzgc`z
-
-" Move lines up and down in normal & visual mode
-" nnoremap <silent> <A-k> :move -2<CR>==
-" nnoremap <silent> <A-j> :move +1<CR>==
-vnoremap <silent> <A-k> :move '<-2<CR>gv=gv
-vnoremap <silent> <A-j> :move '>+1<CR>gv=gv
 
 " ======================================
 " => Search-functionalities
@@ -761,7 +764,7 @@ vmap gs{ f{%
 vmap gs :sort<CR>
 
 " Toggle Goyo
-nnoremap <silent> go :Goyo<CR>
+nnoremap <silent> gz :Goyo<CR>
 
 " ======================================
 " => Insert-Mode-key-mapping
@@ -783,7 +786,8 @@ inoremap <C-d> <Delete>
 inoremap <A-d> <C-O>dw
 inoremap <A-BS> <C-W>
 " Make a new line under the cursor
-inoremap <silent> <A-CR> <Esc>mqA<CR><Esc>`qa
+inoremap <silent> <A-CR> <Esc>o
+inoremap <silent> <A-o> <Esc>mqA<CR><Esc>`qa
 
 " " CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
 " " so that you can undo CTRL-U after inserting a line break.
@@ -796,13 +800,14 @@ inoremap <C-u> <C-G>u<C-U>
 " Bash like keys for the command line
 cnoremap <C-a> <Home>
 cnoremap <C-e> <End>
-cnoremap <C-v> <C-R>+
 
 " ======================================
 " => Leader-commands
 " ======================================
 
 " Save file Quickly
+nnoremap <C-s> :write<CR>
+inoremap <C-s> <Esc>:write<CR><Esc>a
 nnoremap <leader>s :write<CR>
 nnoremap <silent> <leader>q :close<CR>
 
@@ -856,10 +861,6 @@ nnoremap <leader>CD :cd %:p:h<CR>:pwd<CR>
 " ======================================
 " => Function-key-mappings
 " ======================================
-
-" re-indent file and jump back to where the cursor was
-map <F6> mzgg=G`z
-
 " Pasting support
 set pastetoggle=<F3>  " Press F3 in insert mode to preserve tabs when
 " pasting from clipboard into terminal
@@ -965,6 +966,7 @@ tnoremap <silent><c-l> <c-\><c-n><c-w>l
 iab xdate <C-r>=strftime("%d/%m/%y %H:%M:%S")<cr>
 iab reutrn return
 iab re return
+iab mt-vp <meta name="viewport" content="width=device-width, initial-scale=1" />
 
 " }}}
 " => Auto-commands --------------------------------- {{{
