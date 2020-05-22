@@ -8,6 +8,8 @@
 - https://hyperpolyglot.org/multiplexers
 ### Get host & current user name in tmux statusbar
 - https://github.com/soyuka/tmux-current-pane-hostname
+### Various shortcuts
+- https://gist.github.com/MohamedAlaa/2961058
 
 # tmux variables
 - Date: %m/%d/%y | %A, %d %b %Y
