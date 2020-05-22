@@ -22,6 +22,7 @@ alias ..='cd ..'
 alias h='history'
 alias o='explorer'
 alias open='explorer'
+alias du='du -h --max-depth=0 '
 
 # termux
 alias e='cd ~/storage/external-1'
