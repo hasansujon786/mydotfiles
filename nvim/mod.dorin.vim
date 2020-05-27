@@ -93,6 +93,7 @@ Plug 'tpope/vim-eunuch'   "for moving and manipulating files / directories.
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'mhinz/vim-startify'
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
+Plug 'KabbAmine/vCoolor.vim'
 
 Plug 'junegunn/fzf', { 'do': './install --bin' }
 Plug 'junegunn/fzf.vim'
@@ -187,7 +188,8 @@ nnoremap <silent> <Leader>fd :<C-u>FzfPreviewDirectoryFiles -overwrite-fzf-args=
 nnoremap <silent> <Leader>fw :<C-u>Windows<CR>
 nnoremap <silent> <Leader>fp :<C-u>FzfPreviewProjectFiles -overwrite-fzf-args=g:fzf_pco<CR>
 
-nnoremap <silent> <C-p> :<C-u>FzfPreviewProjectOldFiles -overwrite-fzf-args=g:fzf_pco<CR>
+" nnoremap <silent> <C-p> :<C-u>FzfPreviewProjectOldFiles -overwrite-fzf-args=g:fzf_pco<CR>
+nnoremap <silent> <C-p> :<C-u>FzfPreviewProjectMruFiles -overwrite-fzf-args=g:fzf_pco<CR>
 " ======================================
 " => junegunn/fzf
 " ======================================
@@ -1275,5 +1277,12 @@ autocmd FileType css set omnifunc=csscomplete#CompleteCSS
 " => Title
 " ======================================
 " }}}
+
+
+" Plug 'godlygeek/tabular' " align stuff... like these vim comments
+" Plug 'janko/vim-test'    " run tests inside vim
+" Plug 'tpope/vim-rhubarb'    " git(hub) wrapper - open on GitHub
+" Plug 'mattn/webapi-vim'
+" Plug 'vimwiki/vimwiki'      " my own personal wiki
 
 
