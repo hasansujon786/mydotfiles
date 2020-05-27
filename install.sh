@@ -1,4 +1,14 @@
 #!/bin/bash
+##!/bin/sh
+
+set -e
+
+echo "      _       _         __ _ _"
+echo "   __| | ___ | |_      / _(_) | ___  ___"
+echo "  / _\` |/ _ \| __|____| |_| | |/ _ \/ __|"
+echo " | (_| | (_) | ||_____|  _| | |  __/\__ \\"
+echo "  \__,_|\___/ \__|    |_| |_|_|\___||___/"
+echo ""
 
 
 # if [ -f ~/mydotfiles/bash/.bashrc ]; then
@@ -80,6 +90,12 @@ install_and_setup_nvim() {
 
   echo 'done'
   mkSpace
+
+  echo "==> Here we go..."
+  echo "  > Installing vim plugins..."
+  nvim +PlugInstall +qall
+
+  echo "==> Done with setup."
 }
 
 
@@ -111,3 +127,4 @@ prompt_and_get_answers() {
 }
 
 prompt_and_get_answers
+
